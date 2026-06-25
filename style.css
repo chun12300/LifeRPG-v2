@@ -372,6 +372,9 @@ footer{
     font-size:15px;
 
 }
+
+/* ===== 這段就是剛剛漏掉的 ===== */
+
 .world-grid{
 
     display:grid;
@@ -473,6 +476,8 @@ footer{
     }
 
     .world-grid{
+
+        grid-template-columns:repeat(2,1fr);
 
         gap:14px;
 
