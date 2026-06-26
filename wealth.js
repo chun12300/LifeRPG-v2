@@ -1,11 +1,13 @@
-// ===================================
-// Wealth Module v1.0
-// ===================================
-
-console.log("Wealth Module Loaded");
 // ======================================
 // LifeRPG Beta
-// Wealth Module v1.0
+// Wealth Module v2.0
+// Part 1 / 2
+// ======================================
+
+console.log("Wealth Module v2.0 Loaded");
+
+// ======================================
+// 初始化
 // ======================================
 
 document.addEventListener("DOMContentLoaded",function(){
@@ -14,19 +16,39 @@ document.addEventListener("DOMContentLoaded",function(){
 
     if(backBtn){
 
-        backBtn.onclick=function(){
+        if(location.pathname.includes("compound")){
 
-            location.href="wealth.html";
+            backBtn.onclick=function(){
 
-        };
+                location.href="wealth.html";
+
+            };
+
+        }
+
+        if(location.pathname.includes("asset")){
+
+            backBtn.onclick=function(){
+
+                location.href="wealth.html";
+
+            };
+
+        }
 
     }
 
-    const btn=document.getElementById("calculateCompound");
+    if(document.getElementById("calculateCompound")){
 
-    if(btn){
+        document
+            .getElementById("calculateCompound")
+            .addEventListener("click",calculateCompound);
 
-        btn.addEventListener("click",calculateCompound);
+    }
+
+    if(document.getElementById("saveAsset")){
+
+        initAsset();
 
     }
 
@@ -40,15 +62,21 @@ function calculateCompound(){
 
     const monthly=
 
-        Number(document.getElementById("monthlyAmount").value);
+        Number(
+            document.getElementById("monthlyAmount").value
+        );
 
     const rate=
 
-        Number(document.getElementById("annualRate").value);
+        Number(
+            document.getElementById("annualRate").value
+        );
 
     const years=
 
-        Number(document.getElementById("investmentYears").value);
+        Number(
+            document.getElementById("investmentYears").value
+        );
 
     if(
 
@@ -66,9 +94,13 @@ function calculateCompound(){
 
     }
 
-    const monthlyRate=rate/100/12;
+    const monthlyRate=
 
-    const months=years*12;
+        rate/100/12;
+
+    const months=
+
+        years*12;
 
     const futureValue=
 
@@ -76,13 +108,19 @@ function calculateCompound(){
 
         (
 
-            (Math.pow(1+monthlyRate,months)-1)
+            (Math.pow(
+
+                1+monthlyRate,
+
+                months
+
+            )-1)
 
             /monthlyRate
 
-        )*
+        )
 
-        (1+monthlyRate);
+        *(1+monthlyRate);
 
     const principal=
 
@@ -93,6 +131,8 @@ function calculateCompound(){
         futureValue-principal;
 
     showCompoundResult(
+
+        monthly,
 
         principal,
 
@@ -107,11 +147,14 @@ function calculateCompound(){
     );
 
 }
+
 // ======================================
-// 顯示計算結果
+// 顯示結果
 // ======================================
 
 function showCompoundResult(
+
+    monthly,
 
     principal,
 
@@ -125,87 +168,98 @@ function showCompoundResult(
 
 ){
 
-    const result=document.getElementById("compoundResult");
+    const box=
 
-    if(!result){
+        document.getElementById(
+
+            "compoundResult"
+
+        );
+
+    if(!box){
 
         return;
 
     }
 
-    result.innerHTML=`
+    box.innerHTML=`
 
-        <h3>📊 計算結果</h3>
+    <h3>
 
-        <p>
+    📊 計算結果
 
-        💰 投入本金
+    </h3>
 
-        <br>
+    <p>
 
-        ${Math.round(principal).toLocaleString()} 元
+    💰 投入本金
 
-        </p>
+    <br>
 
-        <p>
+    ${Math.round(principal).toLocaleString()} 元
 
-        📈 預估資產
+    </p>
 
-        <br>
+    <p>
 
-        ${Math.round(futureValue).toLocaleString()} 元
+    📈 預估資產
 
-        </p>
+    <br>
 
-        <p>
+    ${Math.round(futureValue).toLocaleString()} 元
 
-        🪙 累積獲利
+    </p>
 
-        <br>
+    <p>
 
-        ${Math.round(profit).toLocaleString()} 元
+    🪙 累積獲利
 
-        </p>
+    <br>
 
-        <p>
+    ${Math.round(profit).toLocaleString()} 元
 
-        📅 投資期間
+    </p>
 
-        <br>
+    <p>
 
-        ${years} 年
+    📅 投資期間
 
-        </p>
+    <br>
 
-        <p>
+    ${years} 年
 
-        📊 年化報酬率
+    </p>
 
-        <br>
+    <p>
 
-        ${rate} %
+    📈 年化報酬率
 
-        </p>
+    <br>
 
-        <hr>
+    ${rate} %
 
-        <h3>
+    </p>
 
-        時間 × 紀律 × 複利 = 財富
+    <hr>
 
-        </h3>
+    <h3>
+
+    時間 × 紀律 × 複利 = 財富
+
+    </h3>
 
     `;
 
     showCompoundPreview(
 
-        principal,
+        monthly,
 
         rate
 
     );
 
 }
+
 // ======================================
 // 成長預覽
 // ======================================
@@ -218,7 +272,13 @@ function showCompoundPreview(
 
 ){
 
-    const box=document.getElementById("compoundPreview");
+    const box=
+
+        document.getElementById(
+
+            "compoundPreview"
+
+        );
 
     if(!box){
 
@@ -226,13 +286,19 @@ function showCompoundPreview(
 
     }
 
-    const monthlyRate=rate/100/12;
+    const monthlyRate=
+
+        rate/100/12;
 
     let html="";
 
-    [5,10,15,20,25,30].forEach(function(year){
+    [5,10,15,20,25,30]
 
-        const months=year*12;
+    .forEach(function(year){
+
+        const months=
+
+            year*12;
 
         const value=
 
@@ -240,13 +306,19 @@ function showCompoundPreview(
 
             (
 
-                (Math.pow(1+monthlyRate,months)-1)
+                (Math.pow(
+
+                    1+monthlyRate,
+
+                    months
+
+                )-1)
 
                 /monthlyRate
 
-            )*
+            )
 
-            (1+monthlyRate);
+            *(1+monthlyRate);
 
         html+=`
 
@@ -254,7 +326,7 @@ function showCompoundPreview(
 
             <strong>
 
-                ${year} 年後
+            ${year} 年後
 
             </strong>
 
@@ -271,68 +343,14 @@ function showCompoundPreview(
     box.innerHTML=html;
 
 }
-
-console.log("Wealth Module v1.0 Ready");
 // ======================================
-// 財富里程碑
-// ======================================
-
-function getGoalYear(
-
-    monthly,
-
-    rate,
-
-    target
-
-){
-
-    const monthlyRate=rate/100/12;
-
-    let month=0;
-
-    let money=0;
-
-    while(
-
-        money<target &&
-
-        month<1200
-
-    ){
-
-        money=
-
-            (money+monthly)
-
-            *(1+monthlyRate);
-
-        month++;
-
-    }
-
-    return{
-
-        year:(month/12).toFixed(1),
-
-        money:money
-
-    };
-
-}
-// ======================================
-// Asset
+// Wealth Module v2.0
+// Part 2 / 2
 // ======================================
 
-document.addEventListener("DOMContentLoaded",function(){
-
-    if(document.getElementById("saveAsset")){
-
-        initAsset();
-
-    }
-
-});
+// ======================================
+// 資產管理
+// ======================================
 
 function initAsset(){
 
@@ -359,9 +377,13 @@ function saveAsset(){
         Number(document.getElementById("otherValue").value)||0;
 
     const total=
+
         cash+
+
         deposit+
+
         invest+
+
         other;
 
     const data={
@@ -392,38 +414,122 @@ function saveAsset(){
 
 function loadAsset(){
 
-    const data=JSON.parse(
+    const data=
 
-        localStorage.getItem("assetData") ||
+        JSON.parse(
 
-        "{}"
+            localStorage.getItem("assetData") ||
 
-    );
+            "{}"
 
-    if(data.cash!==undefined){
+        );
 
-        document.getElementById("cashValue").value=data.cash;
+    if(data.cash===undefined){
 
-        document.getElementById("depositValue").value=data.deposit;
-
-        document.getElementById("investValue").value=data.invest;
-
-        document.getElementById("otherValue").value=data.other;
-
-        document.getElementById("assetResult").innerHTML=`
-
-            <h3>💰 總資產</h3>
-
-            <h2>
-
-            ${data.total.toLocaleString()} 元
-
-            </h2>
-
-        `;
+        return;
 
     }
 
+    document.getElementById("cashValue").value=
+
+        data.cash;
+
+    document.getElementById("depositValue").value=
+
+        data.deposit;
+
+    document.getElementById("investValue").value=
+
+        data.invest;
+
+    document.getElementById("otherValue").value=
+
+        data.other;
+
+    document.getElementById("assetResult").innerHTML=`
+
+        <h3>
+
+        💰 總資產
+
+        </h3>
+
+        <h2>
+
+        ${Math.round(data.total).toLocaleString()} 元
+
+        </h2>
+
+    `;
+
 }
 
+// ======================================
+// 財富里程碑（預留）
+// ======================================
+
+function getGoalYear(
+
+    monthly,
+
+    rate,
+
+    target
+
+){
+
+    const monthlyRate=
+
+        rate/100/12;
+
+    let month=0;
+
+    let money=0;
+
+    while(
+
+        money<target &&
+
+        month<1200
+
+    ){
+
+        money=
+
+            (money+monthly)
+
+            *(1+monthlyRate);
+
+        month++;
+
+    }
+
+    return{
+
+        year:(month/12).toFixed(1),
+
+        money:Math.round(money)
+
+    };
+
+}
+
+// ======================================
+// 共用工具（預留）
+// ======================================
+
+function formatMoney(value){
+
+    return Math.round(value).toLocaleString()+" 元";
+
+}
+
+// ======================================
+// Module Ready
+// ======================================
+
+console.log("Compound Module Ready");
+
 console.log("Asset Module Ready");
+
+console.log("Wealth Module v2.0 Ready");
