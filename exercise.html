@@ -1,129 +1,62 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
+<section class="quote-card">
 
-<head>
+    <h3>
 
-<meta charset="UTF-8">
+        今天做了什麼？
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </h3>
 
-<title>🏋️ 運動紀錄</title>
+</section>
 
-<link rel="stylesheet" href="style.css?v=2.1.0">
+<label>
 
-</head>
+    運動種類
 
-<body>
+</label>
 
-<div class="dashboard-container">
+<select
+    id="exerciseType"
+    class="record-select">
 
-    <!-- 標題 -->
+    <option>快走</option>
 
-    <section class="profile-card">
+    <option>跑步</option>
 
-        <div class="profile-avatar">
+    <option>重訓</option>
 
-            🏋️
+    <option>騎腳踏車</option>
 
-        </div>
+    <option>游泳</option>
 
-        <div class="profile-info">
+    <option>瑜珈</option>
 
-            <h2>
+    <option>登山</option>
 
-                運動紀錄
+    <option>伸展</option>
 
-            </h2>
+    <option>其它</option>
 
-            <p>
+</select>
 
-                今天，比昨天更強一點。
+<label>
 
-            </p>
+    運動時間（分鐘）
 
-        </div>
+</label>
 
-    </section>
+<input
+type="number"
+id="exerciseMinute"
+class="record-input-small"
+placeholder="例如：30">
 
-    <!-- 輸入區 -->
+<label>
 
-    <section class="quote-card">
+    備註（可略）
 
-        <h3>
+</label>
 
-            今天做了什麼？
-
-        </h3>
-
-    </section>
-
-    <textarea
-        id="exerciseInput"
-        class="record-input"
-        placeholder="例如：
-
-快走30分鐘
-
-重訓45分鐘
-
-瑜珈60分鐘
-
-跑步5公里"></textarea>
-
-    <!-- 儲存 -->
-
-    <button
-        class="primary-btn"
-        id="saveExercise">
-
-        💾 儲存紀錄
-
-    </button>
-
-    <!-- 今日紀錄 -->
-
-    <section class="quote-card">
-
-        <h3>
-
-            今日紀錄
-
-        </h3>
-
-        <br>
-
-        <div id="exerciseList">
-
-            尚無紀錄
-
-        </div>
-
-    </section>
-
-    <!-- 返回 -->
-
-    <button
-        id="backBtn"
-        class="primary-btn">
-
-        ← 返回健康世界
-
-    </button>
-
-</div>
-
-<script>
-
-document.getElementById("backBtn").onclick=function(){
-
-    location.href="health.html";
-
-};
-
-</script>
-
-<script src="app.js?v=2.1.0"></script>
-
-</body>
-
-</html>
+<textarea
+id="exerciseNote"
+class="record-input"
+placeholder="今天的心得..."></textarea>
