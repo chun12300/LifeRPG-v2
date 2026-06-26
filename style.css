@@ -686,3 +686,40 @@ footer{
     }
 
 }
+/* ===================================
+   運動輸入框
+=================================== */
+
+.record-input{
+
+    width:100%;
+
+    min-height:140px;
+
+    padding:22px;
+
+    margin:20px 0;
+
+    border-radius:20px;
+
+    border:2px solid rgba(255,255,255,.15);
+
+    background:rgba(255,255,255,.08);
+
+    color:#ffffff;
+
+    font-size:20px;
+
+    line-height:1.8;
+
+    resize:none;
+
+    outline:none;
+
+}
+
+.record-input::placeholder{
+
+    color:#8FA8D8;
+
+}
