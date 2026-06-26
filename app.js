@@ -1,4 +1,23 @@
 // ===================================
+// Auto Login
+// ===================================
+
+if (
+    location.pathname.includes("index.html") ||
+    location.pathname.endsWith("/LifeRPG-v2/") ||
+    location.pathname.endsWith("/LifeRPG-v2")
+){
+
+    const nickname = localStorage.getItem("lifeNickname");
+
+    if(nickname){
+
+        location.href="dashboard.html";
+
+    }
+
+}
+// ===================================
 // 人生RPG v2.0
 // app.js
 // Step01
