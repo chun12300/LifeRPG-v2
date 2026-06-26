@@ -18,112 +18,102 @@
 
 <div class="dashboard-container">
 
-<section class="profile-card">
+    <section class="profile-card">
 
-<div class="profile-avatar">
+        <div class="profile-avatar">
 
-💰
+            💰
+
+        </div>
+
+        <div class="profile-info">
+
+            <h2>資產管理</h2>
+
+            <p>了解自己的財務現況</p>
+
+        </div>
+
+    </section>
+
+    <section class="quote-card">
+
+        <h3>我的資產</h3>
+
+    </section>
+
+    <label class="record-label">💵 現金</label>
+
+    <input
+        type="number"
+        id="cashValue"
+        class="record-input-large"
+        placeholder="例如：5000">
+
+    <label class="record-label">🏦 存款</label>
+
+    <input
+        type="number"
+        id="depositValue"
+        class="record-input-large"
+        placeholder="例如：250000">
+
+    <label class="record-label">📈 投資</label>
+
+    <input
+        type="number"
+        id="investValue"
+        class="record-input-large"
+        placeholder="例如：80000">
+
+    <label class="record-label">📦 其它資產</label>
+
+    <input
+        type="number"
+        id="otherValue"
+        class="record-input-large"
+        placeholder="例如：3000">
+
+    <button
+        id="saveAsset"
+        class="primary-btn">
+
+        💾 儲存資產
+
+    </button>
+
+    <section
+        id="assetResult"
+        class="quote-card">
+
+        <h3>💰 總資產</h3>
+
+        <p>尚未計算</p>
+
+    </section>
+
+    <button
+        id="backBtn"
+        class="primary-btn">
+
+        ← 返回投資有富
+
+    </button>
+
+    <footer>
+
+        人生RPG v1.0
+
+        <br>
+
+        Wealth World • Assets
+
+    </footer>
 
 </div>
 
-<div class="profile-info">
+<script src="wealth.js?v=1.0.0"></script>
 
-<h2>
+</body>
 
-資產管理
-
-</h2>
-
-<p>
-
-了解自己的財務現況
-
-</p>
-
-</div>
-
-</section>
-
-<section class="quote-card">
-
-<h3>
-
-我的資產
-
-</h3>
-
-</section>
-
-<label class="record-label">
-
-💵 現金
-
-</label>
-
-<input
-type="number"
-id="cashValue"
-class="record-input-large"
-placeholder="例如：5000">
-
-<label class="record-label">
-
-🏦 存款
-
-</label>
-
-<input
-type="number"
-id="depositValue"
-class="record-input-large"
-placeholder="例如：250000">
-
-<label class="record-label">
-
-📈 投資
-
-</label>
-
-<input
-type="number"
-id="investValue"
-class="record-input-large"
-placeholder="例如：80000">
-
-<label class="record-label">
-
-📦 其它
-
-</label>
-
-<input
-type="number"
-id="otherValue"
-class="record-input-large"
-placeholder="例如：3000">
-
-<button
-id="saveAsset"
-class="primary-btn">
-
-💾 儲存資產
-
-</button>
-
-<section
-id="assetResult"
-class="quote-card">
-
-<h3>
-
-總資產
-
-</h3>
-
-<p>
-
-尚未計算
-
-</p>
-
-</section>
+</html>
