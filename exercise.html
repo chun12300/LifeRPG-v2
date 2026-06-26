@@ -9,13 +9,15 @@
 
 <title>🏋️ 運動紀錄</title>
 
-<link rel="stylesheet" href="style.css?v=2.0.3">
+<link rel="stylesheet" href="style.css?v=2.1.0">
 
 </head>
 
 <body>
 
 <div class="dashboard-container">
+
+    <!-- 標題 -->
 
     <section class="profile-card">
 
@@ -43,20 +45,32 @@
 
     </section>
 
+    <!-- 輸入區 -->
+
     <section class="quote-card">
 
-        <p>
+        <h3>
 
-            新增今天的運動紀錄
+            今天做了什麼？
 
-        </p>
+        </h3>
 
     </section>
 
-    <input
-        type="text"
+    <textarea
         id="exerciseInput"
-        placeholder="例如：快走30分鐘">
+        class="record-input"
+        placeholder="例如：
+
+快走30分鐘
+
+重訓45分鐘
+
+瑜珈60分鐘
+
+跑步5公里"></textarea>
+
+    <!-- 儲存 -->
 
     <button
         class="primary-btn"
@@ -66,9 +80,17 @@
 
     </button>
 
+    <!-- 今日紀錄 -->
+
     <section class="quote-card">
 
-        <h3>今日紀錄</h3>
+        <h3>
+
+            今日紀錄
+
+        </h3>
+
+        <br>
 
         <div id="exerciseList">
 
@@ -78,8 +100,11 @@
 
     </section>
 
+    <!-- 返回 -->
+
     <button
-        id="backBtn">
+        id="backBtn"
+        class="primary-btn">
 
         ← 返回健康世界
 
@@ -87,7 +112,17 @@
 
 </div>
 
-<script src="app.js?v=2.0.3"></script>
+<script>
+
+document.getElementById("backBtn").onclick=function(){
+
+    location.href="health.html";
+
+};
+
+</script>
+
+<script src="app.js?v=2.1.0"></script>
 
 </body>
 
