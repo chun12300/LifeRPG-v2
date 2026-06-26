@@ -11,7 +11,8 @@ content="width=device-width, initial-scale=1.0">
 
 <title>😴 睡眠紀錄</title>
 
-<link rel="stylesheet"
+<link
+rel="stylesheet"
 href="style.css?v=4.0.0">
 
 </head>
@@ -19,6 +20,8 @@ href="style.css?v=4.0.0">
 <body>
 
 <div class="dashboard-container">
+
+    <!-- 玩家資訊 -->
 
     <section class="profile-card">
 
@@ -38,13 +41,15 @@ href="style.css?v=4.0.0">
 
             <p>
 
-                充足睡眠，是最好的恢復。
+                良好的睡眠，是健康最重要的基礎。
 
             </p>
 
         </div>
 
     </section>
+
+    <!-- 標題 -->
 
     <section class="quote-card">
 
@@ -73,6 +78,7 @@ href="style.css?v=4.0.0">
         class="record-input-large"
 
         placeholder="例如：7.5">
+
     <label class="record-label">
 
         備註（可略）
@@ -86,9 +92,9 @@ href="style.css?v=4.0.0">
         class="record-note"
 
         placeholder="例如：
-昨天比較晚睡
-半夜醒來一次
-今天精神很好..."></textarea>
+昨天 11 點睡
+今天精神很好
+半夜醒來一次..."></textarea>
 
     <button
 
@@ -100,8 +106,6 @@ href="style.css?v=4.0.0">
 
     </button>
 
-    <!-- 睡眠紀錄 -->
-
     <section class="quote-card">
 
         <h3>
@@ -112,7 +116,7 @@ href="style.css?v=4.0.0">
 
         <p class="record-tip">
 
-            成人建議每天睡眠約 7～9 小時。
+            成人建議每日睡眠約 7～9 小時。
 
         </p>
 
@@ -133,238 +137,24 @@ href="style.css?v=4.0.0">
         ← 返回健康世界
 
     </button>
+
+    <footer>
+
+        人生RPG v3.0
+
+        <br>
+
+        Health World • Sleep
+
+    </footer>
     </div>
 
-<!-- 共用程式 -->
+<!-- JavaScript -->
 
 <script src="app.js?v=4.0.0"></script>
 
-<!-- 健康模組 -->
-
-<script src="health.js?v=1.1.0"></script>
+<script src="health.js?v=3.0.0"></script>
 
 </body>
-// ===============================
-// Sleep
-// ===============================
 
-function initSleep(){
-
-    loadSleep();
-
-    document
-        .getElementById("saveSleep")
-        .addEventListener("click",saveSleep);
-
-}
-
-function saveSleep(){
-
-    const hour=
-
-        document
-        .getElementById("sleepHour")
-        .value;
-
-    const note=
-
-        document
-        .getElementById("sleepNote")
-        .value
-        .trim();
-
-    if(hour===""){
-
-        alert("請輸入睡眠時數");
-
-        return;
-
-    }
-
-    const now=new Date();
-
-    const date=
-
-        now.getFullYear()+"/"+
-
-        String(now.getMonth()+1).padStart(2,"0")+"/"+
-
-        String(now.getDate()).padStart(2,"0");
-
-    const time=
-
-        String(now.getHours()).padStart(2,"0")+":"+
-
-        String(now.getMinutes()).padStart(2,"0");
-
-    let list=
-
-        JSON.parse(
-
-            localStorage.getItem("sleepList") || "[]"
-
-        );
-
-    list.unshift({
-
-        hour:Number(hour),
-
-        note:note,
-
-        date:date,
-
-        time:time
-
-    });
-
-    localStorage.setItem(
-
-        "sleepList",
-
-        JSON.stringify(list)
-
-    );
-
-    document
-        .getElementById("sleepHour")
-        .value="";
-
-    document
-        .getElementById("sleepNote")
-        .value="";
-
-    loadSleep();
-
-}
-    // ===============================
-// 載入睡眠紀錄
-// ===============================
-
-function loadSleep(){
-
-    const box=document.getElementById("sleepList");
-
-    if(!box){
-
-        return;
-
-    }
-
-    const list=JSON.parse(
-
-        localStorage.getItem("sleepList") || "[]"
-
-    );
-
-    if(list.length===0){
-
-        box.innerHTML="尚無紀錄";
-
-        return;
-
-    }
-
-    let html="";
-
-    list.forEach(function(item,index){
-
-        html+=`
-
-        <div class="record-item">
-
-            <div class="record-date">
-
-                📅 ${item.date}　🕒 ${item.time}
-
-            </div>
-
-            <div class="record-title">
-
-                😴 睡眠紀錄
-
-            </div>
-
-            <div class="record-content">
-
-                😴 ${item.hour} 小時
-
-                ${item.note ? `<br><br>📝 ${item.note}` : ""}
-
-            </div>
-
-            <button
-
-                class="record-delete"
-
-                onclick="deleteSleep(${index})">
-
-                🗑️ 刪除紀錄
-
-            </button>
-
-        </div>
-
-        `;
-
-    });
-
-    box.innerHTML=html;
-
-}
-    // ===============================
-// 刪除睡眠紀錄
-// ===============================
-
-function deleteSleep(index){
-
-    if(!confirm("確定刪除這筆睡眠紀錄？")){
-
-        return;
-
-    }
-
-    let list=JSON.parse(
-
-        localStorage.getItem("sleepList") || "[]"
-
-    );
-
-    list.splice(index,1);
-
-    localStorage.setItem(
-
-        "sleepList",
-
-        JSON.stringify(list)
-
-    );
-
-    loadSleep();
-
-}
-
-
-
-// ===============================
-// Sleep 初始化完成
-// ===============================
-
-if(document.getElementById("sleepList")){
-
-    loadSleep();
-
-}
-    // ===============================
-// Sleep Module Ready
-// ===============================
-
-console.log("Sleep Module Ready");
-
-// ===============================
-// Health Module Status
-// ===============================
-
-console.log(
-    "Health Progress : Exercise / Weight / Water / Sleep Completed"
-);
 </html>
