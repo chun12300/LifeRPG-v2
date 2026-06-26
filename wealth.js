@@ -320,3 +320,110 @@ function getGoalYear(
     };
 
 }
+// ======================================
+// Asset
+// ======================================
+
+document.addEventListener("DOMContentLoaded",function(){
+
+    if(document.getElementById("saveAsset")){
+
+        initAsset();
+
+    }
+
+});
+
+function initAsset(){
+
+    loadAsset();
+
+    document
+        .getElementById("saveAsset")
+        .addEventListener("click",saveAsset);
+
+}
+
+function saveAsset(){
+
+    const cash=
+        Number(document.getElementById("cashValue").value)||0;
+
+    const deposit=
+        Number(document.getElementById("depositValue").value)||0;
+
+    const invest=
+        Number(document.getElementById("investValue").value)||0;
+
+    const other=
+        Number(document.getElementById("otherValue").value)||0;
+
+    const total=
+        cash+
+        deposit+
+        invest+
+        other;
+
+    const data={
+
+        cash:cash,
+
+        deposit:deposit,
+
+        invest:invest,
+
+        other:other,
+
+        total:total
+
+    };
+
+    localStorage.setItem(
+
+        "assetData",
+
+        JSON.stringify(data)
+
+    );
+
+    loadAsset();
+
+}
+
+function loadAsset(){
+
+    const data=JSON.parse(
+
+        localStorage.getItem("assetData") ||
+
+        "{}"
+
+    );
+
+    if(data.cash!==undefined){
+
+        document.getElementById("cashValue").value=data.cash;
+
+        document.getElementById("depositValue").value=data.deposit;
+
+        document.getElementById("investValue").value=data.invest;
+
+        document.getElementById("otherValue").value=data.other;
+
+        document.getElementById("assetResult").innerHTML=`
+
+            <h3>💰 總資產</h3>
+
+            <h2>
+
+            ${data.total.toLocaleString()} 元
+
+            </h2>
+
+        `;
+
+    }
+
+}
+
+console.log("Asset Module Ready");
