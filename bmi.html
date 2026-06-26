@@ -11,7 +11,8 @@ content="width=device-width, initial-scale=1.0">
 
 <title>📏 BMI 計算</title>
 
-<link rel="stylesheet"
+<link
+rel="stylesheet"
 href="style.css?v=4.0.0">
 
 </head>
@@ -32,13 +33,13 @@ href="style.css?v=4.0.0">
 
             <h2>
 
-                BMI 計算
+                BMI 健康工具
 
             </h2>
 
             <p>
 
-                了解自己的身體狀態。
+                快速計算 BMI，了解自己的身體狀況。
 
             </p>
 
@@ -88,30 +89,29 @@ href="style.css?v=4.0.0">
 
         class="record-input-large"
 
-        placeholder="例如：68.5">
+        placeholder="例如：65">
+
     <button
 
         id="calculateBMI"
 
         class="primary-btn">
 
-        🧮 計算 BMI
+        📏 計算 BMI
 
     </button>
 
-    <section class="quote-card">
+    <section
+
+        id="bmiResult"
+
+        class="quote-card">
 
         <h3>
 
-            📊 BMI 結果
+            BMI 尚未計算
 
         </h3>
-
-        <div id="bmiResult">
-
-            尚未計算
-
-        </div>
 
     </section>
 
@@ -128,9 +128,9 @@ href="style.css?v=4.0.0">
         class="record-note"
 
         placeholder="例如：
-最近開始減脂
-希望 BMI 降到 22
-持續觀察變化..."></textarea>
+開始減脂
+三個月目標 BMI 22
+持續追蹤..."></textarea>
 
     <button
 
@@ -142,8 +142,6 @@ href="style.css?v=4.0.0">
 
     </button>
 
-    <!-- BMI 紀錄 -->
-
     <section class="quote-card">
 
         <h3>
@@ -151,12 +149,6 @@ href="style.css?v=4.0.0">
             📋 BMI 紀錄
 
         </h3>
-
-        <p class="record-tip">
-
-            BMI 只是健康參考指標，請搭配體脂率、腰圍等資訊一起評估。
-
-        </p>
 
         <div id="bmiList">
 
@@ -175,15 +167,21 @@ href="style.css?v=4.0.0">
         ← 返回健康世界
 
     </button>
+
+    <footer>
+
+        人生RPG v3.0
+
+        <br>
+
+        Health World • BMI
+
+    </footer>
     </div>
 
-<!-- 共用程式 -->
+<!-- JavaScript -->
 
-<script src="app.js?v=4.0.0"></script>
-
-<!-- 健康模組 -->
-
-<script src="health.js?v=1.1.0"></script>
+<script src="health.js?v=3.0.1"></script>
 
 </body>
 
