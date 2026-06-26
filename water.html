@@ -1,1 +1,146 @@
+<!DOCTYPE html>
 
+<html lang="zh-TW">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>💧 喝水紀錄</title>
+
+<link rel="stylesheet"
+href="style.css?v=4.0.0">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <section class="profile-card">
+
+        <div class="profile-avatar">
+
+            💧
+
+        </div>
+
+        <div class="profile-info">
+
+            <h2>
+
+                喝水紀錄
+
+            </h2>
+
+            <p>
+
+                補充水分，也是照顧自己的方式。
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="quote-card">
+
+        <h3>
+
+            今天喝了多少水？
+
+        </h3>
+
+    </section>
+
+    <label class="record-label">
+
+        喝水量（ml）
+
+    </label>
+
+    <input
+
+        type="number"
+
+        id="waterValue"
+
+        class="record-input-large"
+
+        placeholder="例如：500">
+    <label class="record-label">
+
+        備註（可略）
+
+    </label>
+
+    <textarea
+
+        id="waterNote"
+
+        class="record-note"
+
+        placeholder="例如：
+今天天氣很熱
+運動後補充水分
+下午喝了一瓶水..."></textarea>
+
+    <button
+
+        id="saveWater"
+
+        class="primary-btn">
+
+        💾 儲存紀錄
+
+    </button>
+
+    <!-- 今日紀錄 -->
+
+    <section class="quote-card">
+
+        <h3>
+
+            📋 喝水紀錄
+
+        </h3>
+
+        <p class="record-tip">
+
+            建議每日飲水量約 2000～2500 ml（依個人情況調整）。
+
+        </p>
+
+        <div id="waterList">
+
+            尚無紀錄
+
+        </div>
+
+    </section>
+
+    <button
+
+        id="backBtn"
+
+        class="primary-btn">
+
+        ← 返回健康世界
+
+    </button>
+    </div>
+
+<!-- 共用程式 -->
+
+<script src="app.js?v=4.0.0"></script>
+
+<!-- 健康模組 -->
+
+<script src="health.js?v=1.1.0"></script>
+
+</body>
+
+</html>
