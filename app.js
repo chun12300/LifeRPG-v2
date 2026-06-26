@@ -1,6 +1,11 @@
 // ===================================
-// Auto Login
+// 人生RPG v2.0
+// app.js（完整版）
 // ===================================
+
+// ===============================
+// Auto Login
+// ===============================
 
 if (
     location.pathname.includes("index.html") ||
@@ -12,146 +17,174 @@ if (
 
     if(nickname){
 
-        location.href="dashboard.html";
+        location.href = "dashboard.html";
 
     }
 
 }
-// ===================================
-// 人生RPG v2.0
-// app.js
-// Step01
-// ===================================
 
-// -----------------------------
+// ===============================
 // Landing Page
-// -----------------------------
+// ===============================
 
 const startBtn = document.getElementById("startBtn");
 
-if (startBtn) {
+if(startBtn){
 
-    startBtn.addEventListener("click", function () {
+    startBtn.addEventListener("click",function(){
 
         const nickname =
-            document.getElementById("nickname").value.trim();
+        document.getElementById("nickname").value.trim();
 
         const motto =
-            document.getElementById("motto").value.trim();
+        document.getElementById("motto").value.trim();
 
-        if (nickname === "") {
+        if(nickname===""){
 
-            alert("請先輸入你的暱稱");
+            alert("請輸入你的暱稱");
 
             return;
 
         }
 
-        localStorage.setItem("lifeNickname", nickname);
+        localStorage.setItem("lifeNickname",nickname);
 
-        if (motto === "") {
+        if(motto===""){
 
             localStorage.setItem(
                 "lifeMotto",
-                "人生，不需要打怪，而是超越昨天的自己。"
+                "人生，不需要打怪。<br>而是超越昨天的自己。"
             );
 
-        } else {
+        }else{
 
-            localStorage.setItem("lifeMotto", motto);
+            localStorage.setItem("lifeMotto",motto);
 
         }
 
-        localStorage.setItem("lifeLevel", "1");
+        localStorage.setItem("lifeLevel","1");
 
-        location.href = "dashboard.html";
+        location.href="dashboard.html";
 
     });
 
 }
 
-// -----------------------------
+// ===============================
 // Dashboard
-// -----------------------------
+// ===============================
 
-const playerName = document.getElementById("playerName");
+const playerName=document.getElementById("playerName");
 
-if (playerName) {
+if(playerName){
 
-    playerName.innerText =
-        localStorage.getItem("lifeNickname") || "玩家";
-
-}
-
-const playerMotto = document.getElementById("playerMotto");
-
-if (playerMotto) {
-
-    playerMotto.innerHTML =
-        localStorage.getItem("lifeMotto") ||
-        "人生，不需要打怪。<br>而是超越昨天的自己。";
+    playerName.innerText=
+    localStorage.getItem("lifeNickname") || "玩家";
 
 }
 
-// -----------------------------
-// 世界入口（先保留）
-// -----------------------------
+const playerMotto=document.getElementById("playerMotto");
 
-const healthCard = document.getElementById("healthCard");
+if(playerMotto){
 
-if (healthCard) {
+    playerMotto.innerHTML=
+    localStorage.getItem("lifeMotto")
+    ||
+    "人生，不需要打怪。<br>而是超越昨天的自己。";
 
-    healthCard.onclick = function () {
+}
 
-        alert("💪 獨自升級\n\n即將開放");
+// ===============================
+// 五大世界
+// ===============================
+
+// 健康
+
+const healthCard=document.getElementById("healthCard");
+
+if(healthCard){
+
+    healthCard.onclick=function(){
+
+        location.href="health.html";
 
     };
 
 }
 
-const wealthCard = document.getElementById("wealthCard");
+// 財富
 
-if (wealthCard) {
+const wealthCard=document.getElementById("wealthCard");
 
-    wealthCard.onclick = function () {
+if(wealthCard){
 
-        alert("💰 投資有富\n\n即將開放");
+    wealthCard.onclick=function(){
 
-    };
-
-}
-
-const lifeCard = document.getElementById("lifeCard");
-
-if (lifeCard) {
-
-    lifeCard.onclick = function () {
-
-        alert("🍽 百匯饗宴\n\n即將開放");
+        location.href="wealth.html";
 
     };
 
 }
 
-const growthCard = document.getElementById("growthCard");
+// 生活
 
-if (growthCard) {
+const lifeCard=document.getElementById("lifeCard");
 
-    growthCard.onclick = function () {
+if(lifeCard){
 
-        alert("🧠 人生迷因\n\n即將開放");
+    lifeCard.onclick=function(){
+
+        location.href="life.html";
 
     };
 
 }
 
-const exploreCard = document.getElementById("exploreCard");
+// 成長
 
-if (exploreCard) {
+const growthCard=document.getElementById("growthCard");
 
-    exploreCard.onclick = function () {
+if(growthCard){
 
-        alert("🗺 人生探索\n\n即將開放");
+    growthCard.onclick=function(){
+
+        location.href="growth.html";
+
+    };
+
+}
+
+// 探索
+
+const exploreCard=document.getElementById("exploreCard");
+
+if(exploreCard){
+
+    exploreCard.onclick=function(){
+
+        location.href="explore.html";
+
+    };
+
+}
+
+// ===============================
+// Reset（預留）
+// ===============================
+
+const resetBtn=document.getElementById("resetBtn");
+
+if(resetBtn){
+
+    resetBtn.onclick=function(){
+
+        if(confirm("確定重新開始人生？")){
+
+            localStorage.clear();
+
+            location.href="index.html";
+
+        }
 
     };
 
