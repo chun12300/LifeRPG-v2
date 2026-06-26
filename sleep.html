@@ -1,1 +1,148 @@
+<!DOCTYPE html>
 
+<html lang="zh-TW">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>😴 睡眠紀錄</title>
+
+<link rel="stylesheet"
+href="style.css?v=4.0.0">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <section class="profile-card">
+
+        <div class="profile-avatar">
+
+            😴
+
+        </div>
+
+        <div class="profile-info">
+
+            <h2>
+
+                睡眠紀錄
+
+            </h2>
+
+            <p>
+
+                充足睡眠，是最好的恢復。
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="quote-card">
+
+        <h3>
+
+            昨晚睡了多久？
+
+        </h3>
+
+    </section>
+
+    <label class="record-label">
+
+        睡眠時數（小時）
+
+    </label>
+
+    <input
+
+        type="number"
+
+        step="0.5"
+
+        id="sleepHour"
+
+        class="record-input-large"
+
+        placeholder="例如：7.5">
+    <label class="record-label">
+
+        備註（可略）
+
+    </label>
+
+    <textarea
+
+        id="sleepNote"
+
+        class="record-note"
+
+        placeholder="例如：
+昨天比較晚睡
+半夜醒來一次
+今天精神很好..."></textarea>
+
+    <button
+
+        id="saveSleep"
+
+        class="primary-btn">
+
+        💾 儲存紀錄
+
+    </button>
+
+    <!-- 睡眠紀錄 -->
+
+    <section class="quote-card">
+
+        <h3>
+
+            📋 睡眠紀錄
+
+        </h3>
+
+        <p class="record-tip">
+
+            成人建議每天睡眠約 7～9 小時。
+
+        </p>
+
+        <div id="sleepList">
+
+            尚無紀錄
+
+        </div>
+
+    </section>
+
+    <button
+
+        id="backBtn"
+
+        class="primary-btn">
+
+        ← 返回健康世界
+
+    </button>
+    </div>
+
+<!-- 共用程式 -->
+
+<script src="app.js?v=4.0.0"></script>
+
+<!-- 健康模組 -->
+
+<script src="health.js?v=1.1.0"></script>
+
+</body>
+
+</html>
