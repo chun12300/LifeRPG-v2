@@ -144,3 +144,226 @@ href="style.css?v=4.0.0">
 </body>
 
 </html>
+// ===============================
+// Water
+// ===============================
+
+function initWater(){
+
+    loadWater();
+
+    document
+        .getElementById("saveWater")
+        .addEventListener("click",saveWater);
+
+}
+
+function saveWater(){
+
+    const water=
+
+        document
+        .getElementById("waterValue")
+        .value;
+
+    const note=
+
+        document
+        .getElementById("waterNote")
+        .value
+        .trim();
+
+    if(water===""){
+
+        alert("請輸入喝水量");
+
+        return;
+
+    }
+
+    const now=new Date();
+
+    const date=
+
+        now.getFullYear()+"/"+
+
+        String(now.getMonth()+1).padStart(2,"0")+"/"+
+
+        String(now.getDate()).padStart(2,"0");
+
+    const time=
+
+        String(now.getHours()).padStart(2,"0")+":"+
+
+        String(now.getMinutes()).padStart(2,"0");
+
+    let list=
+
+        JSON.parse(
+
+            localStorage.getItem("waterList") || "[]"
+
+        );
+
+    list.unshift({
+
+        water:Number(water),
+
+        note:note,
+
+        date:date,
+
+        time:time
+
+    });
+
+    localStorage.setItem(
+
+        "waterList",
+
+        JSON.stringify(list)
+
+    );
+
+    document
+        .getElementById("waterValue")
+        .value="";
+
+    document
+        .getElementById("waterNote")
+        .value="";
+
+    loadWater();
+
+}
+// ===============================
+// 載入喝水紀錄
+// ===============================
+
+function loadWater(){
+
+    const box=document.getElementById("waterList");
+
+    if(!box){
+
+        return;
+
+    }
+
+    const list=JSON.parse(
+
+        localStorage.getItem("waterList") || "[]"
+
+    );
+
+    if(list.length===0){
+
+        box.innerHTML="尚無紀錄";
+
+        return;
+
+    }
+
+    let html="";
+
+    list.forEach(function(item,index){
+
+        html+=`
+
+        <div class="record-item">
+
+            <div class="record-date">
+
+                📅 ${item.date}　🕒 ${item.time}
+
+            </div>
+
+            <div class="record-title">
+
+                💧 喝水紀錄
+
+            </div>
+
+            <div class="record-content">
+
+                💧 ${item.water} ml
+
+                ${item.note ? `<br><br>📝 ${item.note}` : ""}
+
+            </div>
+
+            <button
+
+                class="record-delete"
+
+                onclick="deleteWater(${index})">
+
+                🗑️ 刪除紀錄
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+    box.innerHTML=html;
+
+}
+// ===============================
+// 刪除喝水紀錄
+// ===============================
+
+function deleteWater(index){
+
+    if(!confirm("確定刪除這筆喝水紀錄？")){
+
+        return;
+
+    }
+
+    let list=JSON.parse(
+
+        localStorage.getItem("waterList") || "[]"
+
+    );
+
+    list.splice(index,1);
+
+    localStorage.setItem(
+
+        "waterList",
+
+        JSON.stringify(list)
+
+    );
+
+    loadWater();
+
+}
+
+
+
+// ===============================
+// Water 初始化完成
+// ===============================
+
+if(document.getElementById("waterList")){
+
+    loadWater();
+
+}
+// ===============================
+// Water Module Ready
+// ===============================
+
+console.log("Water Module Ready");
+
+// ===============================
+// Health Module Status
+// ===============================
+
+console.log(
+    "Health Progress : Exercise / Weight / Water Completed"
+);
