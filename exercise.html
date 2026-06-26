@@ -1,62 +1,150 @@
-<section class="quote-card">
+<!DOCTYPE html>
+<html lang="zh-TW">
 
-    <h3>
+<head>
 
-        今天做了什麼？
+<meta charset="UTF-8">
 
-    </h3>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-</section>
+<title>🏋️ 運動紀錄</title>
 
-<label>
+<link rel="stylesheet" href="style.css?v=3.0.0">
 
-    運動種類
+</head>
 
-</label>
+<body>
 
-<select
-    id="exerciseType"
-    class="record-select">
+<div class="dashboard-container">
 
-    <option>快走</option>
+    <!-- 標題 -->
 
-    <option>跑步</option>
+    <section class="profile-card">
 
-    <option>重訓</option>
+        <div class="profile-avatar">
 
-    <option>騎腳踏車</option>
+            🏋️
 
-    <option>游泳</option>
+        </div>
 
-    <option>瑜珈</option>
+        <div class="profile-info">
 
-    <option>登山</option>
+            <h2>
 
-    <option>伸展</option>
+                運動紀錄
 
-    <option>其它</option>
+            </h2>
 
-</select>
+            <p>
 
-<label>
+                今天，比昨天更強一點。
 
-    運動時間（分鐘）
+            </p>
 
-</label>
+        </div>
 
-<input
-type="number"
-id="exerciseMinute"
-class="record-input-small"
-placeholder="例如：30">
+    </section>
 
-<label>
+    <!-- 輸入卡片 -->
 
-    備註（可略）
+    <section class="quote-card">
 
-</label>
+        <h3>
 
-<textarea
-id="exerciseNote"
-class="record-input"
-placeholder="今天的心得..."></textarea>
+            今天做了什麼？
+
+        </h3>
+
+    </section>
+
+    <label>
+
+        運動種類
+
+    </label>
+
+    <select
+        id="exerciseType"
+        class="record-select">
+
+        <option>快走</option>
+        <option>慢跑</option>
+        <option>跑步</option>
+        <option>重訓</option>
+        <option>伏地挺身</option>
+        <option>深蹲</option>
+        <option>瑜珈</option>
+        <option>游泳</option>
+        <option>騎腳踏車</option>
+        <option>登山</option>
+        <option>伸展</option>
+        <option>其它</option>
+
+    </select>
+
+    <label>
+
+        運動時間（分鐘）
+
+    </label>
+
+    <input
+        type="number"
+        id="exerciseMinute"
+        class="record-input-small"
+        placeholder="例如：30">
+
+    <label>
+
+        備註（可略）
+
+    </label>
+
+    <textarea
+        id="exerciseNote"
+        class="record-input"
+        placeholder="今天的心得、身體狀況、感想..."></textarea>
+
+    <button
+        id="saveExercise"
+        class="primary-btn">
+
+        💾 儲存紀錄
+
+    </button>
+
+    <!-- 今日紀錄 -->
+
+    <section class="quote-card">
+
+        <h3>
+
+            今日紀錄
+
+        </h3>
+
+        <div id="exerciseList">
+
+            尚無紀錄
+
+        </div>
+
+    </section>
+
+    <button
+        id="backBtn"
+        class="primary-btn">
+
+        ← 返回健康世界
+
+    </button>
+
+</div>
+
+<script src="app.js?v=3.0.0"></script>
+
+<script src="health.js?v=1.0.0"></script>
+
+</body>
+
+</html>
