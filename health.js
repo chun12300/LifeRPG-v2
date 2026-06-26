@@ -904,3 +904,30 @@ function deleteBMI(index){
     loadBMI();
 
 }
+// ======================================
+// Health Summary
+// ======================================
+
+function loadHealthSummary(){
+
+    const exercise=getData("exerciseList");
+
+    const box=document.getElementById("exerciseSummary");
+
+    if(box){
+
+        if(exercise.length){
+
+            box.innerHTML=
+
+                `${exercise[0].type} ${exercise[0].minute} 分鐘`;
+
+        }else{
+
+            box.innerHTML="尚無紀錄";
+
+        }
+
+    }
+
+}
