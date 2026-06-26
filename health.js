@@ -1,11 +1,60 @@
 // ======================================
 // LifeRPG Beta
-// Health Module v2.0
+// Health Module v3.0
 // ======================================
 
-// ===============================
-// 返回 Dashboard
-// ===============================
+
+
+// ======================================
+// 共用工具
+// ======================================
+
+function getData(key){
+
+    return JSON.parse(
+
+        localStorage.getItem(key) || "[]"
+
+    );
+
+}
+
+function setData(key,data){
+
+    localStorage.setItem(
+
+        key,
+
+        JSON.stringify(data)
+
+    );
+
+}
+
+function getNow(){
+
+    const now=new Date();
+
+    return{
+
+        date:
+        now.getFullYear()+"/"+
+        String(now.getMonth()+1).padStart(2,"0")+"/"+
+        String(now.getDate()).padStart(2,"0"),
+
+        time:
+        String(now.getHours()).padStart(2,"0")+":"+
+        String(now.getMinutes()).padStart(2,"0")
+
+    };
+
+}
+
+
+
+// ======================================
+// 返回
+// ======================================
 
 const backBtn=document.getElementById("backBtn");
 
@@ -13,15 +62,17 @@ if(backBtn){
 
     backBtn.onclick=function(){
 
-        location.href="dashboard.html";
+        location.href="health.html";
 
     };
 
 }
 
-// ===============================
-// 健康首頁導航
-// ===============================
+
+
+// ======================================
+// 健康首頁
+// ======================================
 
 const pageMap={
 
@@ -52,57 +103,49 @@ Object.keys(pageMap).forEach(function(id){
     }
 
 });
-// ===============================
-// 共用 LocalStorage
-// ===============================
 
-function getData(key){
 
-    return JSON.parse(
 
-        localStorage.getItem(key) || "[]"
+// ======================================
+// 判斷目前頁面
+// ======================================
 
-    );
+document.addEventListener("DOMContentLoaded",function(){
 
-}
+    if(document.getElementById("saveExercise")){
 
-function saveData(key,data){
+        initExercise();
 
-    localStorage.setItem(
+    }
 
-        key,
+    if(document.getElementById("saveWeight")){
 
-        JSON.stringify(data)
+        initWeight();
 
-    );
+    }
 
-}
+    if(document.getElementById("saveWater")){
 
-// ===============================
-// 共用日期時間
-// ===============================
+        initWater();
 
-function getNow(){
+    }
 
-    const now=new Date();
+    if(document.getElementById("saveSleep")){
 
-    return{
+        initSleep();
 
-        date:
-        now.getFullYear()+"/"+
-        String(now.getMonth()+1).padStart(2,"0")+"/"+
-        String(now.getDate()).padStart(2,"0"),
+    }
 
-        time:
-        String(now.getHours()).padStart(2,"0")+":"+
-        String(now.getMinutes()).padStart(2,"0")
+    if(document.getElementById("saveBMI")){
 
-    };
+        initBMI();
 
-}
-// ===============================
+    }
+
+});
+// ======================================
 // Exercise
-// ===============================
+// ======================================
 
 function initExercise(){
 
@@ -116,14 +159,11 @@ function initExercise(){
 
 function saveExercise(){
 
-    const type=
-        document.getElementById("exerciseType").value;
+    const type=document.getElementById("exerciseType").value;
 
-    const minute=
-        document.getElementById("exerciseMinute").value;
+    const minute=document.getElementById("exerciseMinute").value;
 
-    const note=
-        document.getElementById("exerciseNote").value.trim();
+    const note=document.getElementById("exerciseNote").value.trim();
 
     if(minute===""){
 
@@ -133,29 +173,9 @@ function saveExercise(){
 
     }
 
-    const now=new Date();
+    const now=getNow();
 
-    const date=
-
-        now.getFullYear()+"/"+
-
-        String(now.getMonth()+1).padStart(2,"0")+"/"+
-
-        String(now.getDate()).padStart(2,"0");
-
-    const time=
-
-        String(now.getHours()).padStart(2,"0")+":"+
-
-        String(now.getMinutes()).padStart(2,"0");
-
-    let list=
-
-        JSON.parse(
-
-            localStorage.getItem("exerciseList") || "[]"
-
-        );
+    let list=getData("exerciseList");
 
     list.unshift({
 
@@ -165,19 +185,13 @@ function saveExercise(){
 
         note:note,
 
-        date:date,
+        date:now.date,
 
-        time:time
+        time:now.time
 
     });
 
-    localStorage.setItem(
-
-        "exerciseList",
-
-        JSON.stringify(list)
-
-    );
+    setData("exerciseList",list);
 
     document.getElementById("exerciseMinute").value="";
 
@@ -186,9 +200,6 @@ function saveExercise(){
     loadExercise();
 
 }
-// ===============================
-// 載入運動紀錄
-// ===============================
 
 function loadExercise(){
 
@@ -200,11 +211,7 @@ function loadExercise(){
 
     }
 
-    const list=JSON.parse(
-
-        localStorage.getItem("exerciseList") || "[]"
-
-    );
+    const list=getData("exerciseList");
 
     if(list.length===0){
 
@@ -243,9 +250,7 @@ function loadExercise(){
             </div>
 
             <button
-
                 class="record-delete"
-
                 onclick="deleteExercise(${index})">
 
                 🗑️ 刪除紀錄
@@ -262,10 +267,6 @@ function loadExercise(){
 
 }
 
-// ===============================
-// 刪除運動紀錄
-// ===============================
-
 function deleteExercise(index){
 
     if(!confirm("確定刪除這筆運動紀錄？")){
@@ -274,47 +275,18 @@ function deleteExercise(index){
 
     }
 
-    let list=JSON.parse(
-
-        localStorage.getItem("exerciseList") || "[]"
-
-    );
+    let list=getData("exerciseList");
 
     list.splice(index,1);
 
-    localStorage.setItem(
-
-        "exerciseList",
-
-        JSON.stringify(list)
-
-    );
+    setData("exerciseList",list);
 
     loadExercise();
 
 }
 // ======================================
-// LifeRPG Beta
-// Health Module v2.0
-//
-// 已完成：
-// ✔ Health 首頁導航
-// ✔ Exercise 初始化
-// ✔ Exercise 儲存
-// ✔ Exercise 載入
-// ✔ Exercise 刪除
-//
-// 下一版：
 // Weight
-// Water
-// Sleep
-// BMI
 // ======================================
-
-console.log("Health Module v2.0 Loaded");
-// ===============================
-// Weight
-// ===============================
 
 function initWeight(){
 
@@ -328,18 +300,9 @@ function initWeight(){
 
 function saveWeight(){
 
-    const weight=
+    const weight=document.getElementById("weightValue").value;
 
-        document
-        .getElementById("weightValue")
-        .value;
-
-    const note=
-
-        document
-        .getElementById("weightNote")
-        .value
-        .trim();
+    const note=document.getElementById("weightNote").value.trim();
 
     if(weight===""){
 
@@ -349,29 +312,9 @@ function saveWeight(){
 
     }
 
-    const now=new Date();
+    const now=getNow();
 
-    const date=
-
-        now.getFullYear()+"/"+
-
-        String(now.getMonth()+1).padStart(2,"0")+"/"+
-
-        String(now.getDate()).padStart(2,"0");
-
-    const time=
-
-        String(now.getHours()).padStart(2,"0")+":"+
-
-        String(now.getMinutes()).padStart(2,"0");
-
-    let list=
-
-        JSON.parse(
-
-            localStorage.getItem("weightList") || "[]"
-
-        );
+    let list=getData("weightList");
 
     list.unshift({
 
@@ -379,34 +322,21 @@ function saveWeight(){
 
         note:note,
 
-        date:date,
+        date:now.date,
 
-        time:time
+        time:now.time
 
     });
 
-    localStorage.setItem(
+    setData("weightList",list);
 
-        "weightList",
+    document.getElementById("weightValue").value="";
 
-        JSON.stringify(list)
-
-    );
-
-    document
-        .getElementById("weightValue")
-        .value="";
-
-    document
-        .getElementById("weightNote")
-        .value="";
+    document.getElementById("weightNote").value="";
 
     loadWeight();
 
 }
-// ===============================
-// 載入體重紀錄
-// ===============================
 
 function loadWeight(){
 
@@ -418,11 +348,7 @@ function loadWeight(){
 
     }
 
-    const list=JSON.parse(
-
-        localStorage.getItem("weightList") || "[]"
-
-    );
+    const list=getData("weightList");
 
     if(list.length===0){
 
@@ -461,9 +387,7 @@ function loadWeight(){
             </div>
 
             <button
-
                 class="record-delete"
-
                 onclick="deleteWeight(${index})">
 
                 🗑️ 刪除紀錄
@@ -479,9 +403,6 @@ function loadWeight(){
     box.innerHTML=html;
 
 }
-// ===============================
-// 刪除體重紀錄
-// ===============================
 
 function deleteWeight(index){
 
@@ -491,47 +412,495 @@ function deleteWeight(index){
 
     }
 
-    let list=JSON.parse(
-
-        localStorage.getItem("weightList") || "[]"
-
-    );
+    let list=getData("weightList");
 
     list.splice(index,1);
 
-    localStorage.setItem(
-
-        "weightList",
-
-        JSON.stringify(list)
-
-    );
+    setData("weightList",list);
 
     loadWeight();
 
 }
+// ======================================
+// Water
+// ======================================
 
+function initWater(){
 
+    loadWater();
 
-// ===============================
-// Weight 初始化完成
-// ===============================
-
-if(document.getElementById("weightList")){
-
-    loadWeight();
+    document
+        .getElementById("saveWater")
+        .addEventListener("click",saveWater);
 
 }
-// ===============================
-// Weight Module Ready
-// ===============================
 
-console.log("Weight Module Ready");
+function saveWater(){
 
+    const water=document.getElementById("waterValue").value;
 
+    const note=document.getElementById("waterNote").value.trim();
 
-// ===============================
-// Health Module Ready
-// ===============================
+    if(water===""){
 
-console.log("Health Module v2.1 Ready");
+        alert("請輸入喝水量");
+
+        return;
+
+    }
+
+    const now=getNow();
+
+    let list=getData("waterList");
+
+    list.unshift({
+
+        water:Number(water),
+
+        note:note,
+
+        date:now.date,
+
+        time:now.time
+
+    });
+
+    setData("waterList",list);
+
+    document.getElementById("waterValue").value="";
+
+    document.getElementById("waterNote").value="";
+
+    loadWater();
+
+}
+
+function loadWater(){
+
+    const box=document.getElementById("waterList");
+
+    if(!box){
+
+        return;
+
+    }
+
+    const list=getData("waterList");
+
+    if(list.length===0){
+
+        box.innerHTML="尚無紀錄";
+
+        return;
+
+    }
+
+    let html="";
+
+    list.forEach(function(item,index){
+
+        html+=`
+
+        <div class="record-item">
+
+            <div class="record-date">
+
+                📅 ${item.date}　🕒 ${item.time}
+
+            </div>
+
+            <div class="record-title">
+
+                💧 喝水紀錄
+
+            </div>
+
+            <div class="record-content">
+
+                💧 ${item.water} ml
+
+                ${item.note ? `<br><br>📝 ${item.note}` : ""}
+
+            </div>
+
+            <button
+                class="record-delete"
+                onclick="deleteWater(${index})">
+
+                🗑️ 刪除紀錄
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+    box.innerHTML=html;
+
+}
+
+function deleteWater(index){
+
+    if(!confirm("確定刪除這筆喝水紀錄？")){
+
+        return;
+
+    }
+
+    let list=getData("waterList");
+
+    list.splice(index,1);
+
+    setData("waterList",list);
+
+    loadWater();
+
+}
+// ======================================
+// Sleep
+// ======================================
+
+function initSleep(){
+
+    loadSleep();
+
+    document
+        .getElementById("saveSleep")
+        .addEventListener("click",saveSleep);
+
+}
+
+function saveSleep(){
+
+    const hour=document.getElementById("sleepHour").value;
+
+    const note=document.getElementById("sleepNote").value.trim();
+
+    if(hour===""){
+
+        alert("請輸入睡眠時數");
+
+        return;
+
+    }
+
+    const now=getNow();
+
+    let list=getData("sleepList");
+
+    list.unshift({
+
+        hour:Number(hour),
+
+        note:note,
+
+        date:now.date,
+
+        time:now.time
+
+    });
+
+    setData("sleepList",list);
+
+    document.getElementById("sleepHour").value="";
+
+    document.getElementById("sleepNote").value="";
+
+    loadSleep();
+
+}
+
+function loadSleep(){
+
+    const box=document.getElementById("sleepList");
+
+    if(!box){
+
+        return;
+
+    }
+
+    const list=getData("sleepList");
+
+    if(list.length===0){
+
+        box.innerHTML="尚無紀錄";
+
+        return;
+
+    }
+
+    let html="";
+
+    list.forEach(function(item,index){
+
+        html+=`
+
+        <div class="record-item">
+
+            <div class="record-date">
+
+                📅 ${item.date}　🕒 ${item.time}
+
+            </div>
+
+            <div class="record-title">
+
+                😴 睡眠紀錄
+
+            </div>
+
+            <div class="record-content">
+
+                😴 ${item.hour} 小時
+
+                ${item.note ? `<br><br>📝 ${item.note}` : ""}
+
+            </div>
+
+            <button
+
+                class="record-delete"
+
+                onclick="deleteSleep(${index})">
+
+                🗑️ 刪除紀錄
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+    box.innerHTML=html;
+
+}
+
+function deleteSleep(index){
+
+    if(!confirm("確定刪除這筆睡眠紀錄？")){
+
+        return;
+
+    }
+
+    let list=getData("sleepList");
+
+    list.splice(index,1);
+
+    setData("sleepList",list);
+
+    loadSleep();
+
+}
+// ======================================
+// BMI
+// ======================================
+
+function initBMI(){
+
+    loadBMI();
+
+    document
+        .getElementById("calculateBMI")
+        .addEventListener("click",calculateBMI);
+
+    document
+        .getElementById("saveBMI")
+        .addEventListener("click",saveBMI);
+
+}
+
+function calculateBMI(){
+
+    const height=document.getElementById("heightValue").value;
+
+    const weight=document.getElementById("weightValue").value;
+
+    if(height==="" || weight===""){
+
+        alert("請輸入身高與體重");
+
+        return null;
+
+    }
+
+    const bmi=(
+
+        Number(weight) /
+
+        Math.pow(Number(height)/100,2)
+
+    ).toFixed(1);
+
+    let level="";
+
+    if(bmi<18.5){
+
+        level="🔵 過輕";
+
+    }else if(bmi<24){
+
+        level="🟢 正常";
+
+    }else if(bmi<27){
+
+        level="🟡 過重";
+
+    }else{
+
+        level="🔴 肥胖";
+
+    }
+
+    document.getElementById("bmiResult").innerHTML=
+
+        `<h2>${bmi}</h2><p>${level}</p>`;
+
+    return{
+
+        bmi:bmi,
+
+        level:level,
+
+        height:Number(height),
+
+        weight:Number(weight)
+
+    };
+
+}
+
+function saveBMI(){
+
+    const result=calculateBMI();
+
+    if(!result){
+
+        return;
+
+    }
+
+    const note=document.getElementById("bmiNote").value.trim();
+
+    const now=getNow();
+
+    let list=getData("bmiList");
+
+    list.unshift({
+
+        height:result.height,
+
+        weight:result.weight,
+
+        bmi:result.bmi,
+
+        level:result.level,
+
+        note:note,
+
+        date:now.date,
+
+        time:now.time
+
+    });
+
+    setData("bmiList",list);
+
+    document.getElementById("bmiNote").value="";
+
+    loadBMI();
+
+}
+
+function loadBMI(){
+
+    const box=document.getElementById("bmiList");
+
+    if(!box){
+
+        return;
+
+    }
+
+    const list=getData("bmiList");
+
+    if(list.length===0){
+
+        box.innerHTML="尚無紀錄";
+
+        return;
+
+    }
+
+    let html="";
+
+    list.forEach(function(item,index){
+
+        html+=`
+
+        <div class="record-item">
+
+            <div class="record-date">
+
+                📅 ${item.date}　🕒 ${item.time}
+
+            </div>
+
+            <div class="record-title">
+
+                📏 BMI ${item.bmi}
+
+            </div>
+
+            <div class="record-content">
+
+                身高：${item.height} cm<br>
+
+                體重：${item.weight} kg<br>
+
+                ${item.level}
+
+                ${item.note ? `<br><br>📝 ${item.note}` : ""}
+
+            </div>
+
+            <button
+                class="record-delete"
+                onclick="deleteBMI(${index})">
+
+                🗑️ 刪除紀錄
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+    box.innerHTML=html;
+
+}
+
+function deleteBMI(index){
+
+    if(!confirm("確定刪除這筆 BMI 紀錄？")){
+
+        return;
+
+    }
+
+    let list=getData("bmiList");
+
+    list.splice(index,1);
+
+    setData("bmiList",list);
+
+    loadBMI();
+
+}
