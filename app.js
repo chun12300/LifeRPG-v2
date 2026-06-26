@@ -1,7 +1,8 @@
 // ===================================
-// 人生RPG v2.0
-// app.js（完整版）
+// 人生RPG v2.1
+// app.js
 // ===================================
+
 
 // ===============================
 // Auto Login
@@ -13,33 +14,30 @@ if (
     location.pathname.endsWith("/LifeRPG-v2")
 ){
 
-    const nickname = localStorage.getItem("lifeNickname");
+    if(localStorage.getItem("lifeNickname")){
 
-    if(nickname){
-
-        location.href = "dashboard.html";
+        location.href="dashboard.html";
 
     }
 
 }
 
+
 // ===============================
-// Landing Page
+// Landing
 // ===============================
 
-const startBtn = document.getElementById("startBtn");
+const startBtn=document.getElementById("startBtn");
 
 if(startBtn){
 
-    startBtn.addEventListener("click",function(){
+    startBtn.onclick=function(){
 
-        const nickname =
-        document.getElementById("nickname").value.trim();
+        const nickname=document.getElementById("nickname").value.trim();
 
-        const motto =
-        document.getElementById("motto").value.trim();
+        const motto=document.getElementById("motto").value.trim();
 
-        if(nickname===""){
+        if(nickname==""){
 
             alert("請輸入你的暱稱");
 
@@ -49,26 +47,20 @@ if(startBtn){
 
         localStorage.setItem("lifeNickname",nickname);
 
-        if(motto===""){
-
-            localStorage.setItem(
-                "lifeMotto",
-                "人生，不需要打怪。<br>而是超越昨天的自己。"
-            );
-
-        }else{
-
-            localStorage.setItem("lifeMotto",motto);
-
-        }
+        localStorage.setItem(
+            "lifeMotto",
+            motto || "人生，不需要打怪，而是超越昨天的自己。"
+        );
 
         localStorage.setItem("lifeLevel","1");
 
         location.href="dashboard.html";
 
-    });
+    }
 
 }
+
+
 
 // ===============================
 // Dashboard
@@ -88,104 +80,191 @@ const playerMotto=document.getElementById("playerMotto");
 if(playerMotto){
 
     playerMotto.innerHTML=
-    localStorage.getItem("lifeMotto")
-    ||
-    "人生，不需要打怪。<br>而是超越昨天的自己。";
+    localStorage.getItem("lifeMotto") ||
+    "人生，不需要打怪。";
 
 }
+
+
 
 // ===============================
-// 五大世界
+// 世界入口
 // ===============================
 
-// 健康
+const worldLinks={
 
-const healthCard=document.getElementById("healthCard");
+    healthCard:"health.html",
 
-if(healthCard){
+    wealthCard:"wealth.html",
 
-    healthCard.onclick=function(){
+    lifeCard:"life.html",
 
-        location.href="health.html";
+    growthCard:"growth.html",
 
-    };
+    exploreCard:"explore.html"
 
-}
+};
 
-// 財富
+for(const id in worldLinks){
 
-const wealthCard=document.getElementById("wealthCard");
+    const card=document.getElementById(id);
 
-if(wealthCard){
+    if(card){
 
-    wealthCard.onclick=function(){
+        card.onclick=function(){
 
-        location.href="wealth.html";
-
-    };
-
-}
-
-// 生活
-
-const lifeCard=document.getElementById("lifeCard");
-
-if(lifeCard){
-
-    lifeCard.onclick=function(){
-
-        location.href="life.html";
-
-    };
-
-}
-
-// 成長
-
-const growthCard=document.getElementById("growthCard");
-
-if(growthCard){
-
-    growthCard.onclick=function(){
-
-        location.href="growth.html";
-
-    };
-
-}
-
-// 探索
-
-const exploreCard=document.getElementById("exploreCard");
-
-if(exploreCard){
-
-    exploreCard.onclick=function(){
-
-        location.href="explore.html";
-
-    };
-
-}
-
-// ===============================
-// Reset（預留）
-// ===============================
-
-const resetBtn=document.getElementById("resetBtn");
-
-if(resetBtn){
-
-    resetBtn.onclick=function(){
-
-        if(confirm("確定重新開始人生？")){
-
-            localStorage.clear();
-
-            location.href="index.html";
+            location.href=worldLinks[id];
 
         }
 
-    };
+    }
+
+}
+
+
+
+// ===============================
+// 運動紀錄
+// ===============================
+
+const saveExercise=document.getElementById("saveExercise");
+
+if(saveExercise){
+
+    loadExercise();
+
+    saveExercise.onclick=function(){
+
+        const input=document.getElementById("exerciseInput");
+
+        const text=input.value.trim();
+
+        if(text==""){
+
+            alert("請輸入今天的運動內容");
+
+            return;
+
+        }
+
+        let list=
+        JSON.parse(localStorage.getItem("exerciseList") || "[]");
+
+        list.unshift({
+
+            text:text,
+
+            time:new Date().toLocaleString()
+
+        });
+
+        localStorage.setItem(
+
+            "exerciseList",
+
+            JSON.stringify(list)
+
+        );
+
+        input.value="";
+
+        loadExercise();
+
+    }
+
+}
+
+
+
+function loadExercise(){
+
+    const box=document.getElementById("exerciseList");
+
+    if(!box) return;
+
+    const list=
+    JSON.parse(localStorage.getItem("exerciseList") || "[]");
+
+    if(list.length===0){
+
+        box.innerHTML="尚無紀錄";
+
+        return;
+
+    }
+
+    let html="";
+
+    list.forEach(function(item,index){
+
+        html+=`
+
+        <div class="record-item">
+
+            <div class="record-time">
+
+                ${item.time}
+
+            </div>
+
+            <div class="record-text">
+
+                ${item.text}
+
+            </div>
+
+            <button
+            onclick="deleteExercise(${index})">
+
+            🗑 刪除
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+    box.innerHTML=html;
+
+}
+
+
+
+function deleteExercise(index){
+
+    let list=
+    JSON.parse(localStorage.getItem("exerciseList") || "[]");
+
+    list.splice(index,1);
+
+    localStorage.setItem(
+
+        "exerciseList",
+
+        JSON.stringify(list)
+
+    );
+
+    loadExercise();
+
+}
+
+
+
+// ===============================
+// 返回
+// ===============================
+
+const backBtn=document.getElementById("backBtn");
+
+if(backBtn){
+
+    backBtn.onclick=function(){
+
+        location.href="health.html";
+
+    }
 
 }
