@@ -1,164 +1,128 @@
 /* ===================================
-   人生RPG v2.0
-   Step01 - Landing Page
+   Beta UI v3.1
+   運動紀錄共用元件
 =================================== */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-
-    font-family:"Microsoft JhengHei",sans-serif;
-
-    min-height:100vh;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:linear-gradient(180deg,#071426,#10294A);
-
-    color:#ffffff;
-
-}
-
-.landing-container{
-
-    width:92%;
-
-    max-width:460px;
-
-    padding:45px 35px;
-
-    border-radius:28px;
-
-    background:rgba(255,255,255,.08);
-
-    backdrop-filter:blur(18px);
-
-    border:1px solid rgba(255,255,255,.10);
-
-    box-shadow:0 20px 50px rgba(0,0,0,.35);
-
-    text-align:center;
-
-}
-
-.logo{
-
-    font-size:72px;
-
-    margin-bottom:20px;
-
-}
-
-h1{
-
-    font-size:46px;
-
-    color:#FFD86B;
-
-    margin-bottom:20px;
-
-}
-
-.slogan{
-
-    font-size:18px;
-
-    line-height:1.9;
-
-    color:#D9E8FF;
-
-    margin-bottom:28px;
-
-}
-
-.divider{
-
-    width:70px;
-
-    height:4px;
-
-    margin:0 auto 30px;
-
-    border-radius:10px;
-
-    background:#FFD86B;
-
-}
-
-.form-area{
-
-    text-align:left;
-
-}
-
-.form-area label{
+.record-label{
 
     display:block;
 
+    margin-top:22px;
+
     margin-bottom:10px;
 
-    font-size:16px;
+    font-size:18px;
 
     font-weight:bold;
 
-    color:#E6F0FF;
+    color:#EAF2FF;
 
 }
-.form-area input{
+
+.record-select{
 
     width:100%;
 
-    padding:18px;
+    height:60px;
 
-    margin-bottom:22px;
+    padding:0 18px;
 
     border:none;
 
     outline:none;
 
-    border-radius:16px;
+    border-radius:18px;
 
-    background:rgba(255,255,255,.12);
+    background:rgba(255,255,255,.08);
+
+    border:2px solid rgba(255,255,255,.12);
 
     color:#ffffff;
 
-    font-size:17px;
+    font-size:20px;
 
 }
 
-.form-area input::placeholder{
+.record-select option{
 
-    color:#AFC6E9;
+    background:#122748;
 
-}
-
-.welcome-text{
-
-    margin:10px 0 28px;
-
-    text-align:center;
-
-    color:#C7D7EF;
-
-    line-height:1.8;
-
-    font-size:16px;
+    color:#ffffff;
 
 }
 
-#startBtn{
+.record-input-large{
 
     width:100%;
 
+    height:60px;
+
+    padding:0 18px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.08);
+
+    border:2px solid rgba(255,255,255,.12);
+
+    color:#ffffff;
+
+    font-size:20px;
+
+}
+/* ===================================
+   備註輸入框
+=================================== */
+
+.record-note{
+
+    width:100%;
+
+    min-height:120px;
+
     padding:18px;
+
+    border:none;
+
+    outline:none;
+
+    resize:none;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.08);
+
+    border:2px solid rgba(255,255,255,.12);
+
+    color:#ffffff;
+
+    font-size:18px;
+
+    line-height:1.7;
+
+}
+
+.record-note::placeholder{
+
+    color:#9CB5DF;
+
+}
+
+/* ===================================
+   儲存按鈕
+=================================== */
+
+.primary-btn{
+
+    width:100%;
+
+    height:60px;
+
+    margin-top:24px;
 
     border:none;
 
@@ -174,568 +138,52 @@ h1{
 
     cursor:pointer;
 
-    transition:.3s;
+    transition:.25s;
 
 }
 
-#startBtn:hover{
+.primary-btn:hover{
 
     background:#244BEE;
 
-    transform:translateY(-3px);
-
-    box-shadow:0 10px 25px rgba(53,92,255,.35);
+    transform:translateY(-2px);
 
 }
 
-footer{
+/* ===================================
+   今日紀錄
+=================================== */
 
-    margin-top:35px;
+.record-tip{
 
-    text-align:center;
+    margin-top:8px;
 
     color:#AFC6E9;
 
-    font-size:14px;
-
-    line-height:1.8;
-
-}
-
-@media(max-width:768px){
-
-    .landing-container{
-
-        width:94%;
-
-        padding:35px 25px;
-
-    }
-
-    .logo{
-
-        font-size:60px;
-
-    }
-
-    h1{
-
-        font-size:38px;
-
-    }
-
-    .slogan{
-
-        font-size:16px;
-
-    }
-
-    #startBtn{
-
-        font-size:18px;
-
-    }
-
-}
-/* ===================================
-   Dashboard
-=================================== */
-
-.dashboard-container{
-
-    width:92%;
-
-    max-width:480px;
-
-    margin:40px auto;
-
-    padding:20px;
-
-}
-
-.profile-card{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:18px;
-
-    padding:22px;
-
-    margin-bottom:22px;
-
-    border-radius:22px;
-
-    background:rgba(255,255,255,.08);
-
-    backdrop-filter:blur(18px);
-
-    border:1px solid rgba(255,255,255,.08);
-
-    box-shadow:0 10px 30px rgba(0,0,0,.25);
-
-}
-
-.profile-avatar{
-
-    width:70px;
-
-    height:70px;
-
-    border-radius:50%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:#355CFF;
-
-    font-size:34px;
-
-}
-
-.profile-info{
-
-    flex:1;
-
-}
-
-.profile-info h2{
-
-    font-size:24px;
-
-    margin-bottom:6px;
-
-}
-
-.level-title{
-
-    font-size:14px;
-
-    color:#BFD5F5;
-
-}
-
-.profile-info h3{
-
-    font-size:20px;
-
-    color:#FFD86B;
-
-    margin-top:4px;
-
-}
-
-.quote-card{
-
-    padding:20px;
-
-    margin-bottom:28px;
-
-    border-radius:20px;
-
-    background:rgba(255,255,255,.06);
-
-    border-left:5px solid #FFD86B;
-
-    line-height:1.8;
-
-    color:#E8F2FF;
-
-}
-
-.world-title{
-
-    text-align:center;
-
-    margin-bottom:24px;
-
-}
-
-.world-title h2{
-
-    font-size:28px;
-
-    color:#FFD86B;
-
-    margin-bottom:8px;
-
-}
-
-.world-title p{
-
-    color:#BFD5F5;
-
     font-size:15px;
-
-}
-
-/* ===== 這段就是剛剛漏掉的 ===== */
-
-.world-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:18px;
-
-    margin-bottom:35px;
-
-}
-
-.world-card{
-
-    background:rgba(255,255,255,.08);
-
-    backdrop-filter:blur(18px);
-
-    border-radius:22px;
-
-    padding:25px 18px;
-
-    text-align:center;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-    border:1px solid rgba(255,255,255,.08);
-
-    min-height:165px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-}
-
-.world-card:hover{
-
-    transform:translateY(-6px);
-
-    box-shadow:0 15px 35px rgba(53,92,255,.30);
-
-}
-
-.world-icon{
-
-    font-size:42px;
-
-    margin-bottom:14px;
-
-}
-
-.world-card h3{
-
-    font-size:22px;
-
-    margin-bottom:10px;
-
-    color:#FFD86B;
-
-}
-
-.world-card p{
-
-    font-size:14px;
-
-    color:#C8D8F0;
 
     line-height:1.6;
 
 }
 
-.dashboard-container footer{
-
-    margin-top:35px;
-
-    text-align:center;
-
-    color:#AFC6E9;
-
-    font-size:14px;
-
-    line-height:1.8;
-
-}
-
-@media(max-width:480px){
-
-    .dashboard-container{
-
-        width:94%;
-
-        padding:15px;
-
-    }
-
-    .world-grid{
-
-        grid-template-columns:repeat(2,1fr);
-
-        gap:14px;
-
-    }
-
-    .world-card{
-
-        min-height:150px;
-
-        padding:20px 14px;
-
-    }
-
-    .world-icon{
-
-        font-size:36px;
-
-    }
-
-    .world-card h3{
-
-        font-size:18px;
-
-    }
-
-    .world-card p{
-
-        font-size:13px;
-
-    }
-
-}
-
-/* ===================================
-   共用按鈕
-=================================== */
-
-.primary-btn,
-#backBtn{
-
-    width:100%;
-
-    padding:18px;
+#exerciseList{
 
     margin-top:20px;
 
-    border:none;
-
-    border-radius:18px;
-
-    background:#355CFF;
-
-    color:#fff;
-
-    font-size:18px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-}
-
-.primary-btn:hover,
-#backBtn:hover{
-
-    background:#2147E8;
-
-    transform:translateY(-3px);
-
-}
-
-/* ===================================
-   五大世界共用卡片顏色
-=================================== */
-
-#healthCard{
-
-    border-left:5px solid #52C41A;
-
-}
-
-#wealthCard{
-
-    border-left:5px solid #F5B301;
-
-}
-
-#lifeCard{
-
-    border-left:5px solid #FF7A45;
-
-}
-
-#growthCard{
-
-    border-left:5px solid #4096FF;
-
-}
-
-#exploreCard{
-
-    border-left:5px solid #9254DE;
-
-}
-
-/* ===================================
-   Health 世界
-=================================== */
-
-.health-title{
-
-    text-align:center;
-
-    margin:25px 0;
-
-}
-
-.health-title h2{
-
-    font-size:30px;
-
-    color:#FFD86B;
-
-    margin-bottom:10px;
-
-}
-
-.health-title p{
-
-    color:#C8D8F0;
-
-}
-
-.health-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:18px;
-
-}
-
-.health-card{
-
-    background:rgba(255,255,255,.08);
-
-    border-radius:20px;
-
-    padding:22px;
-
-    text-align:center;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-}
-
-.health-card:hover{
-
-    transform:translateY(-6px);
-
-}
-
-.health-card .icon{
-
-    font-size:42px;
-
-    margin-bottom:12px;
-
-}
-
-.health-card h3{
-
-    margin-bottom:8px;
-
-}
-
-.health-card p{
-
-    color:#C8D8F0;
-
-    font-size:14px;
-
-}
-
-/* ===================================
-   共用返回
-=================================== */
-
-.back-area{
-
-    margin-top:35px;
-
-}
-
-@media(max-width:480px){
-
-    .health-grid{
-
-        grid-template-columns:repeat(2,1fr);
-
-    }
-
 }
 /* ===================================
-   運動輸入框
-=================================== */
-
-.record-input{
-
-    width:100%;
-
-    min-height:140px;
-
-    padding:22px;
-
-    margin:20px 0;
-
-    border-radius:20px;
-
-    border:2px solid rgba(255,255,255,.15);
-
-    background:rgba(255,255,255,.08);
-
-    color:#ffffff;
-
-    font-size:20px;
-
-    line-height:1.8;
-
-    resize:none;
-
-    outline:none;
-
-}
-
-.record-input::placeholder{
-
-    color:#8FA8D8;
-
-}
-/* ===================================
-   運動紀錄卡片
+   紀錄卡片
 =================================== */
 
 .record-item{
 
-    background:rgba(255,255,255,.08);
-
-    border-radius:18px;
+    margin-top:18px;
 
     padding:18px;
 
-    margin-top:18px;
+    border-radius:18px;
+
+    background:rgba(255,255,255,.08);
 
     border-left:5px solid #355CFF;
 
@@ -743,21 +191,35 @@ footer{
 
 }
 
-.record-time{
-
-    color:#9CB5DF;
+.record-date{
 
     font-size:13px;
+
+    color:#9CB5DF;
 
     margin-bottom:10px;
 
 }
 
-.record-text{
+.record-title{
 
-    font-size:20px;
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#FFD86B;
+
+    margin-bottom:8px;
+
+}
+
+.record-content{
+
+    font-size:18px;
 
     line-height:1.8;
+
+    color:#FFFFFF;
 
     white-space:pre-wrap;
 
@@ -765,47 +227,83 @@ footer{
 
 }
 
-.record-item button{
+.record-delete{
 
     width:100%;
 
-    padding:12px;
+    height:50px;
 
     border:none;
 
-    border-radius:12px;
+    border-radius:14px;
 
-    background:#FF4D4F;
+    background:#E74C3C;
 
-    color:white;
+    color:#FFFFFF;
 
     font-size:16px;
 
     cursor:pointer;
 
-}
-
-.record-item button:hover{
-
-    background:#D9363E;
+    transition:.25s;
 
 }
 
-@keyframes fadeIn{
+.record-delete:hover{
 
-    from{
+    background:#C0392B;
 
-        opacity:0;
+}
 
-        transform:translateY(10px);
+/* ===================================
+   手機最佳化
+=================================== */
+
+@media(max-width:480px){
+
+    .dashboard-container{
+
+        width:95%;
+
+        padding:18px;
 
     }
 
-    to{
+    .record-label{
 
-        opacity:1;
+        font-size:17px;
 
-        transform:translateY(0);
+    }
+
+    .record-select{
+
+        height:62px;
+
+        font-size:18px;
+
+    }
+
+    .record-input-large{
+
+        height:62px;
+
+        font-size:18px;
+
+    }
+
+    .record-note{
+
+        min-height:120px;
+
+        font-size:17px;
+
+    }
+
+    .primary-btn{
+
+        height:60px;
+
+        font-size:19px;
 
     }
 
