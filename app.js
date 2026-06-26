@@ -1,14 +1,13 @@
 // ===================================
-// 人生RPG v2.1
+// LifeRPG Beta v3.0
 // app.js
 // ===================================
-
 
 // ===============================
 // Auto Login
 // ===============================
 
-if (
+if(
     location.pathname.includes("index.html") ||
     location.pathname.endsWith("/LifeRPG-v2/") ||
     location.pathname.endsWith("/LifeRPG-v2")
@@ -21,7 +20,6 @@ if (
     }
 
 }
-
 
 // ===============================
 // Landing
@@ -37,7 +35,7 @@ if(startBtn){
 
         const motto=document.getElementById("motto").value.trim();
 
-        if(nickname==""){
+        if(nickname===""){
 
             alert("請輸入你的暱稱");
 
@@ -48,19 +46,20 @@ if(startBtn){
         localStorage.setItem("lifeNickname",nickname);
 
         localStorage.setItem(
+
             "lifeMotto",
+
             motto || "人生，不需要打怪，而是超越昨天的自己。"
+
         );
 
         localStorage.setItem("lifeLevel","1");
 
         location.href="dashboard.html";
 
-    }
+    };
 
 }
-
-
 
 // ===============================
 // Dashboard
@@ -70,8 +69,9 @@ const playerName=document.getElementById("playerName");
 
 if(playerName){
 
-    playerName.innerText=
-    localStorage.getItem("lifeNickname") || "玩家";
+    playerName.textContent=
+
+        localStorage.getItem("lifeNickname") || "玩家";
 
 }
 
@@ -79,13 +79,13 @@ const playerMotto=document.getElementById("playerMotto");
 
 if(playerMotto){
 
-    playerMotto.innerHTML=
-    localStorage.getItem("lifeMotto") ||
-    "人生，不需要打怪。";
+    playerMotto.textContent=
+
+        localStorage.getItem("lifeMotto") ||
+
+        "人生，不需要打怪，而是超越昨天的自己。";
 
 }
-
-
 
 // ===============================
 // 世界入口
@@ -105,7 +105,7 @@ const worldLinks={
 
 };
 
-for(const id in worldLinks){
+Object.keys(worldLinks).forEach(function(id){
 
     const card=document.getElementById(id);
 
@@ -115,156 +115,8 @@ for(const id in worldLinks){
 
             location.href=worldLinks[id];
 
-        }
+        };
 
     }
 
-}
-
-
-
-// ===============================
-// 運動紀錄
-// ===============================
-
-const saveExercise=document.getElementById("saveExercise");
-
-if(saveExercise){
-
-    loadExercise();
-
-    saveExercise.onclick=function(){
-
-        const input=document.getElementById("exerciseInput");
-
-        const text=input.value.trim();
-
-        if(text==""){
-
-            alert("請輸入今天的運動內容");
-
-            return;
-
-        }
-
-        let list=
-        JSON.parse(localStorage.getItem("exerciseList") || "[]");
-
-        list.unshift({
-
-            text:text,
-
-            time:new Date().toLocaleString()
-
-        });
-
-        localStorage.setItem(
-
-            "exerciseList",
-
-            JSON.stringify(list)
-
-        );
-
-        input.value="";
-
-        loadExercise();
-
-    }
-
-}
-
-
-
-function loadExercise(){
-
-    const box=document.getElementById("exerciseList");
-
-    if(!box) return;
-
-    const list=
-    JSON.parse(localStorage.getItem("exerciseList") || "[]");
-
-    if(list.length===0){
-
-        box.innerHTML="尚無紀錄";
-
-        return;
-
-    }
-
-    let html="";
-
-    list.forEach(function(item,index){
-
-        html+=`
-
-        <div class="record-item">
-
-            <div class="record-time">
-
-                ${item.time}
-
-            </div>
-
-            <div class="record-text">
-
-                ${item.text}
-
-            </div>
-
-            <button
-            onclick="deleteExercise(${index})">
-
-            🗑 刪除
-
-            </button>
-
-        </div>
-
-        `;
-
-    });
-
-    box.innerHTML=html;
-
-}
-
-
-
-function deleteExercise(index){
-
-    let list=
-    JSON.parse(localStorage.getItem("exerciseList") || "[]");
-
-    list.splice(index,1);
-
-    localStorage.setItem(
-
-        "exerciseList",
-
-        JSON.stringify(list)
-
-    );
-
-    loadExercise();
-
-}
-
-
-
-// ===============================
-// 返回
-// ===============================
-
-const backBtn=document.getElementById("backBtn");
-
-if(backBtn){
-
-    backBtn.onclick=function(){
-
-        location.href="health.html";
-
-    }
-
-}
+});
