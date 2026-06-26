@@ -11,7 +11,8 @@ content="width=device-width, initial-scale=1.0">
 
 <title>💧 喝水紀錄</title>
 
-<link rel="stylesheet"
+<link
+rel="stylesheet"
 href="style.css?v=4.0.0">
 
 </head>
@@ -19,6 +20,8 @@ href="style.css?v=4.0.0">
 <body>
 
 <div class="dashboard-container">
+
+    <!-- 玩家資訊 -->
 
     <section class="profile-card">
 
@@ -38,13 +41,15 @@ href="style.css?v=4.0.0">
 
             <p>
 
-                補充水分，也是照顧自己的方式。
+                每天補充水分，照顧自己的健康。
 
             </p>
 
         </div>
 
     </section>
+
+    <!-- 標題 -->
 
     <section class="quote-card">
 
@@ -71,22 +76,22 @@ href="style.css?v=4.0.0">
         class="record-input-large"
 
         placeholder="例如：500">
+
     <label class="record-label">
 
         備註（可略）
 
     </label>
-
-    <textarea
+        <textarea
 
         id="waterNote"
 
         class="record-note"
 
         placeholder="例如：
-今天天氣很熱
-運動後補充水分
-下午喝了一瓶水..."></textarea>
+今天運動流很多汗
+下午補充 600ml
+天氣很熱，多喝一點水..."></textarea>
 
     <button
 
@@ -98,7 +103,7 @@ href="style.css?v=4.0.0">
 
     </button>
 
-    <!-- 今日紀錄 -->
+    <!-- 紀錄 -->
 
     <section class="quote-card">
 
@@ -110,7 +115,7 @@ href="style.css?v=4.0.0">
 
         <p class="record-tip">
 
-            建議每日飲水量約 2000～2500 ml（依個人情況調整）。
+            建議每日飲水量約 2000～2500 ml（依個人狀況調整）。
 
         </p>
 
@@ -131,239 +136,24 @@ href="style.css?v=4.0.0">
         ← 返回健康世界
 
     </button>
+
+    <footer>
+
+        人生RPG v3.0
+
+        <br>
+
+        Health World • Water
+
+    </footer>
     </div>
 
-<!-- 共用程式 -->
+<!-- JavaScript -->
 
 <script src="app.js?v=4.0.0"></script>
 
-<!-- 健康模組 -->
-
-<script src="health.js?v=1.1.0"></script>
+<script src="health.js?v=3.0.0"></script>
 
 </body>
 
 </html>
-// ===============================
-// Water
-// ===============================
-
-function initWater(){
-
-    loadWater();
-
-    document
-        .getElementById("saveWater")
-        .addEventListener("click",saveWater);
-
-}
-
-function saveWater(){
-
-    const water=
-
-        document
-        .getElementById("waterValue")
-        .value;
-
-    const note=
-
-        document
-        .getElementById("waterNote")
-        .value
-        .trim();
-
-    if(water===""){
-
-        alert("請輸入喝水量");
-
-        return;
-
-    }
-
-    const now=new Date();
-
-    const date=
-
-        now.getFullYear()+"/"+
-
-        String(now.getMonth()+1).padStart(2,"0")+"/"+
-
-        String(now.getDate()).padStart(2,"0");
-
-    const time=
-
-        String(now.getHours()).padStart(2,"0")+":"+
-
-        String(now.getMinutes()).padStart(2,"0");
-
-    let list=
-
-        JSON.parse(
-
-            localStorage.getItem("waterList") || "[]"
-
-        );
-
-    list.unshift({
-
-        water:Number(water),
-
-        note:note,
-
-        date:date,
-
-        time:time
-
-    });
-
-    localStorage.setItem(
-
-        "waterList",
-
-        JSON.stringify(list)
-
-    );
-
-    document
-        .getElementById("waterValue")
-        .value="";
-
-    document
-        .getElementById("waterNote")
-        .value="";
-
-    loadWater();
-
-}
-// ===============================
-// 載入喝水紀錄
-// ===============================
-
-function loadWater(){
-
-    const box=document.getElementById("waterList");
-
-    if(!box){
-
-        return;
-
-    }
-
-    const list=JSON.parse(
-
-        localStorage.getItem("waterList") || "[]"
-
-    );
-
-    if(list.length===0){
-
-        box.innerHTML="尚無紀錄";
-
-        return;
-
-    }
-
-    let html="";
-
-    list.forEach(function(item,index){
-
-        html+=`
-
-        <div class="record-item">
-
-            <div class="record-date">
-
-                📅 ${item.date}　🕒 ${item.time}
-
-            </div>
-
-            <div class="record-title">
-
-                💧 喝水紀錄
-
-            </div>
-
-            <div class="record-content">
-
-                💧 ${item.water} ml
-
-                ${item.note ? `<br><br>📝 ${item.note}` : ""}
-
-            </div>
-
-            <button
-
-                class="record-delete"
-
-                onclick="deleteWater(${index})">
-
-                🗑️ 刪除紀錄
-
-            </button>
-
-        </div>
-
-        `;
-
-    });
-
-    box.innerHTML=html;
-
-}
-// ===============================
-// 刪除喝水紀錄
-// ===============================
-
-function deleteWater(index){
-
-    if(!confirm("確定刪除這筆喝水紀錄？")){
-
-        return;
-
-    }
-
-    let list=JSON.parse(
-
-        localStorage.getItem("waterList") || "[]"
-
-    );
-
-    list.splice(index,1);
-
-    localStorage.setItem(
-
-        "waterList",
-
-        JSON.stringify(list)
-
-    );
-
-    loadWater();
-
-}
-
-
-
-// ===============================
-// Water 初始化完成
-// ===============================
-
-if(document.getElementById("waterList")){
-
-    loadWater();
-
-}
-// ===============================
-// Water Module Ready
-// ===============================
-
-console.log("Water Module Ready");
-
-// ===============================
-// Health Module Status
-// ===============================
-
-console.log(
-    "Health Progress : Exercise / Weight / Water Completed"
-);
