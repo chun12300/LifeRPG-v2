@@ -1,1 +1,188 @@
+<!DOCTYPE html>
 
+<html lang="zh-TW">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>📝 記帳</title>
+
+<link rel="stylesheet" href="style.css?v=4.0.0">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+<section class="profile-card">
+
+<div class="profile-avatar">
+
+📝
+
+</div>
+
+<div class="profile-info">
+
+<h2>
+
+記帳
+
+</h2>
+
+<p>
+
+每天記錄一筆，累積財富習慣
+
+</p>
+
+</div>
+
+</section>
+
+<section class="quote-card">
+
+<h3>
+
+新增紀錄
+
+</h3>
+
+</section>
+
+<label class="record-label">
+
+類型
+
+</label>
+
+<select
+id="accountType"
+class="record-input-large">
+
+<option value="income">
+
+收入
+
+</option>
+
+<option value="expense">
+
+支出
+
+</option>
+
+</select>
+
+<label class="record-label">
+
+金額
+
+</label>
+
+<input
+type="number"
+id="accountMoney"
+class="record-input-large"
+placeholder="例如：1000">
+
+<label class="record-label">
+
+項目
+
+</label>
+
+<input
+type="text"
+id="accountTitle"
+class="record-input-large"
+placeholder="例如：薪水、午餐">
+
+<label class="record-label">
+
+備註
+
+</label>
+
+<textarea
+id="accountNote"
+class="record-note"
+placeholder="可不填"></textarea>
+
+<button
+id="saveAccount"
+class="primary-btn">
+
+💾 儲存紀錄
+
+</button>
+
+<section class="quote-card">
+
+<h3>
+
+本月統計
+
+</h3>
+
+<div id="accountSummary">
+
+收入：0 元
+
+<br><br>
+
+支出：0 元
+
+<br><br>
+
+結餘：0 元
+
+</div>
+
+</section>
+
+<section class="quote-card">
+
+<h3>
+
+記帳紀錄
+
+</h3>
+
+<div id="accountList">
+
+尚無紀錄
+
+</div>
+
+</section>
+
+<button
+id="backBtn"
+class="primary-btn">
+
+← 返回投資有富
+
+</button>
+
+<footer>
+
+人生RPG v1.0
+
+<br>
+
+Wealth World • Account
+
+</footer>
+
+</div>
+
+<script src="wealth.js?v=2.1.0"></script>
+
+</body>
+
+</html>
