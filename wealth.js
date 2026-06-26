@@ -273,3 +273,50 @@ function showCompoundPreview(
 }
 
 console.log("Wealth Module v1.0 Ready");
+// ======================================
+// 財富里程碑
+// ======================================
+
+function getGoalYear(
+
+    monthly,
+
+    rate,
+
+    target
+
+){
+
+    const monthlyRate=rate/100/12;
+
+    let month=0;
+
+    let money=0;
+
+    while(
+
+        money<target &&
+
+        month<1200
+
+    ){
+
+        money=
+
+            (money+monthly)
+
+            *(1+monthlyRate);
+
+        month++;
+
+    }
+
+    return{
+
+        year:(month/12).toFixed(1),
+
+        money:money
+
+    };
+
+}
