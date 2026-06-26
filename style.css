@@ -723,3 +723,90 @@ footer{
     color:#8FA8D8;
 
 }
+/* ===================================
+   運動紀錄卡片
+=================================== */
+
+.record-item{
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:18px;
+
+    padding:18px;
+
+    margin-top:18px;
+
+    border-left:5px solid #355CFF;
+
+    animation:fadeIn .25s;
+
+}
+
+.record-time{
+
+    color:#9CB5DF;
+
+    font-size:13px;
+
+    margin-bottom:10px;
+
+}
+
+.record-text{
+
+    font-size:20px;
+
+    line-height:1.8;
+
+    white-space:pre-wrap;
+
+    margin-bottom:15px;
+
+}
+
+.record-item button{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#FF4D4F;
+
+    color:white;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+}
+
+.record-item button:hover{
+
+    background:#D9363E;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
