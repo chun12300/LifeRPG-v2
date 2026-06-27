@@ -533,3 +533,348 @@ console.log("Compound Module Ready");
 console.log("Asset Module Ready");
 
 console.log("Wealth Module v2.0 Ready");
+// ======================================
+// Account
+// ======================================
+
+function initAccount(){
+
+    loadAccount();
+
+    document
+        .getElementById("saveAccount")
+        .addEventListener("click",saveAccount);
+
+}
+
+function saveAccount(){
+
+    const type=
+        document.getElementById("accountType").value;
+
+    const money=
+        Number(
+            document.getElementById("accountMoney").value
+        );
+
+    const title=
+        document.getElementById("accountTitle").value.trim();
+
+    const note=
+        document.getElementById("accountNote").value.trim();
+
+    if(money<=0){
+
+        alert("請輸入金額");
+
+        return;
+
+    }
+
+    if(title===""){
+
+        alert("請輸入項目");
+
+        return;
+
+    }
+
+    const now=new Date();
+
+    const record={
+
+        type:type,
+
+        money:money,
+
+        title:title,
+
+        note:note,
+
+        date:
+        now.getFullYear()+"/"+
+        String(now.getMonth()+1).padStart(2,"0")+"/"+
+        String(now.getDate()).padStart(2,"0"),
+
+        time:
+        String(now.getHours()).padStart(2,"0")+":"+
+        String(now.getMinutes()).padStart(2,"0")
+
+    };
+
+    let list=
+
+        JSON.parse(
+
+            localStorage.getItem("accountList")
+
+            ||
+
+            "[]"
+
+        );
+
+    list.unshift(record);
+
+    localStorage.setItem(
+
+        "accountList",
+
+        JSON.stringify(list)
+
+    );
+
+    document.getElementById("accountMoney").value="";
+
+    document.getElementById("accountTitle").value="";
+
+    document.getElementById("accountNote").value="";
+
+    loadAccount();
+
+}
+
+function loadAccount(){
+
+    const box=
+
+        document.getElementById("accountList");
+
+    if(!box){
+
+        return;
+
+    }
+
+    const list=
+
+        JSON.parse(
+
+            localStorage.getItem("accountList")
+
+            ||
+
+            "[]"
+
+        );
+
+    if(list.length===0){
+
+        box.innerHTML="尚無紀錄";
+
+        updateAccountSummary(list);
+
+        return;
+
+    }
+
+    let html="";
+
+    list.forEach(function(item,index){
+
+        html+=`
+
+        <div class="record-item">
+
+            <div class="record-date">
+
+            📅 ${item.date}
+
+            🕒 ${item.time}
+
+            </div>
+
+            <div class="record-title">
+
+            ${item.type==="income" ? "💰 收入" : "💸 支出"}
+
+            </div>
+
+            <div class="record-content">
+
+            ${item.title}
+
+            <br><br>
+
+            ${Math.round(item.money).toLocaleString()} 元
+
+            ${item.note ? "<br><br>📝 "+item.note : ""}
+
+            </div>
+
+            <button
+
+            class="record-delete"
+
+            onclick="deleteAccount(${index})">
+
+            🗑️ 刪除紀錄
+
+            </button>
+
+        </div>
+
+        `;
+
+    });
+
+    box.innerHTML=html;
+
+    updateAccountSummary(list);
+
+}
+function deleteAccount(index){
+
+    if(!confirm("確定刪除這筆紀錄？")){
+
+        return;
+
+    }
+
+    let list=
+
+        JSON.parse(
+
+            localStorage.getItem("accountList")
+
+            ||
+
+            "[]"
+
+        );
+
+    list.splice(index,1);
+
+    localStorage.setItem(
+
+        "accountList",
+
+        JSON.stringify(list)
+
+    );
+
+    loadAccount();
+
+}
+
+// ======================================
+// 更新統計
+// ======================================
+
+function updateAccountSummary(list){
+
+    const box=document.getElementById("accountSummary");
+
+    if(!box){
+
+        return;
+
+    }
+
+    let income=0;
+
+    let expense=0;
+
+    list.forEach(function(item){
+
+        if(item.type==="income"){
+
+            income+=item.money;
+
+        }else{
+
+            expense+=item.money;
+
+        }
+
+    });
+
+    const balance=
+
+        income-expense;
+
+    box.innerHTML=`
+
+        💰 收入
+
+        <br>
+
+        ${income.toLocaleString()} 元
+
+        <br><br>
+
+        💸 支出
+
+        <br>
+
+        ${expense.toLocaleString()} 元
+
+        <br><br>
+
+        💵 結餘
+
+        <br>
+
+        ${balance.toLocaleString()} 元
+
+    `;
+
+    // ==========================
+    // 同步更新資產現金
+    // ==========================
+
+    let asset=
+
+        JSON.parse(
+
+            localStorage.getItem("assetData")
+
+            ||
+
+            "{}"
+
+        );
+
+    if(asset.cash!==undefined){
+
+        asset.cash=balance;
+
+        asset.total=
+
+            asset.cash+
+
+            (asset.deposit||0)+
+
+            (asset.invest||0)+
+
+            (asset.other||0);
+
+        localStorage.setItem(
+
+            "assetData",
+
+            JSON.stringify(asset)
+
+        );
+
+    }
+
+}
+
+// ======================================
+// 初始化記帳
+// ======================================
+
+document.addEventListener("DOMContentLoaded",function(){
+
+    if(document.getElementById("saveAccount")){
+
+        initAccount();
+
+    }
+
+});
+
+console.log("Account Module Ready");
+
+console.log("Wealth Module v2.1 Ready");
