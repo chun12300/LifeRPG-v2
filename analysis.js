@@ -1,6 +1,7 @@
+```javascript
 // ======================================
 // LifeRPG Beta
-// Analysis Module v1.0
+// Analysis Module v2.0
 // ======================================
 
 console.log("Analysis Module Loaded");
@@ -29,7 +30,6 @@ function loadAnalysis(){
         );
 
     let income=0;
-
     let expense=0;
 
     account.forEach(function(item){
@@ -47,12 +47,14 @@ function loadAnalysis(){
     });
 
     const balance=
-
         income-expense;
 
     const totalAsset=
-
         asset.total || 0;
+
+    // ==========================
+    // 財務目標
+    // ==========================
 
     let goalHtml="";
 
@@ -71,7 +73,6 @@ function loadAnalysis(){
                     Math.round(
 
                         goal.saved/
-
                         goal.target*100
 
                     ),
@@ -96,6 +97,18 @@ function loadAnalysis(){
 
                 ${goal.target.toLocaleString()} 元
 
+                <br><br>
+
+                <progress
+
+                    value="${percent}"
+
+                    max="100"
+
+                    style="width:100%;height:18px;">
+
+                </progress>
+
                 <br>
 
                 ${percent} %
@@ -108,37 +121,91 @@ function loadAnalysis(){
 
     }
 
-    let level="LV1 新手";
+    // ==========================
+    // 財富等級
+    // ==========================
 
-    if(totalAsset>=100000){
+    const levels=[
 
-        level="LV2 小資族";
+        {money:0,name:"LV1 新手"},
+
+        {money:100000,name:"LV2 小資族"},
+
+        {money:300000,name:"LV3 穩定成長"},
+
+        {money:500000,name:"LV4 財富累積"},
+
+        {money:1000000,name:"LV5 百萬俱樂部"},
+
+        {money:3000000,name:"LV6 財富自由邁進"}
+
+    ];
+
+    let level=levels[0].name;
+
+    let currentGoal=0;
+
+    let nextGoal=levels[1].money;
+
+    for(let i=0;i<levels.length;i++){
+
+        if(totalAsset>=levels[i].money){
+
+            level=levels[i].name;
+
+            currentGoal=levels[i].money;
+
+            if(i<levels.length-1){
+
+                nextGoal=levels[i+1].money;
+
+            }else{
+
+                nextGoal=levels[i].money;
+
+            }
+
+        }
 
     }
 
-    if(totalAsset>=300000){
+    const remain=
 
-        level="LV3 穩定成長";
+        Math.max(
+
+            nextGoal-totalAsset,
+
+            0
+
+        );
+
+    let progress=100;
+
+    if(nextGoal>currentGoal){
+
+        progress=Math.round(
+
+            (totalAsset-currentGoal)/
+
+            (nextGoal-currentGoal)
+
+            *100
+
+        );
 
     }
 
-    if(totalAsset>=500000){
+    progress=Math.max(
 
-        level="LV4 財富累積";
+        0,
 
-    }
+        Math.min(progress,100)
 
-    if(totalAsset>=1000000){
+    );
 
-        level="LV5 百萬俱樂部";
-
-    }
-
-    if(totalAsset>=3000000){
-
-        level="LV6 財富自由邁進";
-
-    }
+    // ==========================
+    // 顯示
+    // ==========================
 
     document.getElementById("analysisContent").innerHTML=`
 
@@ -192,7 +259,41 @@ function loadAnalysis(){
 
             <br><br>
 
+            <strong>
+
             ${level}
+
+            </strong>
+
+            <br><br>
+
+            🎯 下一里程碑
+
+            <br>
+
+            ${nextGoal.toLocaleString()} 元
+
+            <br><br>
+
+            還差
+
+            ${remain.toLocaleString()} 元
+
+            <br><br>
+
+            <progress
+
+                value="${progress}"
+
+                max="100"
+
+                style="width:100%;height:18px;">
+
+            </progress>
+
+            <br>
+
+            ${progress} %
 
         </div>
 
@@ -209,3 +310,4 @@ function loadAnalysis(){
 }
 
 console.log("Analysis Module Ready");
+```
