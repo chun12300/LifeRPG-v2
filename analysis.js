@@ -265,198 +265,186 @@ function loadAnalysis(){
 
     }
 
-    // ======================================
-    // 顯示
-    // ======================================
+document.getElementById("analysisContent").innerHTML=`
 
-    document.getElementById("analysisContent").innerHTML=`
+    <div class="record-item">
 
-        <div class="record-item">
+        💰 總資產
 
-            💰 總資產
+        <br><br>
 
-            <br><br>
+        <strong>
 
-            <strong>
+        ${Math.round(totalAsset).toLocaleString()} 元
 
-            ${Math.round(totalAsset).toLocaleString()} 元
+        </strong>
 
-            </strong>
+    </div>
 
-        </div>
+    <div class="record-item">
 
-        <div class="record-item">
+        📈 收入
 
-            📈 收入
+        <br><br>
 
-            <br><br>
+        ${income.toLocaleString()} 元
 
-            ${income.toLocaleString()} 元
+    </div>
 
-        </div>
+    <div class="record-item">
 
-        <div class="record-item">
+        📉 支出
 
-            📉 支出
+        <br><br>
 
-            <br><br>
+        ${expense.toLocaleString()} 元
 
-            ${expense.toLocaleString()} 元
+    </div>
 
-        </div>
+    <div class="record-item">
 
-        <div class="record-item">
+        💵 結餘
 
-            💵 結餘
+        <br><br>
 
-            <br><br>
+        ${balance.toLocaleString()} 元
 
-            ${balance.toLocaleString()} 元
+    </div>
 
-        </div>
+    <div class="record-item">
 
-        <div class="record-item">
+        🏆 財富等級
 
-            🏆 財富等級
+        <br><br>
 
-            <br><br>
+        <strong>
 
-            <strong>
+        ${level}
 
-            ${level}
+        </strong>
 
-            </strong>
+        <br><br>
 
-            <br><br>
+        🎯 下一里程碑
 
-            🎯 下一里程碑
+        <br>
 
-            <br>
+        ${nextGoal.toLocaleString()} 元
 
-            ${nextGoal.toLocaleString()} 元
+        <br><br>
 
-            <br><br>
+        還差
 
-            還差
+        ${remain.toLocaleString()} 元
 
-            ${remain.toLocaleString()} 元
+        <br><br>
 
-            <br><br>
+        <progress
 
-            <progress
+            value="${progress}"
 
-                value="${progress}"
+            max="100"
 
-                max="100"
+            style="width:100%;height:18px;">
 
-                style="width:100%;height:18px;">
+        </progress>
 
-            </progress>
+        <br>
 
-            <br>
+        ${progress} %
 
-            ${progress} %
+    </div>
 
-        </div>
+    <div class="record-item">
 
-        <div class="record-item">
+        ⭐ 財富健康度
 
-            ⭐ 財富健康度
+        <br><br>
 
-            <br><br>
+        ${stars}
 
-            ${stars}
+    </div>
 
-        </div>
+    <div class="record-item">
 
-        <div class="record-item">
+        🏅 財富成就
 
-            🏅 財富成就
+        <br><br>
 
-            <br><br>
+        ${achievementHtml}
 
-            ${achievementHtml}
+    </div>
 
-        </div>
+    <div class="record-item">
 
-        <h3>
+        📊 存錢率
+
+        <br><br>
+
+        ${income>0 ? Math.round(balance/income*100) : 0} %
+
+    </div>
+
+    <div class="record-item">
+
+        📈 收支比例
+
+        <br><br>
+
+        收入：${income.toLocaleString()} 元
+
+        <br>
+
+        支出：${expense.toLocaleString()} 元
+
+    </div>
+
+    <div class="record-item">
+
+        🎖 財富徽章
+
+        <br><br>
+
+        ${
+            totalAsset>=1000000
+            ?"👑 百萬富翁"
+            :totalAsset>=500000
+            ?"🥇 財富高手"
+            :totalAsset>=300000
+            ?"🥈 穩定成長"
+            :totalAsset>=100000
+            ?"🥉 小資達人"
+            :"🌱 財富新手"
+        }
+
+    </div>
+
+    <div class="record-item">
+
+        📍 下一目標
+
+        <br><br>
+
+        ${
+            balance>0
+            ?Math.ceil(remain/balance)
+            :"∞"
+        }
+
+        個月可達成
+
+    </div>
+
+    <h3>
 
         🎯 財務目標
 
-        </h3>
+    </h3>
 
-        ${goalHtml}
+    ${goalHtml}
 
-    `;
+`;
 
 }
 
 console.log("Analysis Module v3.0 Ready");
-        <div class="record-item">
-
-            📊 存錢率
-
-            <br><br>
-
-            ${income>0
-
-                ?Math.round(balance/income*100)
-
-                :0} %
-
-        </div>
-
-        <div class="record-item">
-
-            📈 收支比例
-
-            <br><br>
-
-            收入
-
-            ${income.toLocaleString()} 元
-
-            <br>
-
-            支出
-
-            ${expense.toLocaleString()} 元
-
-        </div>
-
-        <div class="record-item">
-
-            🎖 財富徽章
-
-            <br><br>
-
-            ${
-                totalAsset>=1000000
-                ?"👑 百萬富翁"
-                :totalAsset>=500000
-                ?"🥇 財富高手"
-                :totalAsset>=300000
-                ?"🥈 穩定成長"
-                :totalAsset>=100000
-                ?"🥉 小資達人"
-                :"🌱 財富新手"
-            }
-
-        </div>
-
-        <div class="record-item">
-
-            📍 下一目標
-
-            <br><br>
-
-            ${
-                balance>0
-                ?Math.ceil(remain/balance)
-                :"∞"
-            }
-
-            個月可達成
-
-        </div>
-
