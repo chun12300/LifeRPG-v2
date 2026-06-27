@@ -1,1 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>📈 ETF 試算</title>
+
+<link rel="stylesheet" href="style.css?v=4.0.0">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <section class="profile-card">
+
+        <div class="profile-avatar">
+
+            📈
+
+        </div>
+
+        <div class="profile-info">
+
+            <h2>
+
+                ETF 試算
+
+            </h2>
+
+            <p>
+
+                時間 × 紀律 × 複利 = 財富
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="quote-card">
+
+        <h3>
+
+            開始你的 ETF 投資
+
+        </h3>
+
+    </section>
+
+    <label class="record-label">
+
+        ETF 名稱
+
+    </label>
+
+    <input
+
+        id="etfName"
+
+        class="record-input-large"
+
+        placeholder="例如：0050">
+
+    <label class="record-label">
+
+        每月投入（元）
+
+    </label>
+
+    <input
+
+        id="monthlyAmount"
+
+        type="number"
+
+        class="record-input-large"
+
+        placeholder="例如：3000">
+
+    <label class="record-label">
+
+        年化報酬率（%）
+
+    </label>
+
+    <input
+
+        id="annualRate"
+
+        type="number"
+
+        class="record-input-large"
+
+        value="6">
+
+    <label class="record-label">
+
+        投資年數
+
+    </label>
+
+    <input
+
+        id="investmentYears"
+
+        type="number"
+
+        class="record-input-large"
+
+        value="30">
+
+    <button
+
+        id="calculateETF"
+
+        class="primary-btn">
+
+        📈 開始試算
+
+    </button>
+
+    <section
+
+        id="etfResult"
+
+        class="quote-card">
+
+        <h3>
+
+            尚未試算
+
+        </h3>
+
+    </section>
+
+    <section
+
+        class="quote-card">
+
+        <h3>
+
+            📊 成長預覽
+
+        </h3>
+
+        <div id="etfPreview">
+
+            尚未試算
+
+        </div>
+
+    </section>
+
+    <button
+
+        id="backBtn"
+
+        class="primary-btn">
+
+        ← 返回投資有富
+
+    </button>
+
+    <button
+
+        id="homeBtn"
+
+        class="primary-btn">
+
+        🏠 返回首頁
+
+    </button>
+
+</div>
+
+<script>
+
+document.getElementById("backBtn").onclick=function(){
+
+    location.href="wealth.html";
+
+};
+
+document.getElementById("homeBtn").onclick=function(){
+
+    location.href="dashboard.html";
+
+};
+
+</script>
+
+<script src="etf.js?v=1.0.0"></script>
+
+</body>
+
+</html>
