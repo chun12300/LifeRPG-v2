@@ -392,3 +392,71 @@ function loadAnalysis(){
 }
 
 console.log("Analysis Module v3.0 Ready");
+        <div class="record-item">
+
+            📊 存錢率
+
+            <br><br>
+
+            ${income>0
+
+                ?Math.round(balance/income*100)
+
+                :0} %
+
+        </div>
+
+        <div class="record-item">
+
+            📈 收支比例
+
+            <br><br>
+
+            收入
+
+            ${income.toLocaleString()} 元
+
+            <br>
+
+            支出
+
+            ${expense.toLocaleString()} 元
+
+        </div>
+
+        <div class="record-item">
+
+            🎖 財富徽章
+
+            <br><br>
+
+            ${
+                totalAsset>=1000000
+                ?"👑 百萬富翁"
+                :totalAsset>=500000
+                ?"🥇 財富高手"
+                :totalAsset>=300000
+                ?"🥈 穩定成長"
+                :totalAsset>=100000
+                ?"🥉 小資達人"
+                :"🌱 財富新手"
+            }
+
+        </div>
+
+        <div class="record-item">
+
+            📍 下一目標
+
+            <br><br>
+
+            ${
+                balance>0
+                ?Math.ceil(remain/balance)
+                :"∞"
+            }
+
+            個月可達成
+
+        </div>
+
