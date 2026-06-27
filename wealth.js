@@ -1,32 +1,17 @@
-// ======================================
-// LifeRPG Beta
-// Wealth Module v2.0
-// Part 1 / 2
-// ======================================
-
-console.log("Wealth Module v2.0 Loaded");
-
-// ======================================
-// 初始化
-// ======================================
-
+```javascript
 document.addEventListener("DOMContentLoaded",function(){
 
+    // 返回上一層
     const backBtn=document.getElementById("backBtn");
 
     if(backBtn){
 
-        if(location.pathname.includes("compound")){
-
-            backBtn.onclick=function(){
-
-                location.href="wealth.html";
-
-            };
-
-        }
-
-        if(location.pathname.includes("asset")){
+        if(
+            location.pathname.includes("compound") ||
+            location.pathname.includes("asset") ||
+            location.pathname.includes("account") ||
+            location.pathname.includes("goal")
+        ){
 
             backBtn.onclick=function(){
 
@@ -38,6 +23,20 @@ document.addEventListener("DOMContentLoaded",function(){
 
     }
 
+    // 返回首頁
+    const homeBtn=document.getElementById("homeBtn");
+
+    if(homeBtn){
+
+        homeBtn.onclick=function(){
+
+            location.href="dashboard.html";
+
+        };
+
+    }
+
+    // 複利
     if(document.getElementById("calculateCompound")){
 
         document
@@ -46,107 +45,23 @@ document.addEventListener("DOMContentLoaded",function(){
 
     }
 
+    // 資產
     if(document.getElementById("saveAsset")){
 
         initAsset();
 
     }
 
-});
+    // 記帳
+    if(document.getElementById("saveAccount")){
 
-// ======================================
-// 複利計算
-// ======================================
-
-function calculateCompound(){
-
-    const monthly=
-
-        Number(
-            document.getElementById("monthlyAmount").value
-        );
-
-    const rate=
-
-        Number(
-            document.getElementById("annualRate").value
-        );
-
-    const years=
-
-        Number(
-            document.getElementById("investmentYears").value
-        );
-
-    if(
-
-        monthly<=0 ||
-
-        rate<=0 ||
-
-        years<=0
-
-    ){
-
-        alert("請完整輸入資料");
-
-        return;
+        initAccount();
 
     }
 
-    const monthlyRate=
+});
+```
 
-        rate/100/12;
-
-    const months=
-
-        years*12;
-
-    const futureValue=
-
-        monthly*
-
-        (
-
-            (Math.pow(
-
-                1+monthlyRate,
-
-                months
-
-            )-1)
-
-            /monthlyRate
-
-        )
-
-        *(1+monthlyRate);
-
-    const principal=
-
-        monthly*months;
-
-    const profit=
-
-        futureValue-principal;
-
-    showCompoundResult(
-
-        monthly,
-
-        principal,
-
-        futureValue,
-
-        profit,
-
-        rate,
-
-        years
-
-    );
-
-}
 
 // ======================================
 // 顯示結果
