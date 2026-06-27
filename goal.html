@@ -1,1 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
 
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🎯 財務目標</title>
+
+<link rel="stylesheet" href="style.css?v=4.0.0">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <section class="profile-card">
+
+        <div class="profile-avatar">
+
+            🎯
+
+        </div>
+
+        <div class="profile-info">
+
+            <h2>
+
+                財務目標
+
+            </h2>
+
+            <p>
+
+                一步一步完成夢想
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="quote-card">
+
+        <h3>
+
+            新增財務目標
+
+        </h3>
+
+    </section>
+
+    <label class="record-label">
+
+        目標名稱
+
+    </label>
+
+    <input
+        id="goalName"
+        class="record-input-large"
+        placeholder="例如：日本旅遊基金">
+
+    <label class="record-label">
+
+        目標金額
+
+    </label>
+
+    <input
+        id="goalTarget"
+        type="number"
+        class="record-input-large"
+        placeholder="例如：100000">
+
+    <label class="record-label">
+
+        已存金額
+
+    </label>
+
+    <input
+        id="goalSaved"
+        type="number"
+        class="record-input-large"
+        placeholder="例如：35000">
+
+    <button
+        id="saveGoal"
+        class="primary-btn">
+
+        💾 儲存目標
+
+    </button>
+
+    <section class="quote-card">
+
+        <h3>
+
+            我的目標
+
+        </h3>
+
+        <div id="goalList">
+
+            尚無目標
+
+        </div>
+
+    </section>
+
+    <button
+        id="backBtn"
+        class="primary-btn">
+
+        ← 返回投資有富
+
+    </button>
+
+    <button
+        id="homeBtn"
+        class="primary-btn">
+
+        🏠 返回首頁
+
+    </button>
+
+</div>
+
+<script>
+
+document.getElementById("backBtn").onclick=function(){
+
+    location.href="wealth.html";
+
+};
+
+document.getElementById("homeBtn").onclick=function(){
+
+    location.href="dashboard.html";
+
+};
+
+</script>
+
+<script src="goal.js?v=1.0.0"></script>
+
+</body>
+
+</html>
