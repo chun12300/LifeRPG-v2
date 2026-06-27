@@ -1,17 +1,32 @@
-```javascript
+// ======================================
+// LifeRPG Beta
+// Wealth Module v2.0
+// Part 1 / 2
+// ======================================
+
+console.log("Wealth Module v2.0 Loaded");
+
+// ======================================
+// 初始化
+// ======================================
+
 document.addEventListener("DOMContentLoaded",function(){
 
-    // 返回上一層
     const backBtn=document.getElementById("backBtn");
 
     if(backBtn){
 
-        if(
-            location.pathname.includes("compound") ||
-            location.pathname.includes("asset") ||
-            location.pathname.includes("account") ||
-            location.pathname.includes("goal")
-        ){
+        if(location.pathname.includes("compound")){
+
+            backBtn.onclick=function(){
+
+                location.href="wealth.html";
+
+            };
+
+        }
+
+        if(location.pathname.includes("asset")){
 
             backBtn.onclick=function(){
 
@@ -23,20 +38,6 @@ document.addEventListener("DOMContentLoaded",function(){
 
     }
 
-    // 返回首頁
-    const homeBtn=document.getElementById("homeBtn");
-
-    if(homeBtn){
-
-        homeBtn.onclick=function(){
-
-            location.href="dashboard.html";
-
-        };
-
-    }
-
-    // 複利
     if(document.getElementById("calculateCompound")){
 
         document
@@ -45,107 +46,107 @@ document.addEventListener("DOMContentLoaded",function(){
 
     }
 
-    // 資產
     if(document.getElementById("saveAsset")){
 
         initAsset();
 
     }
 
-    // 記帳
-    if(document.getElementById("saveAccount")){
-
-        initAccount();
-
-    }
-
 });
-```
-
 
 // ======================================
-// 顯示結果
+// 複利計算
 // ======================================
 
-function showCompoundResult(
+function calculateCompound(){
 
-    monthly,
+    const monthly=
 
-    principal,
-
-    futureValue,
-
-    profit,
-
-    rate,
-
-    years
-
-){
-
-    const box=
-
-        document.getElementById(
-
-            "compoundResult"
-
+        Number(
+            document.getElementById("monthlyAmount").value
         );
 
-    if(!box){
+    const rate=
+
+        Number(
+            document.getElementById("annualRate").value
+        );
+
+    const years=
+
+        Number(
+            document.getElementById("investmentYears").value
+        );
+
+    if(
+
+        monthly<=0 ||
+
+        rate<=0 ||
+
+        years<=0
+
+    ){
+
+        alert("請完整輸入資料");
 
         return;
 
     }
 
-    box.innerHTML=`
+    const monthlyRate=
 
-    <h3>
+        rate/100/12;
 
-    📊 計算結果
+    const months=
 
-    </h3>
+        years*12;
 
-    <p>
+    const futureValue=
 
-    💰 投入本金
+        monthly*
 
-    <br>
+        (
 
-    ${Math.round(principal).toLocaleString()} 元
+            (Math.pow(
 
-    </p>
+                1+monthlyRate,
 
-    <p>
+                months
 
-    📈 預估資產
+            )-1)
 
-    <br>
+            /monthlyRate
 
-    ${Math.round(futureValue).toLocaleString()} 元
+        )
 
-    </p>
+        *(1+monthlyRate);
 
-    <p>
+    const principal=
 
-    🪙 累積獲利
+        monthly*months;
 
-    <br>
+    const profit=
 
-    ${Math.round(profit).toLocaleString()} 元
+        futureValue-principal;
 
-    </p>
+    showCompoundResult(
 
-    <p>
+        monthly,
 
-    📅 投資期間
+        principal,
 
-    <br>
+        futureValue,
 
-    ${years} 年
+        profit,
 
-    </p>
+        rate,
 
-    <p>
+        years
+
+    );
+
+}
 
     📈 年化報酬率
 
