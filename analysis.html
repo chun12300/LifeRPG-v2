@@ -1,1 +1,105 @@
+<!DOCTYPE html>
 
+<html lang="zh-TW">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>📊 財富分析</title>
+
+<link rel="stylesheet" href="style.css?v=4.0.0">
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <section class="profile-card">
+
+        <div class="profile-avatar">
+
+            📊
+
+        </div>
+
+        <div class="profile-info">
+
+            <h2>
+
+                財富分析
+
+            </h2>
+
+            <p>
+
+                一眼掌握目前財務狀況
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <section id="analysisResult" class="quote-card">
+
+        <h3>
+
+            財富總覽
+
+        </h3>
+
+        <div id="analysisContent">
+
+            載入中...
+
+        </div>
+
+    </section>
+
+    <button
+
+        id="backBtn"
+
+        class="primary-btn">
+
+        ← 返回投資有富
+
+    </button>
+
+    <button
+
+        id="homeBtn"
+
+        class="primary-btn">
+
+        🏠 返回首頁
+
+    </button>
+
+</div>
+
+<script>
+
+document.getElementById("backBtn").onclick=function(){
+
+    location.href="wealth.html";
+
+};
+
+document.getElementById("homeBtn").onclick=function(){
+
+    location.href="dashboard.html";
+
+};
+
+</script>
+
+<script src="analysis.js?v=1.0.0"></script>
+
+</body>
+
+</html>
