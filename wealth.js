@@ -361,6 +361,31 @@ function updateAccountSummary(list) {
 }
 
 // ======================================
+// 返回上一頁 / 返回首頁
+// ======================================
+
+function initNavButtons() {
+    const backBtn = document.getElementById("backBtn");
+    const homeBtn = document.getElementById("homeBtn");
+
+    // backBtn 預設回 wealth.html；若該頁想回別處，
+    // 在 HTML 上加 data-back="目標頁面.html" 即可覆寫（例如 wealth.html 本身要回 dashboard.html）
+    if (backBtn) {
+        const backTarget = backBtn.dataset.back || "wealth.html";
+        backBtn.onclick = function () {
+            location.href = backTarget;
+        };
+    }
+
+    if (homeBtn) {
+        const homeTarget = homeBtn.dataset.back || "dashboard.html";
+        homeBtn.onclick = function () {
+            location.href = homeTarget;
+        };
+    }
+}
+
+// ======================================
 // 初始化
 // ======================================
 
@@ -372,9 +397,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (document.getElementById("saveAsset")) {
         initAsset();
     }
+
+    const calcBtn = document.getElementById("calculateCompound");
+    if (calcBtn) {
+        calcBtn.addEventListener("click", calculateCompound);
+    }
+
+    initNavButtons();
 });
 
 console.log("Compound Module Ready");
 console.log("Asset Module Ready");
 console.log("Account Module Ready");
-console.log("Wealth Module v2.2 Ready");
+console.log("Nav Module Ready");
+console.log("Wealth Module v2.3 Ready");
