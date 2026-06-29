@@ -1,11 +1,4 @@
-// ======================================
-// LifeRPG Beta
-// Wealth Module v2.0
-// Part 1 / 2
-// ======================================
-
-console.log("Wealth Module v2.0 Loaded");
-
+```javascript
 // ======================================
 // 初始化
 // ======================================
@@ -16,17 +9,19 @@ document.addEventListener("DOMContentLoaded",function(){
 
     if(backBtn){
 
-        if(location.pathname.includes("compound")){
+        if(
 
-            backBtn.onclick=function(){
+            location.pathname.includes("asset") ||
 
-                location.href="wealth.html";
+            location.pathname.includes("account") ||
 
-            };
+            location.pathname.includes("compound") ||
 
-        }
+            location.pathname.includes("goal") ||
 
-        if(location.pathname.includes("asset")){
+            location.pathname.includes("analysis")
+
+        ){
 
             backBtn.onclick=function(){
 
@@ -38,11 +33,31 @@ document.addEventListener("DOMContentLoaded",function(){
 
     }
 
+    const homeBtn=document.getElementById("homeBtn");
+
+    if(homeBtn){
+
+        homeBtn.onclick=function(){
+
+            location.href="dashboard.html";
+
+        };
+
+    }
+
     if(document.getElementById("calculateCompound")){
 
         document
+
             .getElementById("calculateCompound")
-            .addEventListener("click",calculateCompound);
+
+            .addEventListener(
+
+                "click",
+
+                calculateCompound
+
+            );
 
     }
 
@@ -52,71 +67,15 @@ document.addEventListener("DOMContentLoaded",function(){
 
     }
 
-});
+    if(document.getElementById("saveAccount")){
 
-// ======================================
-// 複利計算
-// ======================================
-
-function calculateCompound(){
-
-    const monthly=
-
-        Number(
-            document.getElementById("monthlyAmount").value
-        );
-
-    const rate=
-
-        Number(
-            document.getElementById("annualRate").value
-        );
-
-    const years=
-
-        Number(
-            document.getElementById("investmentYears").value
-        );
-
-    if(
-
-        monthly<=0 ||
-
-        rate<=0 ||
-
-        years<=0
-
-    ){
-
-        alert("請完整輸入資料");
-
-        return;
+        initAccount();
 
     }
 
-    const monthlyRate=
+});
+```
 
-        rate/100/12;
-
-    const months=
-
-        years*12;
-
-    const futureValue=
-
-        monthly*
-
-        (
-
-            (Math.pow(
-
-                1+monthlyRate,
-
-                months
-
-            )-1)
-
-            /monthlyRate
 
         )
 
