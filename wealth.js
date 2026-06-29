@@ -1,81 +1,50 @@
 ```javascript
 // ======================================
-// 初始化
+// 複利計算
 // ======================================
 
-document.addEventListener("DOMContentLoaded",function(){
+function calculateCompound(){
 
-    const backBtn=document.getElementById("backBtn");
+    const monthly=
+        Number(document.getElementById("monthlyAmount").value);
 
-    if(backBtn){
+    const rate=
+        Number(document.getElementById("annualRate").value);
 
-        if(
+    const years=
+        Number(document.getElementById("investmentYears").value);
 
-            location.pathname.includes("asset") ||
+    if(monthly<=0 || rate<=0 || years<=0){
 
-            location.pathname.includes("account") ||
+        alert("請完整輸入資料");
 
-            location.pathname.includes("compound") ||
-
-            location.pathname.includes("goal") ||
-
-            location.pathname.includes("analysis")
-
-        ){
-
-            backBtn.onclick=function(){
-
-                location.href="wealth.html";
-
-            };
-
-        }
+        return;
 
     }
 
-    const homeBtn=document.getElementById("homeBtn");
+    const monthlyRate=rate/100/12;
 
-    if(homeBtn){
+    const months=years*12;
 
-        homeBtn.onclick=function(){
+    const futureValue=
 
-            location.href="dashboard.html";
+        monthly*
 
-        };
+        (
 
-    }
+            (
 
-    if(document.getElementById("calculateCompound")){
+                Math.pow(
 
-        document
+                    1+monthlyRate,
 
-            .getElementById("calculateCompound")
+                    months
 
-            .addEventListener(
+                )-1
 
-                "click",
+            )
 
-                calculateCompound
-
-            );
-
-    }
-
-    if(document.getElementById("saveAsset")){
-
-        initAsset();
-
-    }
-
-    if(document.getElementById("saveAccount")){
-
-        initAccount();
-
-    }
-
-});
-```
-
+            /monthlyRate
 
         )
 
@@ -107,21 +76,115 @@ document.addEventListener("DOMContentLoaded",function(){
 
 }
 
-    📈 年化報酬率
+// ======================================
+// 顯示結果
+// ======================================
 
-    <br>
+function showCompoundResult(
 
-    ${rate} %
+    monthly,
 
-    </p>
+    principal,
 
-    <hr>
+    futureValue,
 
-    <h3>
+    profit,
 
-    時間 × 紀律 × 複利 = 財富
+    rate,
 
-    </h3>
+    years
+
+){
+
+    const box=document.getElementById("compoundResult");
+
+    if(!box){
+
+        return;
+
+    }
+
+    box.innerHTML=`
+
+        <h3>📈 複利試算結果</h3>
+
+        <p>
+
+            💵 每月投入
+
+            <br>
+
+            ${monthly.toLocaleString()} 元
+
+        </p>
+
+        <hr>
+
+        <p>
+
+            💰 投入本金
+
+            <br>
+
+            ${Math.round(principal).toLocaleString()} 元
+
+        </p>
+
+        <hr>
+
+        <p>
+
+            🏦 最終資產
+
+            <br>
+
+            ${Math.round(futureValue).toLocaleString()} 元
+
+        </p>
+
+        <hr>
+
+        <p>
+
+            📈 總收益
+
+            <br>
+
+            ${Math.round(profit).toLocaleString()} 元
+
+        </p>
+
+        <hr>
+
+        <p>
+
+            📅 投資年數
+
+            <br>
+
+            ${years} 年
+
+        </p>
+
+        <hr>
+
+        <p>
+
+            📈 年化報酬率
+
+            <br>
+
+            ${rate} %
+
+        </p>
+
+        <hr>
+
+        <h3>
+
+            時間 × 紀律 × 複利 = 財富
+
+        </h3>
 
     `;
 
@@ -134,6 +197,7 @@ document.addEventListener("DOMContentLoaded",function(){
     );
 
 }
+```
 
 // ======================================
 // 成長預覽
