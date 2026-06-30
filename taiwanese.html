@@ -17,36 +17,30 @@
             <p>道地家鄉味，吃了會想家</p>
         </div>
     </section>
-
     <section class="quote-card">
         <p id="locationStatus">📍 正在取得你的位置...</p>
     </section>
-
     <label class="record-label">顯示距離範圍</label>
-    <select id="distanceFilter" class="record-input-large">
+    <select id="distanceFilter" class="record-select">
         <option value="all">全部顯示</option>
         <option value="1">1 公里內</option>
         <option value="3">3 公里內</option>
         <option value="5">5 公里內</option>
         <option value="10">10 公里內</option>
     </select>
-
     <div id="restaurantList"></div>
-
     <button id="backBtn" class="primary-btn">
         ← 返回美食世界
     </button>
     <button id="homeBtn" class="primary-btn">
         🏠 返回首頁
     </button>
-
     <footer>
         人生RPG v1.0
         <br>
         Food World • Taiwanese
     </footer>
 </div>
-
 <script>
 var taiwaneseList = [
     {
@@ -82,21 +76,17 @@ var taiwaneseList = [
         price: "$$（100～200 元）"
     }
 ];
-
 function renderRestaurants(list) {
     var box = document.getElementById("restaurantList");
-
     if (list.length === 0) {
         box.innerHTML = "目前距離範圍內沒有店家，試試擴大範圍。";
         return;
     }
-
     var html = "";
     list.forEach(function (item) {
         var distanceText = item.distance !== null
             ? "📏 距離你約 " + item.distance.toFixed(1) + " 公里"
             : "";
-
         html += "<div class=\"record-item\">";
         html += "<div class=\"record-title\">" + item.name + "</div>";
         html += "<div class=\"record-content\">";
@@ -110,10 +100,8 @@ function renderRestaurants(list) {
         }
         html += "</div></div>";
     });
-
     box.innerHTML = html;
 }
-
 document.getElementById("backBtn").onclick = function () {
     location.href = "food.html";
 };
@@ -121,7 +109,6 @@ document.getElementById("homeBtn").onclick = function () {
     location.href = "dashboard.html";
 };
 </script>
-
 <script src="food_distance.js?v=1.0.0"></script>
 <script>
 initFoodDistance(taiwaneseList, renderRestaurants);
