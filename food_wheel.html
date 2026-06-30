@@ -29,16 +29,19 @@
 }
 .wheel-label {
     position: absolute;
-    width: 100%;
-    text-align: center;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 50%;
+    transform-origin: 0% 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 30px;
     font-size: 14px;
     font-weight: bold;
     color: #333;
 }
-.wheel-label.l1 { top: 22%; left: 0; transform: translateX(-30%); }
-.wheel-label.l2 { top: 55%; left: 30%; }
-.wheel-label.l3 { top: 55%; left: -30%; }
-.wheel-label.l4 { top: 22%; left: 0; transform: translateX(30%); }
 .pointer {
     position: absolute;
     top: -14px;
@@ -100,10 +103,10 @@
     <div class="wheel-wrap">
         <div class="pointer"></div>
         <div class="wheel" id="wheel">
-            <div class="wheel-label l1">🍱 台式</div>
-            <div class="wheel-label l2">🍣 日式</div>
-            <div class="wheel-label l3">🍛 泰式</div>
-            <div class="wheel-label l4">🍲 韓式</div>
+            <div class="wheel-label" style="transform: rotate(45deg);">🍱 台式</div>
+            <div class="wheel-label" style="transform: rotate(135deg);">🍣 日式</div>
+            <div class="wheel-label" style="transform: rotate(225deg);">🍛 泰式</div>
+            <div class="wheel-label" style="transform: rotate(315deg);">🍲 韓式</div>
         </div>
     </div>
 
@@ -130,7 +133,6 @@
 </div>
 
 <script>
-// 完整店家資料（跟四個分類頁的資料一致，含經緯度）
 var foodPool = {
     "台式": [
         { name: "阿嬤的灶咖", lat: 24.1469, lng: 120.6839, page: "taiwanese.html" },
@@ -161,7 +163,6 @@ var spinning = false;
 var userLat = null;
 var userLng = null;
 
-// Haversine 距離公式
 function calcDistanceKm(lat1, lng1, lat2, lng2) {
     var R = 6371;
     var dLat = (lat2 - lat1) * Math.PI / 180;
@@ -174,7 +175,6 @@ function calcDistanceKm(lat1, lng1, lat2, lng2) {
     return R * c;
 }
 
-// 取得目前篩選範圍下，各分類「還有剩下的店家」
 function getFilteredPool() {
     var filterValue = document.getElementById("distanceFilter").value;
     var filtered = {};
@@ -201,7 +201,6 @@ document.getElementById("spinBtn").onclick = function () {
 
     var filteredPool = getFilteredPool();
 
-    // 篩出「還有店家」的分類
     var availableCategories = categories.filter(function (cat) {
         return filteredPool[cat].length > 0;
     });
@@ -214,10 +213,13 @@ document.getElementById("spinBtn").onclick = function () {
 
     spinning = true;
 
-    // 從「有剩餘店家」的分類裡隨機選一個
+    // 先決定抽中的分類與店家（資料層先確定，不受視覺動畫影響）
     var category = availableCategories[Math.floor(Math.random() * availableCategories.length)];
     var categoryIndex = categories.indexOf(category);
+    var list = filteredPool[category];
+    var pick = list[Math.floor(Math.random() * list.length)];
 
+    // 視覺轉盤角度對齊：每格中心角度 = index*90 + 45
     var sliceCenter = categoryIndex * 90 + 45;
     var extraSpins = 4 + Math.floor(Math.random() * 3);
     var targetRotation = extraSpins * 360 + (360 - sliceCenter);
@@ -228,9 +230,6 @@ document.getElementById("spinBtn").onclick = function () {
     wheel.style.transform = "rotate(" + currentRotation + "deg)";
 
     setTimeout(function () {
-        var list = filteredPool[category];
-        var pick = list[Math.floor(Math.random() * list.length)];
-
         var resultBox = document.getElementById("wheelResult");
         resultBox.innerHTML =
             "<h3>🎉 分類：" + category + "</h3>" +
@@ -239,7 +238,6 @@ document.getElementById("spinBtn").onclick = function () {
 
         var rollEl = document.getElementById("nameRoll");
 
-        // 跑馬燈時也只在「篩選後可用」的店名裡跳動，避免跳出範圍外的店名造成誤導
         var allNames = [];
         categories.forEach(function (c) {
             filteredPool[c].forEach(function (item) {
@@ -277,7 +275,6 @@ document.getElementById("spinBtn").onclick = function () {
     }, 3000);
 };
 
-// 定位
 var statusBox = document.getElementById("locationStatus");
 
 if (navigator.geolocation) {
