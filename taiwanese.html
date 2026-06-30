@@ -18,49 +18,20 @@
         </div>
     </section>
 
-    <div class="record-item">
-        <div class="record-title">阿嬤的灶咖</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=阿嬤的灶咖" target="_blank">台中市西區美村路</a>
-            <br><br>
-            💬 滷肉飯香氣十足，滷汁入味不死鹹，是巷口排隊名店。
-            <br><br>
-            💰 $$（100～200 元）
-        </div>
-    </div>
+    <section class="quote-card">
+        <p id="locationStatus">📍 正在取得你的位置...</p>
+    </section>
 
-    <div class="record-item">
-        <div class="record-title">大份小炒</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=大份小炒" target="_blank">台北市大安區忠孝東路</a>
-            <br><br>
-            💬 熱炒類份量超大，三杯雞跟蒜泥白肉是招牌，適合多人聚餐。
-            <br><br>
-            💰 $$$（300～500 元）
-        </div>
-    </div>
+    <label class="record-label">顯示距離範圍</label>
+    <select id="distanceFilter" class="record-input-large">
+        <option value="all">全部顯示</option>
+        <option value="1">1 公里內</option>
+        <option value="3">3 公里內</option>
+        <option value="5">5 公里內</option>
+        <option value="10">10 公里內</option>
+    </select>
 
-    <div class="record-item">
-        <div class="record-title">巷口意麵</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=巷口意麵" target="_blank">高雄市鹽埕區七賢路</a>
-            <br><br>
-            💬 古早味意麵，湯頭清爽，搭配滷蛋跟燙青菜剛剛好，銅板價超划算。
-            <br><br>
-            💰 $（50～100 元）
-        </div>
-    </div>
-
-    <div class="record-item">
-        <div class="record-title">阿福羹麵</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=阿福羹麵" target="_blank">台南市中西區民族路</a>
-            <br><br>
-            💬 肉羹湯頭濃郁帶點甜味，肉羹條Q彈不軟爛，台南老店風味。
-            <br><br>
-            💰 $$（100～200 元）
-        </div>
-    </div>
+    <div id="restaurantList"></div>
 
     <button id="backBtn" class="primary-btn">
         ← 返回美食世界
@@ -75,13 +46,85 @@
         Food World • Taiwanese
     </footer>
 </div>
+
 <script>
+var taiwaneseList = [
+    {
+        name: "阿嬤的灶咖",
+        lat: 24.1469,
+        lng: 120.6839,
+        address: "台中市西區美村路",
+        note: "滷肉飯香氣十足，滷汁入味不死鹹，是巷口排隊名店。",
+        price: "$$（100～200 元）"
+    },
+    {
+        name: "大份小炒",
+        lat: 25.0418,
+        lng: 121.5436,
+        address: "台北市大安區忠孝東路",
+        note: "熱炒類份量超大，三杯雞跟蒜泥白肉是招牌，適合多人聚餐。",
+        price: "$$$（300～500 元）"
+    },
+    {
+        name: "巷口意麵",
+        lat: 22.6204,
+        lng: 120.2825,
+        address: "高雄市鹽埕區七賢路",
+        note: "古早味意麵，湯頭清爽，搭配滷蛋跟燙青菜剛剛好，銅板價超划算。",
+        price: "$（50～100 元）"
+    },
+    {
+        name: "阿福羹麵",
+        lat: 22.9956,
+        lng: 120.2007,
+        address: "台南市中西區民族路",
+        note: "肉羹湯頭濃郁帶點甜味，肉羹條Q彈不軟爛，台南老店風味。",
+        price: "$$（100～200 元）"
+    }
+];
+
+function renderRestaurants(list) {
+    var box = document.getElementById("restaurantList");
+
+    if (list.length === 0) {
+        box.innerHTML = "目前距離範圍內沒有店家，試試擴大範圍。";
+        return;
+    }
+
+    var html = "";
+    list.forEach(function (item) {
+        var distanceText = item.distance !== null
+            ? "📏 距離你約 " + item.distance.toFixed(1) + " 公里"
+            : "";
+
+        html += "<div class=\"record-item\">";
+        html += "<div class=\"record-title\">" + item.name + "</div>";
+        html += "<div class=\"record-content\">";
+        html += "📍 <a href=\"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.name) + "\" target=\"_blank\">" + item.address + "</a>";
+        html += "<br><br>";
+        html += "💬 " + item.note;
+        html += "<br><br>";
+        html += "💰 " + item.price;
+        if (distanceText) {
+            html += "<br><br>" + distanceText;
+        }
+        html += "</div></div>";
+    });
+
+    box.innerHTML = html;
+}
+
 document.getElementById("backBtn").onclick = function () {
     location.href = "food.html";
 };
 document.getElementById("homeBtn").onclick = function () {
     location.href = "dashboard.html";
 };
+</script>
+
+<script src="food_distance.js?v=1.0.0"></script>
+<script>
+initFoodDistance(taiwaneseList, renderRestaurants);
 </script>
 </body>
 </html>
