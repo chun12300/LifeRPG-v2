@@ -1,1 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍱 台式料理</title>
+<link rel="stylesheet" href="style.css?v=4.0.0">
+</head>
+<body>
+<div class="dashboard-container">
+    <section class="profile-card">
+        <div class="profile-avatar">
+            🍱
+        </div>
+        <div class="profile-info">
+            <h2>台式料理</h2>
+            <p>道地家鄉味，吃了會想家</p>
+        </div>
+    </section>
 
+    <div class="record-item">
+        <div class="record-title">阿嬤的灶咖</div>
+        <div class="record-content">
+            📍 <a href="https://www.google.com/maps/search/?api=1&query=阿嬤的灶咖" target="_blank">台中市西區美村路</a>
+            <br><br>
+            💬 滷肉飯香氣十足，滷汁入味不死鹹，是巷口排隊名店。
+            <br><br>
+            💰 $$（100～200 元）
+        </div>
+    </div>
+
+    <div class="record-item">
+        <div class="record-title">大份小炒</div>
+        <div class="record-content">
+            📍 <a href="https://www.google.com/maps/search/?api=1&query=大份小炒" target="_blank">台北市大安區忠孝東路</a>
+            <br><br>
+            💬 熱炒類份量超大，三杯雞跟蒜泥白肉是招牌，適合多人聚餐。
+            <br><br>
+            💰 $$$（300～500 元）
+        </div>
+    </div>
+
+    <div class="record-item">
+        <div class="record-title">巷口意麵</div>
+        <div class="record-content">
+            📍 <a href="https://www.google.com/maps/search/?api=1&query=巷口意麵" target="_blank">高雄市鹽埕區七賢路</a>
+            <br><br>
+            💬 古早味意麵，湯頭清爽，搭配滷蛋跟燙青菜剛剛好，銅板價超划算。
+            <br><br>
+            💰 $（50～100 元）
+        </div>
+    </div>
+
+    <div class="record-item">
+        <div class="record-title">阿福羹麵</div>
+        <div class="record-content">
+            📍 <a href="https://www.google.com/maps/search/?api=1&query=阿福羹麵" target="_blank">台南市中西區民族路</a>
+            <br><br>
+            💬 肉羹湯頭濃郁帶點甜味，肉羹條Q彈不軟爛，台南老店風味。
+            <br><br>
+            💰 $$（100～200 元）
+        </div>
+    </div>
+
+    <button id="backBtn" class="primary-btn">
+        ← 返回美食世界
+    </button>
+    <button id="homeBtn" class="primary-btn">
+        🏠 返回首頁
+    </button>
+
+    <footer>
+        人生RPG v1.0
+        <br>
+        Food World • Taiwanese
+    </footer>
+</div>
+<script>
+document.getElementById("backBtn").onclick = function () {
+    location.href = "food.html";
+};
+document.getElementById("homeBtn").onclick = function () {
+    location.href = "dashboard.html";
+};
+</script>
+</body>
+</html>
