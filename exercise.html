@@ -59,3 +59,53 @@ href="style.css?v=4.0.0">
         備註（可略）
     </label>
     <textarea
+        id="exerciseNote"
+        class="record-note"
+        placeholder="例如：
+今天精神很好
+完成重訓課表
+流了很多汗..."></textarea>
+    <button
+        id="saveExercise"
+        class="primary-btn">
+        💾 儲存紀錄
+    </button>
+    <section class="quote-card">
+        <h3>
+            📋 運動紀錄
+        </h3>
+        <p class="record-tip">
+            每天持續一點點，就是最好的進步。
+        </p>
+        <div id="exerciseList">
+            尚無紀錄
+        </div>
+    </section>
+    <button
+        id="backBtn"
+        class="primary-btn">
+        ← 返回健康世界
+    </button>
+    <button
+        id="homeBtn"
+        class="primary-btn">
+        🏠 返回首頁
+    </button>
+    <footer>
+        人生RPG v3.0
+        <br>
+        Health World • Exercise
+    </footer>
+    </div>
+<!-- JavaScript -->
+<script>
+document.getElementById("backBtn").onclick = function () {
+    location.href = "health.html";
+};
+document.getElementById("homeBtn").onclick = function () {
+    location.href = "dashboard.html";
+};
+</script>
+<script src="health.js?v=3.0.1"></script>
+</body>
+</html>
