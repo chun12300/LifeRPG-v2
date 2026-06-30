@@ -1,1 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍲 韓式料理</title>
+<link rel="stylesheet" href="style.css?v=4.0.0">
+</head>
+<body>
+<div class="dashboard-container">
+    <section class="profile-card">
+        <div class="profile-avatar">
+            🍲
+        </div>
+        <div class="profile-info">
+            <h2>韓式料理</h2>
+            <p>暖心湯品，冷天最對味</p>
+        </div>
+    </section>
 
+    <div class="record-item">
+        <div class="record-title">首爾家烤肉</div>
+        <div class="record-content">
+            📍 <a href="https://www.google.com/maps/search/?api=1&query=首爾家烤肉" target="_blank">台北市松山區八德路</a>
+            <br><br>
+            💬 五花肉烤得恰到好處，附餐小菜種類豐富，吃到飽方案很划算。
+            <br><br>
+            💰 $$$（400～600 元）
+        </div>
+    </div>
+
+    <div class="record-item">
+        <div class="record-title">部隊鍋專門店</div>
+        <div class="record-content">
+            📍 <a href="https://www.google.com/maps/search/?api=1&query=部隊鍋專門店" target="_blank">台中市南屯區文心路</a>
+            <br><br>
+            💬 部隊鍋料多實在，泡菜自然發酵不死酸，冬天來一鍋整個人都暖了。
+            <br><br>
+            💰 $$（250～350 元）
+        </div>
+    </div>
+
+    <div class="record-item">
+        <div class="record-title">明洞炸雞屋</div>
+        <div class="record-content">
+            📍 <a href="https://www.google.com/maps/search/?api=1&query=明洞炸雞屋" target="_blank">高雄市三民區九如二路</a>
+            <br><br>
+            💬 醬料炸雞外皮酥脆不軟掉，甜辣醬調得很有層次，配啤酒一流。
+            <br><br>
+            💰 $$（200～300 元）
+        </div>
+    </div>
+
+    <button id="backBtn" class="primary-btn">
+        ← 返回美食世界
+    </button>
+    <button id="homeBtn" class="primary-btn">
+        🏠 返回首頁
+    </button>
+
+    <footer>
+        人生RPG v1.0
+        <br>
+        Food World • Korean
+    </footer>
+</div>
+<script>
+document.getElementById("backBtn").onclick = function () {
+    location.href = "food.html";
+};
+document.getElementById("homeBtn").onclick = function () {
+    location.href = "dashboard.html";
+};
+</script>
+</body>
+</html>
