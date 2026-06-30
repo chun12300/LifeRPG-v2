@@ -17,47 +17,24 @@
             <p>暖心湯品，冷天最對味</p>
         </div>
     </section>
-
-    <div class="record-item">
-        <div class="record-title">首爾家烤肉</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=首爾家烤肉" target="_blank">台北市松山區八德路</a>
-            <br><br>
-            💬 五花肉烤得恰到好處，附餐小菜種類豐富，吃到飽方案很划算。
-            <br><br>
-            💰 $$$（400～600 元）
-        </div>
-    </div>
-
-    <div class="record-item">
-        <div class="record-title">部隊鍋專門店</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=部隊鍋專門店" target="_blank">台中市南屯區文心路</a>
-            <br><br>
-            💬 部隊鍋料多實在，泡菜自然發酵不死酸，冬天來一鍋整個人都暖了。
-            <br><br>
-            💰 $$（250～350 元）
-        </div>
-    </div>
-
-    <div class="record-item">
-        <div class="record-title">明洞炸雞屋</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=明洞炸雞屋" target="_blank">高雄市三民區九如二路</a>
-            <br><br>
-            💬 醬料炸雞外皮酥脆不軟掉，甜辣醬調得很有層次，配啤酒一流。
-            <br><br>
-            💰 $$（200～300 元）
-        </div>
-    </div>
-
+    <section class="quote-card">
+        <p id="locationStatus">📍 正在取得你的位置...</p>
+    </section>
+    <label class="record-label">顯示距離範圍</label>
+    <select id="distanceFilter" class="record-select">
+        <option value="all">全部顯示</option>
+        <option value="1">1 公里內</option>
+        <option value="3">3 公里內</option>
+        <option value="5">5 公里內</option>
+        <option value="10">10 公里內</option>
+    </select>
+    <div id="restaurantList"></div>
     <button id="backBtn" class="primary-btn">
         ← 返回美食世界
     </button>
     <button id="homeBtn" class="primary-btn">
         🏠 返回首頁
     </button>
-
     <footer>
         人生RPG v1.0
         <br>
@@ -65,12 +42,68 @@
     </footer>
 </div>
 <script>
+var koreanList = [
+    {
+        name: "首爾家烤肉",
+        lat: 25.0500,
+        lng: 121.5582,
+        address: "台北市松山區八德路",
+        note: "五花肉烤得恰到好處，附餐小菜種類豐富，吃到飽方案很划算。",
+        price: "$$$（400～600 元）"
+    },
+    {
+        name: "部隊鍋專門店",
+        lat: 24.1477,
+        lng: 120.6469,
+        address: "台中市南屯區文心路",
+        note: "部隊鍋料多實在，泡菜自然發酵不死酸，冬天來一鍋整個人都暖了。",
+        price: "$$（250～350 元）"
+    },
+    {
+        name: "明洞炸雞屋",
+        lat: 22.6273,
+        lng: 120.3186,
+        address: "高雄市三民區九如二路",
+        note: "醬料炸雞外皮酥脆不軟掉，甜辣醬調得很有層次，配啤酒一流。",
+        price: "$$（200～300 元）"
+    }
+];
+function renderRestaurants(list) {
+    var box = document.getElementById("restaurantList");
+    if (list.length === 0) {
+        box.innerHTML = "目前距離範圍內沒有店家，試試擴大範圍。";
+        return;
+    }
+    var html = "";
+    list.forEach(function (item) {
+        var distanceText = item.distance !== null
+            ? "📏 距離你約 " + item.distance.toFixed(1) + " 公里"
+            : "";
+        html += "<div class=\"record-item\">";
+        html += "<div class=\"record-title\">" + item.name + "</div>";
+        html += "<div class=\"record-content\">";
+        html += "📍 <a href=\"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.name) + "\" target=\"_blank\">" + item.address + "</a>";
+        html += "<br><br>";
+        html += "💬 " + item.note;
+        html += "<br><br>";
+        html += "💰 " + item.price;
+        if (distanceText) {
+            html += "<br><br>" + distanceText;
+        }
+        html += "</div></div>";
+    });
+    box.innerHTML = html;
+}
 document.getElementById("backBtn").onclick = function () {
     location.href = "food.html";
 };
 document.getElementById("homeBtn").onclick = function () {
     location.href = "dashboard.html";
 };
+</script>
+<script src="food_distance.js?v=1.0.0"></script>
+<script>
+initFoodDistance(koreanList, renderRestaurants);
 </script>
 </body>
 </html>
