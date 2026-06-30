@@ -41,6 +41,7 @@
     font-size: 14px;
     font-weight: bold;
     color: #333;
+    pointer-events: none;
 }
 .pointer {
     position: absolute;
@@ -59,13 +60,13 @@
     margin-top: 8px;
 }
 .name-roll {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
-    min-height: 28px;
-    color: #ff7b7b;
+    min-height: 30px;
+    color: #FFD86B;
 }
 .name-roll.settled {
-    color: #333;
+    color: #FFFFFF;
     animation: settle-pop 0.4s ease;
 }
 @keyframes settle-pop {
@@ -213,16 +214,15 @@ document.getElementById("spinBtn").onclick = function () {
 
     spinning = true;
 
-    // 先決定抽中的分類與店家（資料層先確定，不受視覺動畫影響）
+    // 結果完全獨立決定，不依賴轉盤視覺角度，避免任何對齊誤差
     var category = availableCategories[Math.floor(Math.random() * availableCategories.length)];
-    var categoryIndex = categories.indexOf(category);
     var list = filteredPool[category];
     var pick = list[Math.floor(Math.random() * list.length)];
 
-    // 視覺轉盤角度對齊：每格中心角度 = index*90 + 45
-    var sliceCenter = categoryIndex * 90 + 45;
+    // 轉盤動畫純粹是視覺效果：隨機轉 4~6 圈 + 隨機額外角度，看起來自然不重複
     var extraSpins = 4 + Math.floor(Math.random() * 3);
-    var targetRotation = extraSpins * 360 + (360 - sliceCenter);
+    var randomExtraAngle = Math.floor(Math.random() * 360);
+    var targetRotation = extraSpins * 360 + randomExtraAngle;
 
     currentRotation += targetRotation;
 
