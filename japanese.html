@@ -17,47 +17,24 @@
             <p>職人手藝，精緻而講究</p>
         </div>
     </section>
-
-    <div class="record-item">
-        <div class="record-title">弐丸壽司</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=弐丸壽司" target="_blank">台北市信義區松壽路</a>
-            <br><br>
-            💬 師傅手握壽司，米飯溫度跟醋飯比例都很到位，午間套餐 CP 值高。
-            <br><br>
-            💰 $$$（300～600 元）
-        </div>
-    </div>
-
-    <div class="record-item">
-        <div class="record-title">麵屋一燈</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=麵屋一燈" target="_blank">台中市西屯區台灣大道</a>
-            <br><br>
-            💬 豚骨拉麵湯頭濃郁不死膩，叉燒入口即化，是排隊名單上的常客。
-            <br><br>
-            💰 $$（200～300 元）
-        </div>
-    </div>
-
-    <div class="record-item">
-        <div class="record-title">串燒和民</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=串燒和民" target="_blank">高雄市左營區博愛路</a>
-            <br><br>
-            💬 居酒屋氛圍輕鬆，串燒種類多樣，配生啤酒剛剛好，適合下班小聚。
-            <br><br>
-            💰 $$（200～350 元）
-        </div>
-    </div>
-
+    <section class="quote-card">
+        <p id="locationStatus">📍 正在取得你的位置...</p>
+    </section>
+    <label class="record-label">顯示距離範圍</label>
+    <select id="distanceFilter" class="record-select">
+        <option value="all">全部顯示</option>
+        <option value="1">1 公里內</option>
+        <option value="3">3 公里內</option>
+        <option value="5">5 公里內</option>
+        <option value="10">10 公里內</option>
+    </select>
+    <div id="restaurantList"></div>
     <button id="backBtn" class="primary-btn">
         ← 返回美食世界
     </button>
     <button id="homeBtn" class="primary-btn">
         🏠 返回首頁
     </button>
-
     <footer>
         人生RPG v1.0
         <br>
@@ -65,12 +42,68 @@
     </footer>
 </div>
 <script>
+var japaneseList = [
+    {
+        name: "弐丸壽司",
+        lat: 25.0330,
+        lng: 121.5640,
+        address: "台北市信義區松壽路",
+        note: "師傅手握壽司，米飯溫度跟醋飯比例都很到位，午間套餐 CP 值高。",
+        price: "$$$（300～600 元）"
+    },
+    {
+        name: "麵屋一燈",
+        lat: 24.1614,
+        lng: 120.6483,
+        address: "台中市西屯區台灣大道",
+        note: "豚骨拉麵湯頭濃郁不死膩，叉燒入口即化，是排隊名單上的常客。",
+        price: "$$（200～300 元）"
+    },
+    {
+        name: "串燒和民",
+        lat: 22.6829,
+        lng: 120.2945,
+        address: "高雄市左營區博愛路",
+        note: "居酒屋氛圍輕鬆，串燒種類多樣，配生啤酒剛剛好，適合下班小聚。",
+        price: "$$（200～350 元）"
+    }
+];
+function renderRestaurants(list) {
+    var box = document.getElementById("restaurantList");
+    if (list.length === 0) {
+        box.innerHTML = "目前距離範圍內沒有店家，試試擴大範圍。";
+        return;
+    }
+    var html = "";
+    list.forEach(function (item) {
+        var distanceText = item.distance !== null
+            ? "📏 距離你約 " + item.distance.toFixed(1) + " 公里"
+            : "";
+        html += "<div class=\"record-item\">";
+        html += "<div class=\"record-title\">" + item.name + "</div>";
+        html += "<div class=\"record-content\">";
+        html += "📍 <a href=\"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.name) + "\" target=\"_blank\">" + item.address + "</a>";
+        html += "<br><br>";
+        html += "💬 " + item.note;
+        html += "<br><br>";
+        html += "💰 " + item.price;
+        if (distanceText) {
+            html += "<br><br>" + distanceText;
+        }
+        html += "</div></div>";
+    });
+    box.innerHTML = html;
+}
 document.getElementById("backBtn").onclick = function () {
     location.href = "food.html";
 };
 document.getElementById("homeBtn").onclick = function () {
     location.href = "dashboard.html";
 };
+</script>
+<script src="food_distance.js?v=1.0.0"></script>
+<script>
+initFoodDistance(japaneseList, renderRestaurants);
 </script>
 </body>
 </html>
