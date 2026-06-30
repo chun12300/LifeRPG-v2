@@ -1,1 +1,60 @@
-
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍜 美食世界</title>
+<link rel="stylesheet" href="style.css?v=4.0.0">
+</head>
+<body>
+<div class="dashboard-container">
+    <section class="profile-card">
+        <div class="profile-avatar">
+            🍜
+        </div>
+        <div class="profile-info">
+            <h2>美食世界</h2>
+            <p>記錄每一次美味的相遇</p>
+        </div>
+    </section>
+    <section class="quote-card">
+        <p>今天，你想探索哪一種味道？</p>
+    </section>
+    <div class="world-grid">
+        <div class="world-card" onclick="location.href='taiwanese.html'">
+            <div class="world-icon">🍱</div>
+            <h3>台式料理</h3>
+            <p>道地家鄉味</p>
+        </div>
+        <div class="world-card" onclick="location.href='japanese.html'">
+            <div class="world-icon">🍣</div>
+            <h3>日式料理</h3>
+            <p>精緻職人手藝</p>
+        </div>
+        <div class="world-card" onclick="location.href='thai.html'">
+            <div class="world-icon">🍛</div>
+            <h3>泰式料理</h3>
+            <p>酸辣開胃滋味</p>
+        </div>
+        <div class="world-card" onclick="location.href='korean.html'">
+            <div class="world-icon">🍲</div>
+            <h3>韓式料理</h3>
+            <p>暖心湯品鍋物</p>
+        </div>
+        <div class="world-card" onclick="location.href='food_wheel.html'">
+            <div class="world-icon">🎡</div>
+            <h3>轉盤選美食</h3>
+            <p>選擇困難？讓轉盤決定！</p>
+        </div>
+    </div>
+    <button id="backBtn" class="primary-btn">
+        ← 返回首頁
+    </button>
+</div>
+<script>
+document.getElementById("backBtn").onclick = function () {
+    location.href = "dashboard.html";
+};
+</script>
+</body>
+</html>
