@@ -17,47 +17,24 @@
             <p>酸辣開胃，吃完整個人都醒了</p>
         </div>
     </section>
-
-    <div class="record-item">
-        <div class="record-title">曼谷小館</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=曼谷小館" target="_blank">台北市中山區雙城街</a>
-            <br><br>
-            💬 打拋豬辣度夠味、椰汁雞湯香濃順口，泰式奶茶甜度剛剛好。
-            <br><br>
-            💰 $$（150～300 元）
-        </div>
-    </div>
-
-    <div class="record-item">
-        <div class="record-title">湄南河風味</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=湄南河風味" target="_blank">台中市北區三民路</a>
-            <br><br>
-            💬 涼拌青木瓜酸辣比例抓得剛好，月亮蝦餅外酥內嫩是必點。
-            <br><br>
-            💰 $$（200～350 元）
-        </div>
-    </div>
-
-    <div class="record-item">
-        <div class="record-title">小象泰食堂</div>
-        <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=小象泰食堂" target="_blank">高雄市苓雅區四維路</a>
-            <br><br>
-            💬 綠咖哩濃郁帶辣，份量大，搭配香茅檸檬魚很開胃，適合多人分食。
-            <br><br>
-            💰 $$$（300～450 元）
-        </div>
-    </div>
-
+    <section class="quote-card">
+        <p id="locationStatus">📍 正在取得你的位置...</p>
+    </section>
+    <label class="record-label">顯示距離範圍</label>
+    <select id="distanceFilter" class="record-select">
+        <option value="all">全部顯示</option>
+        <option value="1">1 公里內</option>
+        <option value="3">3 公里內</option>
+        <option value="5">5 公里內</option>
+        <option value="10">10 公里內</option>
+    </select>
+    <div id="restaurantList"></div>
     <button id="backBtn" class="primary-btn">
         ← 返回美食世界
     </button>
     <button id="homeBtn" class="primary-btn">
         🏠 返回首頁
     </button>
-
     <footer>
         人生RPG v1.0
         <br>
@@ -65,12 +42,68 @@
     </footer>
 </div>
 <script>
+var thaiList = [
+    {
+        name: "曼谷小館",
+        lat: 25.0631,
+        lng: 121.5267,
+        address: "台北市中山區雙城街",
+        note: "打拋豬辣度夠味、椰汁雞湯香濃順口，泰式奶茶甜度剛剛好。",
+        price: "$$（150～300 元）"
+    },
+    {
+        name: "湄南河風味",
+        lat: 24.1505,
+        lng: 120.6839,
+        address: "台中市北區三民路",
+        note: "涼拌青木瓜酸辣比例抓得剛好，月亮蝦餅外酥內嫩是必點。",
+        price: "$$（200～350 元）"
+    },
+    {
+        name: "小象泰食堂",
+        lat: 22.6177,
+        lng: 120.3122,
+        address: "高雄市苓雅區四維路",
+        note: "綠咖哩濃郁帶辣，份量大，搭配香茅檸檬魚很開胃，適合多人分食。",
+        price: "$$$（300～450 元）"
+    }
+];
+function renderRestaurants(list) {
+    var box = document.getElementById("restaurantList");
+    if (list.length === 0) {
+        box.innerHTML = "目前距離範圍內沒有店家，試試擴大範圍。";
+        return;
+    }
+    var html = "";
+    list.forEach(function (item) {
+        var distanceText = item.distance !== null
+            ? "📏 距離你約 " + item.distance.toFixed(1) + " 公里"
+            : "";
+        html += "<div class=\"record-item\">";
+        html += "<div class=\"record-title\">" + item.name + "</div>";
+        html += "<div class=\"record-content\">";
+        html += "📍 <a href=\"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.name) + "\" target=\"_blank\">" + item.address + "</a>";
+        html += "<br><br>";
+        html += "💬 " + item.note;
+        html += "<br><br>";
+        html += "💰 " + item.price;
+        if (distanceText) {
+            html += "<br><br>" + distanceText;
+        }
+        html += "</div></div>";
+    });
+    box.innerHTML = html;
+}
 document.getElementById("backBtn").onclick = function () {
     location.href = "food.html";
 };
 document.getElementById("homeBtn").onclick = function () {
     location.href = "dashboard.html";
 };
+</script>
+<script src="food_distance.js?v=1.0.0"></script>
+<script>
+initFoodDistance(thaiList, renderRestaurants);
 </script>
 </body>
 </html>
