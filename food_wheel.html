@@ -1,1 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎡 轉盤選美食</title>
+<link rel="stylesheet" href="style.css?v=4.0.0">
+<style>
+.wheel-wrap {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 24px auto;
+}
+.wheel {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    background: conic-gradient(
+        #ffb347 0deg 90deg,
+        #ff7b7b 90deg 180deg,
+        #7bc9ff 180deg 270deg,
+        #9be37b 270deg 360deg
+    );
+    position: relative;
+    transition: transform 3s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+}
+.wheel-label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+.wheel-label.l1 { top: 22%; left: 0; transform: translateX(-30%); }
+.wheel-label.l2 { top: 55%; left: 30%; }
+.wheel-label.l3 { top: 55%; left: -30%; }
+.wheel-label.l4 { top: 22%; left: 0; transform: translateX(30%); }
+.pointer {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 22px solid #333;
+    z-index: 10;
+}
+.wheel-result {
+    text-align: center;
+    margin-top: 8px;
+}
+.name-roll {
+    font-size: 20px;
+    font-weight: bold;
+    min-height: 28px;
+    color: #ff7b7b;
+}
+.name-roll.settled {
+    color: #333;
+    animation: settle-pop 0.4s ease;
+}
+@keyframes settle-pop {
+    0% { transform: scale(1.3); }
+    60% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+</style>
+</head>
+<body>
+<div class="dashboard-container">
+    <section class="profile-card">
+        <div class="profile-avatar">
+            🎡
+        </div>
+        <div class="profile-info">
+            <h2>轉盤選美食</h2>
+            <p>選擇困難？讓命運決定今天吃什麼！</p>
+        </div>
+    </section>
 
+    <div class="wheel-wrap">
+        <div class="pointer"></div>
+        <div class="wheel" id="wheel">
+            <div class="wheel-label l1">🍱 台式</div>
+            <div class="wheel-label l2">🍣 日式</div>
+            <div class="wheel-label l3">🍛 泰式</div>
+            <div class="wheel-label l4">🍲 韓式</div>
+        </div>
+    </div>
+
+    <button id="spinBtn" class="primary-btn">
+        🎲 開始轉動
+    </button>
+
+    <section id="wheelResult" class="quote-card wheel-result">
+        <h3>轉一轉，看看今天吃什麼！</h3>
+    </section>
+
+    <button id="backBtn" class="primary-btn">
+        ← 返回美食世界
+    </button>
+    <button id="homeBtn" class="primary-btn">
+        🏠 返回首頁
+    </button>
+
+    <footer>
+        人生RPG v1.0
+        <br>
+        Food World • Wheel
+    </footer>
+</div>
+
+<script>
+// 四個分類，對應轉盤的四個區塊（每塊 90 度）
+// 區塊角度從指針（正上方 0 度）順時針算：
+// 0~90 台式, 90~180 日式, 180~270 泰式, 270~360 韓式
+var foodPool = {
+    "台式": [
+        { name: "阿嬤的灶咖", page: "taiwanese.html" },
+        { name: "大份小炒", page: "taiwanese.html" },
+        { name: "巷口意麵", page: "taiwanese.html" },
+        { name: "阿福羹麵", page: "taiwanese.html" }
+    ],
+    "日式": [
+        { name: "弐丸壽司", page: "japanese.html" },
+        { name: "麵屋一燈", page: "japanese.html" },
+        { name: "串燒和民", page: "japanese.html" }
+    ],
+    "泰式": [
+        { name: "曼谷小館", page: "thai.html" },
+        { name: "湄南河風味", page: "thai.html" },
+        { name: "小象泰食堂", page: "thai.html" }
+    ],
+    "韓式": [
+        { name: "首爾家烤肉", page: "korean.html" },
+        { name: "部隊鍋專門店", page: "korean.html" },
+        { name: "明洞炸雞屋", page: "korean.html" }
+    ]
+};
+
+var categories = ["台式", "日式", "泰式", "韓式"];
+var currentRotation = 0;
+var spinning = false;
+
+document.getElementById("spinBtn").onclick = function () {
+    if (spinning) return;
+    spinning = true;
+
+    // 隨機選一個分類
+    var categoryIndex = Math.floor(Math.random() * categories.length);
+    var category = categories[categoryIndex];
+
+    // 每個分類佔 90 度，指針固定指向正上方（0 度）
+    // 讓轉盤轉到對應分類的中心對準指針
+    var sliceCenter = categoryIndex * 90 + 45;
+
+    // 多轉 4~6 圈增加效果，並讓對應分類停在正上方（指針位置）
+    var extraSpins = 4 + Math.floor(Math.random() * 3);
+    var targetRotation = extraSpins * 360 + (360 - sliceCenter);
+
+    currentRotation += targetRotation;
+
+    var wheel = document.getElementById("wheel");
+    wheel.style.transform = "rotate(" + currentRotation + "deg)";
+
+    setTimeout(function () {
+        // 從該分類隨機抽一家店
+        var list = foodPool[category];
+        var pick = list[Math.floor(Math.random() * list.length)];
+
+        var resultBox = document.getElementById("wheelResult");
+        resultBox.innerHTML =
+            "<h3>🎉 分類：" + category + "</h3>" +
+            "<div class=\"name-roll\" id=\"nameRoll\">抽選中...</div>" +
+            "<div id=\"detailArea\"></div>";
+
+        // 跑馬燈效果：快速隨機跳出店名，逐漸變慢，最後定格在抽到的店家
+        var rollEl = document.getElementById("nameRoll");
+        var allNames = [];
+        for (var c in foodPool) {
+            for (var i = 0; i < foodPool[c].length; i++) {
+                allNames.push(foodPool[c][i].name);
+            }
+        }
+
+        var rollCount = 0;
+        var maxRolls = 18;
+        var delay = 60;
+
+        function rollStep() {
+            rollCount++;
+
+            if (rollCount >= maxRolls) {
+                rollEl.textContent = pick.name;
+                rollEl.classList.add("settled");
+
+                var detailArea = document.getElementById("detailArea");
+                detailArea.innerHTML =
+                    "<button class=\"primary-btn\" onclick=\"location.href='" + pick.page + "'\">查看詳情 →</button>";
+
+                spinning = false;
+                return;
+            }
+
+            // 隨機顯示一個店名（製造跳動感）
+            var randomName = allNames[Math.floor(Math.random() * allNames.length)];
+            rollEl.textContent = randomName;
+
+            // 速度遞減：越接近最後，間隔越長，製造「慢下來」的感覺
+            delay = delay + rollCount * 6;
+            setTimeout(rollStep, delay);
+        }
+
+        rollStep();
+    }, 3000);
+};
+
+document.getElementById("backBtn").onclick = function () {
+    location.href = "food.html";
+};
+document.getElementById("homeBtn").onclick = function () {
+    location.href = "dashboard.html";
+};
+</script>
+</body>
+</html>
