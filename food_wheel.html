@@ -84,6 +84,19 @@
         </div>
     </section>
 
+    <section class="quote-card">
+        <p id="locationStatus">📍 正在取得你的位置...</p>
+    </section>
+
+    <label class="record-label">轉盤範圍</label>
+    <select id="distanceFilter" class="record-select">
+        <option value="all">全部範圍</option>
+        <option value="1">1 公里內</option>
+        <option value="3">3 公里內</option>
+        <option value="5">5 公里內</option>
+        <option value="10">10 公里內</option>
+    </select>
+
     <div class="wheel-wrap">
         <div class="pointer"></div>
         <div class="wheel" id="wheel">
@@ -117,50 +130,95 @@
 </div>
 
 <script>
-// 四個分類，對應轉盤的四個區塊（每塊 90 度）
-// 區塊角度從指針（正上方 0 度）順時針算：
-// 0~90 台式, 90~180 日式, 180~270 泰式, 270~360 韓式
+// 完整店家資料（跟四個分類頁的資料一致，含經緯度）
 var foodPool = {
     "台式": [
-        { name: "阿嬤的灶咖", page: "taiwanese.html" },
-        { name: "大份小炒", page: "taiwanese.html" },
-        { name: "巷口意麵", page: "taiwanese.html" },
-        { name: "阿福羹麵", page: "taiwanese.html" }
+        { name: "阿嬤的灶咖", lat: 24.1469, lng: 120.6839, page: "taiwanese.html" },
+        { name: "大份小炒", lat: 25.0418, lng: 121.5436, page: "taiwanese.html" },
+        { name: "巷口意麵", lat: 22.6204, lng: 120.2825, page: "taiwanese.html" },
+        { name: "阿福羹麵", lat: 22.9956, lng: 120.2007, page: "taiwanese.html" }
     ],
     "日式": [
-        { name: "弐丸壽司", page: "japanese.html" },
-        { name: "麵屋一燈", page: "japanese.html" },
-        { name: "串燒和民", page: "japanese.html" }
+        { name: "弐丸壽司", lat: 25.0330, lng: 121.5640, page: "japanese.html" },
+        { name: "麵屋一燈", lat: 24.1614, lng: 120.6483, page: "japanese.html" },
+        { name: "串燒和民", lat: 22.6829, lng: 120.2945, page: "japanese.html" }
     ],
     "泰式": [
-        { name: "曼谷小館", page: "thai.html" },
-        { name: "湄南河風味", page: "thai.html" },
-        { name: "小象泰食堂", page: "thai.html" }
+        { name: "曼谷小館", lat: 25.0631, lng: 121.5267, page: "thai.html" },
+        { name: "湄南河風味", lat: 24.1505, lng: 120.6839, page: "thai.html" },
+        { name: "小象泰食堂", lat: 22.6177, lng: 120.3122, page: "thai.html" }
     ],
     "韓式": [
-        { name: "首爾家烤肉", page: "korean.html" },
-        { name: "部隊鍋專門店", page: "korean.html" },
-        { name: "明洞炸雞屋", page: "korean.html" }
+        { name: "首爾家烤肉", lat: 25.0500, lng: 121.5582, page: "korean.html" },
+        { name: "部隊鍋專門店", lat: 24.1477, lng: 120.6469, page: "korean.html" },
+        { name: "明洞炸雞屋", lat: 22.6273, lng: 120.3186, page: "korean.html" }
     ]
 };
 
 var categories = ["台式", "日式", "泰式", "韓式"];
 var currentRotation = 0;
 var spinning = false;
+var userLat = null;
+var userLng = null;
+
+// Haversine 距離公式
+function calcDistanceKm(lat1, lng1, lat2, lng2) {
+    var R = 6371;
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLng = (lng2 - lng1) * Math.PI / 180;
+    var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+// 取得目前篩選範圍下，各分類「還有剩下的店家」
+function getFilteredPool() {
+    var filterValue = document.getElementById("distanceFilter").value;
+    var filtered = {};
+
+    categories.forEach(function (cat) {
+        var list = foodPool[cat];
+
+        if (filterValue === "all" || userLat === null) {
+            filtered[cat] = list;
+        } else {
+            var maxKm = parseFloat(filterValue);
+            filtered[cat] = list.filter(function (item) {
+                var d = calcDistanceKm(userLat, userLng, item.lat, item.lng);
+                return d <= maxKm;
+            });
+        }
+    });
+
+    return filtered;
+}
 
 document.getElementById("spinBtn").onclick = function () {
     if (spinning) return;
+
+    var filteredPool = getFilteredPool();
+
+    // 篩出「還有店家」的分類
+    var availableCategories = categories.filter(function (cat) {
+        return filteredPool[cat].length > 0;
+    });
+
+    if (availableCategories.length === 0) {
+        var resultBox = document.getElementById("wheelResult");
+        resultBox.innerHTML = "<h3>😢 這個範圍內沒有符合的店家，試試擴大範圍吧！</h3>";
+        return;
+    }
+
     spinning = true;
 
-    // 隨機選一個分類
-    var categoryIndex = Math.floor(Math.random() * categories.length);
-    var category = categories[categoryIndex];
+    // 從「有剩餘店家」的分類裡隨機選一個
+    var category = availableCategories[Math.floor(Math.random() * availableCategories.length)];
+    var categoryIndex = categories.indexOf(category);
 
-    // 每個分類佔 90 度，指針固定指向正上方（0 度）
-    // 讓轉盤轉到對應分類的中心對準指針
     var sliceCenter = categoryIndex * 90 + 45;
-
-    // 多轉 4~6 圈增加效果，並讓對應分類停在正上方（指針位置）
     var extraSpins = 4 + Math.floor(Math.random() * 3);
     var targetRotation = extraSpins * 360 + (360 - sliceCenter);
 
@@ -170,8 +228,7 @@ document.getElementById("spinBtn").onclick = function () {
     wheel.style.transform = "rotate(" + currentRotation + "deg)";
 
     setTimeout(function () {
-        // 從該分類隨機抽一家店
-        var list = foodPool[category];
+        var list = filteredPool[category];
         var pick = list[Math.floor(Math.random() * list.length)];
 
         var resultBox = document.getElementById("wheelResult");
@@ -180,14 +237,15 @@ document.getElementById("spinBtn").onclick = function () {
             "<div class=\"name-roll\" id=\"nameRoll\">抽選中...</div>" +
             "<div id=\"detailArea\"></div>";
 
-        // 跑馬燈效果：快速隨機跳出店名，逐漸變慢，最後定格在抽到的店家
         var rollEl = document.getElementById("nameRoll");
+
+        // 跑馬燈時也只在「篩選後可用」的店名裡跳動，避免跳出範圍外的店名造成誤導
         var allNames = [];
-        for (var c in foodPool) {
-            for (var i = 0; i < foodPool[c].length; i++) {
-                allNames.push(foodPool[c][i].name);
-            }
-        }
+        categories.forEach(function (c) {
+            filteredPool[c].forEach(function (item) {
+                allNames.push(item.name);
+            });
+        });
 
         var rollCount = 0;
         var maxRolls = 18;
@@ -208,11 +266,9 @@ document.getElementById("spinBtn").onclick = function () {
                 return;
             }
 
-            // 隨機顯示一個店名（製造跳動感）
             var randomName = allNames[Math.floor(Math.random() * allNames.length)];
             rollEl.textContent = randomName;
 
-            // 速度遞減：越接近最後，間隔越長，製造「慢下來」的感覺
             delay = delay + rollCount * 6;
             setTimeout(rollStep, delay);
         }
@@ -220,6 +276,24 @@ document.getElementById("spinBtn").onclick = function () {
         rollStep();
     }, 3000);
 };
+
+// 定位
+var statusBox = document.getElementById("locationStatus");
+
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+        function (position) {
+            userLat = position.coords.latitude;
+            userLng = position.coords.longitude;
+            statusBox.innerHTML = "📍 已取得你的位置，可依距離篩選轉盤範圍";
+        },
+        function () {
+            statusBox.innerHTML = "⚠️ 無法取得你的位置，將以全部範圍轉動";
+        }
+    );
+} else {
+    statusBox.innerHTML = "⚠️ 你的瀏覽器不支援定位功能";
+}
 
 document.getElementById("backBtn").onclick = function () {
     location.href = "food.html";
