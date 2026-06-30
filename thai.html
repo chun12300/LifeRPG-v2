@@ -3,30 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🍛 泰式料理</title>
+<title>🍣 日式料理</title>
 <link rel="stylesheet" href="style.css?v=4.0.0">
 </head>
 <body>
 <div class="dashboard-container">
     <section class="profile-card">
         <div class="profile-avatar">
-            🍛
+            🍣
         </div>
         <div class="profile-info">
-            <h2>泰式料理</h2>
-            <p>酸辣開胃，吃完整個人都醒了</p>
+            <h2>日式料理</h2>
+            <p>職人手藝，精緻而講究</p>
         </div>
     </section>
 
     <div class="record-item">
-        <div class="record-title">曼谷小館</div>
+        <div class="record-title">弐丸壽司</div>
         <div class="record-content">
-            📍 <a href="https://www.google.com/maps/search/?api=1&query=曼谷小館" target="_blank">台北市中山區雙城街</a>
+            📍 <a href="https://www.google.com/maps/search/?api=1&query=弐丸壽司" target="_blank">台北市信義區松壽路</a>
             <br><br>
-            💬 打拋豬辣度夠味、椰汁雞湯香濃順口，泰式奶茶甜度剛剛好。
+            💬 師傅手握壽司，米飯溫度跟醋飯比例都很到位，午間套餐 CP 值高。
             <br><br>
-            💰 $$（150～300 元）
+            💰 $$$（300～600 元）
         </div>
     </div>
 
     <div class="record-item">
+        <div class="record-title">麵屋一燈</div>
+        <div class="record-content">
+            📍 <a href="https://www.google.com/maps/search/?api=1&query=麵屋一燈" target="_blank">台中市西屯區台灣大道</a>
+            <br><br>
+            💬 豚骨拉麵湯頭濃郁不死膩，叉燒入口即化，是排隊名單上的常客。
+            <br><br>
+            💰 $$（200～300 元）
+        </div>
+    </div>
+
+    <div class="record-item">
+        <div class="record-title">串燒和民</div>
+        <div class="record-content">
+            📍 <a href="https://www.google.com/maps/search/?api=1&query=串燒和民" target="_blank">高雄市左營區博愛路</a>
+            <br><br>
+            💬 居酒屋氛圍輕鬆，串燒種類多樣，配生啤酒剛剛好，適合下班小聚。
+            <br><br>
+            💰 $$（200～350 元）
+        </div>
+    </div>
+
+    <button id="backBtn" class="primary-btn">
+        ← 返回美食世界
+    </button>
+    <button id="homeBtn" class="primary-btn">
+        🏠 返回首頁
+    </button>
+
+    <footer>
+        人生RPG v1.0
+        <br>
+        Food World • Japanese
+    </footer>
+</div>
+<script>
+document.getElementById("backBtn").onclick = function () {
+    location.href = "food.html";
+};
+document.getElementById("homeBtn").onclick = function () {
+    location.href = "dashboard.html";
+};
+</script>
+</body>
+</html>
