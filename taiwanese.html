@@ -15,6 +15,18 @@
     0%, 100% { box-shadow: 0 0 20px rgba(255, 216, 107, 0.6); }
     50% { box-shadow: 0 0 32px rgba(255, 216, 107, 0.9); }
 }
+.record-delete-small {
+    width: 100%;
+    margin-top: 10px;
+    height: 40px;
+    border: none;
+    border-radius: 12px;
+    background: #E74C3C;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -28,9 +40,37 @@
             <p>道地家鄉味，吃了會想家</p>
         </div>
     </section>
+
+    <button id="searchMapBtn" class="primary-btn">
+        🔍 在 Google 地圖找台式料理
+    </button>
+
+    <section class="quote-card">
+        <h3>✏️ 新增店家</h3>
+    </section>
+
+    <label class="record-label">店名</label>
+    <input type="text" id="newName" class="record-input-large" placeholder="例如：阿嬤的灶咖">
+
+    <label class="record-label">心得</label>
+    <textarea id="newNote" class="record-note" placeholder="例如：滷肉飯很香，CP值高"></textarea>
+
+    <label class="record-label">價位</label>
+    <select id="newPrice" class="record-select">
+        <option value="$（50～100 元）">$（50～100 元）</option>
+        <option value="$$（100～200 元）">$$（100～200 元）</option>
+        <option value="$$$（200～400 元）">$$$（200～400 元）</option>
+        <option value="$$$$（400 元以上）">$$$$（400 元以上）</option>
+    </select>
+
+    <button id="addBtn" class="primary-btn">
+        ➕ 新增（將以你目前位置作為店家座標）
+    </button>
+
     <section class="quote-card">
         <p id="locationStatus">📍 正在取得你的位置...</p>
     </section>
+
     <label class="record-label">顯示距離範圍</label>
     <select id="distanceFilter" class="record-select">
         <option value="all">全部顯示</option>
@@ -39,28 +79,35 @@
         <option value="5">5 公里內</option>
         <option value="10">10 公里內</option>
     </select>
+
     <div id="restaurantList"></div>
+
     <button id="backBtn" class="primary-btn">
         ← 返回美食世界
     </button>
     <button id="homeBtn" class="primary-btn">
         🏠 返回首頁
     </button>
+
     <footer>
         人生RPG v1.0
         <br>
         Food World • Taiwanese
     </footer>
 </div>
+
 <script>
-var taiwaneseList = [
+var STORAGE_KEY = "customFood_taiwanese";
+
+var defaultList = [
     {
         name: "阿嬤的灶咖",
         lat: 24.1469,
         lng: 120.6839,
         address: "台中市西區美村路",
         note: "滷肉飯香氣十足，滷汁入味不死鹹，是巷口排隊名店。",
-        price: "$$（100～200 元）"
+        price: "$$（100～200 元）",
+        custom: false
     },
     {
         name: "大份小炒",
@@ -68,7 +115,8 @@ var taiwaneseList = [
         lng: 121.5436,
         address: "台北市大安區忠孝東路",
         note: "熱炒類份量超大，三杯雞跟蒜泥白肉是招牌，適合多人聚餐。",
-        price: "$$$（300～500 元）"
+        price: "$$$（300～500 元）",
+        custom: false
     },
     {
         name: "巷口意麵",
@@ -76,7 +124,8 @@ var taiwaneseList = [
         lng: 120.2825,
         address: "高雄市鹽埕區七賢路",
         note: "古早味意麵，湯頭清爽，搭配滷蛋跟燙青菜剛剛好，銅板價超划算。",
-        price: "$（50～100 元）"
+        price: "$（50～100 元）",
+        custom: false
     },
     {
         name: "阿福羹麵",
@@ -84,13 +133,75 @@ var taiwaneseList = [
         lng: 120.2007,
         address: "台南市中西區民族路",
         note: "肉羹湯頭濃郁帶點甜味，肉羹條Q彈不軟爛，台南老店風味。",
-        price: "$$（100～200 元）"
+        price: "$$（100～200 元）",
+        custom: false
     }
 ];
+
+function getCustomList() {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+}
+
+function saveCustomList(list) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+}
+
+function getFullList() {
+    return defaultList.concat(getCustomList());
+}
 
 function getHighlightName() {
     var params = new URLSearchParams(window.location.search);
     return params.get("highlight");
+}
+
+var userLatForAdd = null;
+var userLngForAdd = null;
+
+document.getElementById("searchMapBtn").onclick = function () {
+    window.open("https://www.google.com/maps/search/台式料理", "_blank");
+};
+
+document.getElementById("addBtn").onclick = function () {
+    var name = document.getElementById("newName").value.trim();
+    var note = document.getElementById("newNote").value.trim();
+    var price = document.getElementById("newPrice").value;
+
+    if (name === "") {
+        alert("請輸入店名");
+        return;
+    }
+
+    if (userLatForAdd === null) {
+        alert("尚未取得你的位置，請稍候再試一次，或確認已允許定位授權");
+        return;
+    }
+
+    var customList = getCustomList();
+    customList.push({
+        name: name,
+        lat: userLatForAdd,
+        lng: userLngForAdd,
+        address: "（依新增當下定位）",
+        note: note || "（無備註）",
+        price: price,
+        custom: true
+    });
+    saveCustomList(customList);
+
+    document.getElementById("newName").value = "";
+    document.getElementById("newNote").value = "";
+
+    initFoodDistance(getFullList(), renderRestaurants);
+};
+
+function deleteCustom(index) {
+    if (!confirm("確定刪除這筆自訂店家？")) return;
+    var customList = getCustomList();
+    customList.splice(index, 1);
+    saveCustomList(customList);
+    initFoodDistance(getFullList(), renderRestaurants);
 }
 
 function renderRestaurants(list) {
@@ -102,6 +213,7 @@ function renderRestaurants(list) {
     }
 
     var highlightName = getHighlightName();
+    var customList = getCustomList();
     var html = "";
 
     list.forEach(function (item, index) {
@@ -116,6 +228,9 @@ function renderRestaurants(list) {
         if (isHighlight) {
             html += "<div style=\"color:#FFD86B; font-weight:bold; margin-bottom:8px;\">🎯 轉盤抽中這家！</div>";
         }
+        if (item.custom) {
+            html += "<div style=\"color:#9CB5DF; font-size:13px; margin-bottom:6px;\">✏️ 自己新增的店家</div>";
+        }
         html += "<div class=\"record-title\">" + item.name + "</div>";
         html += "<div class=\"record-content\">";
         html += "📍 <a href=\"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.name) + "\" target=\"_blank\">" + item.address + "</a>";
@@ -126,7 +241,14 @@ function renderRestaurants(list) {
         if (distanceText) {
             html += "<br><br>" + distanceText;
         }
-        html += "</div></div>";
+        html += "</div>";
+
+        if (item.custom) {
+            var customIndex = customList.findIndex(function (c) { return c.name === item.name && c.note === item.note; });
+            html += "<button class=\"record-delete-small\" onclick=\"deleteCustom(" + customIndex + ")\">🗑️ 刪除這筆</button>";
+        }
+
+        html += "</div>";
     });
 
     box.innerHTML = html;
@@ -151,10 +273,18 @@ document.getElementById("backBtn").onclick = function () {
 document.getElementById("homeBtn").onclick = function () {
     location.href = "dashboard.html";
 };
+
+// 額外取得一次定位，專門給「新增店家」使用（跟距離篩選的定位分開觸發，避免互相干擾）
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        userLatForAdd = position.coords.latitude;
+        userLngForAdd = position.coords.longitude;
+    });
+}
 </script>
 <script src="food_distance.js?v=1.0.0"></script>
 <script>
-initFoodDistance(taiwaneseList, renderRestaurants);
+initFoodDistance(getFullList(), renderRestaurants);
 </script>
 </body>
 </html>
