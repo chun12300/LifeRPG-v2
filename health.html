@@ -1,121 +1,66 @@
 <!DOCTYPE html>
-
 <html lang="zh-TW">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>💪 獨自升級</title>
-
 <link rel="stylesheet" href="style.css?v=4.0.0">
-
 </head>
-
 <body>
-
 <div class="dashboard-container">
-
     <section class="profile-card">
-
         <div class="profile-avatar">
-
             💪
-
         </div>
-
         <div class="profile-info">
-
             <h2>獨自升級</h2>
-
             <p>每天比昨天更強一點</p>
-
         </div>
-
     </section>
-
     <section class="quote-card">
-
         <p>今天，你想提升哪一項能力？</p>
-
     </section>
-
     <div class="world-grid">
-
         <div class="world-card" onclick="location.href='exercise.html'">
-
             <div class="world-icon">🏋️</div>
-
             <h3>運動</h3>
-
             <p id="exerciseSummary">尚無紀錄</p>
-
             <p>記錄今天的運動成果</p>
-
         </div>
-
         <div class="world-card" onclick="location.href='weight.html'">
-
             <div class="world-icon">⚖️</div>
-
             <h3>體重</h3>
-
             <p id="weightSummary">尚無紀錄</p>
-
             <p>追蹤每日體重變化</p>
-
         </div>
-
         <div class="world-card" onclick="location.href='water.html'">
-
             <div class="world-icon">💧</div>
-
             <h3>喝水</h3>
-
             <p id="waterSummary">尚無紀錄</p>
-
             <p>養成每天補水習慣</p>
-
         </div>
-
         <div class="world-card" onclick="location.href='sleep.html'">
-
             <div class="world-icon">😴</div>
-
             <h3>睡眠</h3>
-
             <p id="sleepSummary">尚無紀錄</p>
-
             <p>保持充足睡眠品質</p>
-
         </div>
-
         <div class="world-card" onclick="location.href='bmi.html'">
-
             <div class="world-icon">📏</div>
-
             <h3>BMI</h3>
-
             <p id="bmiSummary">尚無紀錄</p>
-
             <p>了解身體健康狀態</p>
-
         </div>
-
     </div>
-
     <button id="backBtn" class="primary-btn">
-
-        ← 返回 Dashboard
-
+        ← 返回首頁
     </button>
-
 </div>
-
+<script>
+document.getElementById("backBtn").onclick = function () {
+    location.href = "dashboard.html";
+};
+</script>
 <script src="health.js?v=3.0.1"></script>
-
 </body>
-
 </html>
