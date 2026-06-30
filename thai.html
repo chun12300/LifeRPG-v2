@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🍛 泰式料理</title>
 <link rel="stylesheet" href="style.css?v=4.0.0">
+<style>
+.record-item.highlighted {
+    border: 3px solid #FFD86B;
+    box-shadow: 0 0 20px rgba(255, 216, 107, 0.6);
+    animation: highlight-pulse 1.5s ease-in-out 2;
+}
+@keyframes highlight-pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 216, 107, 0.6); }
+    50% { box-shadow: 0 0 32px rgba(255, 216, 107, 0.9); }
+}
+</style>
 </head>
 <body>
 <div class="dashboard-container">
@@ -68,18 +79,35 @@ var thaiList = [
         price: "$$$（300～450 元）"
     }
 ];
+
+function getHighlightName() {
+    var params = new URLSearchParams(window.location.search);
+    return params.get("highlight");
+}
+
 function renderRestaurants(list) {
     var box = document.getElementById("restaurantList");
+
     if (list.length === 0) {
         box.innerHTML = "目前距離範圍內沒有店家，試試擴大範圍。";
         return;
     }
+
+    var highlightName = getHighlightName();
     var html = "";
-    list.forEach(function (item) {
+
+    list.forEach(function (item, index) {
         var distanceText = item.distance !== null
             ? "📏 距離你約 " + item.distance.toFixed(1) + " 公里"
             : "";
-        html += "<div class=\"record-item\">";
+
+        var isHighlight = highlightName && item.name === highlightName;
+        var itemId = "restaurant-" + index;
+
+        html += "<div class=\"record-item" + (isHighlight ? " highlighted" : "") + "\" id=\"" + itemId + "\">";
+        if (isHighlight) {
+            html += "<div style=\"color:#FFD86B; font-weight:bold; margin-bottom:8px;\">🎯 轉盤抽中這家！</div>";
+        }
         html += "<div class=\"record-title\">" + item.name + "</div>";
         html += "<div class=\"record-content\">";
         html += "📍 <a href=\"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.name) + "\" target=\"_blank\">" + item.address + "</a>";
@@ -92,8 +120,23 @@ function renderRestaurants(list) {
         }
         html += "</div></div>";
     });
+
     box.innerHTML = html;
+
+    if (highlightName) {
+        var targetEl = list.find(function (item) { return item.name === highlightName; });
+        if (targetEl) {
+            var idx = list.indexOf(targetEl);
+            var el = document.getElementById("restaurant-" + idx);
+            if (el) {
+                setTimeout(function () {
+                    el.scrollIntoView({ behavior: "smooth", block: "center" });
+                }, 300);
+            }
+        }
+    }
 }
+
 document.getElementById("backBtn").onclick = function () {
     location.href = "food.html";
 };
