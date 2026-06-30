@@ -1,160 +1,97 @@
 <!DOCTYPE html>
-
 <html lang="zh-TW">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
-
 <title>⚖️ 體重紀錄</title>
-
 <link
 rel="stylesheet"
 href="style.css?v=4.0.0">
-
 </head>
-
 <body>
-
 <div class="dashboard-container">
-
     <!-- 玩家資訊 -->
-
     <section class="profile-card">
-
         <div class="profile-avatar">
-
             ⚖️
-
         </div>
-
         <div class="profile-info">
-
             <h2>
-
                 體重紀錄
-
             </h2>
-
             <p>
-
                 每天記錄體重，看見自己的改變。
-
             </p>
-
         </div>
-
     </section>
-
     <!-- 標題 -->
-
     <section class="quote-card">
-
         <h3>
-
             今天的體重
-
         </h3>
-
     </section>
-
     <label class="record-label">
-
         體重（kg）
-
     </label>
-
     <input
-
         type="number"
-
         step="0.1"
-
         id="weightValue"
-
         class="record-input-large"
-
         placeholder="例如：72.5">
-
     <label class="record-label">
-
         備註（可略）
-
     </label>
-
     <textarea
-
         id="weightNote"
-
         class="record-note"
-
         placeholder="例如：
 今天早餐前量測
 昨天有運動
 最近睡眠變好了..."></textarea>
-
     <button
-
         id="saveWeight"
-
         class="primary-btn">
-
         💾 儲存紀錄
-
     </button>
-
     <section class="quote-card">
-
         <h3>
-
             📋 體重紀錄
-
         </h3>
-
         <p class="record-tip">
-
             建議每天固定時間量測，方便觀察趨勢。
-
         </p>
-
         <div id="weightList">
-
             尚無紀錄
-
         </div>
-
     </section>
-
     <button
-
         id="backBtn"
-
         class="primary-btn">
-
         ← 返回健康世界
-
     </button>
-
+    <button
+        id="homeBtn"
+        class="primary-btn">
+        🏠 返回首頁
+    </button>
     <footer>
-
         人生RPG v3.0
-
         <br>
-
         Health World • Weight
-
     </footer>
     </div>
-
 <!-- JavaScript -->
-
+<script>
+document.getElementById("backBtn").onclick = function () {
+    location.href = "health.html";
+};
+document.getElementById("homeBtn").onclick = function () {
+    location.href = "dashboard.html";
+};
+</script>
 <script src="app.js?v=4.0.0"></script>
-
 <script src="health.js?v=3.0.0"></script>
-
 </body>
-
 </html>
