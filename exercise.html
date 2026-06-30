@@ -1,188 +1,61 @@
 <!DOCTYPE html>
-
 <html lang="zh-TW">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
-
 <title>🏋️ 運動紀錄</title>
-
 <link
 rel="stylesheet"
 href="style.css?v=4.0.0">
-
 </head>
-
 <body>
-
 <div class="dashboard-container">
-
     <!-- 玩家資訊 -->
-
     <section class="profile-card">
-
         <div class="profile-avatar">
-
             🏋️
-
         </div>
-
         <div class="profile-info">
-
             <h2>
-
                 運動紀錄
-
             </h2>
-
             <p>
-
                 每天動一點，讓自己比昨天更強。
-
             </p>
-
         </div>
-
     </section>
-
     <!-- 標題 -->
-
     <section class="quote-card">
-
         <h3>
-
             今天做了什麼運動？
-
         </h3>
-
     </section>
-
     <label class="record-label">
-
         運動種類
-
     </label>
-
     <select
-
         id="exerciseType"
-
         class="record-input-large">
-
         <option>快走</option>
-
         <option>跑步</option>
-
         <option>重訓</option>
-
         <option>騎腳踏車</option>
-
         <option>游泳</option>
-
         <option>瑜珈</option>
-
         <option>登山</option>
-
         <option>伸展</option>
-
         <option>其它</option>
-
     </select>
-
     <label class="record-label">
-
         運動時間（分鐘）
-
     </label>
-
     <input
-
         type="number"
-
         id="exerciseMinute"
-
         class="record-input-large"
-
         placeholder="例如：30">
-
     <label class="record-label">
-
         備註（可略）
-
     </label>
-
     <textarea
-
-        id="exerciseNote"
-
-        class="record-note"
-
-        placeholder="例如：
-今天精神很好
-完成重訓課表
-流了很多汗..."></textarea>
-
-    <button
-
-        id="saveExercise"
-
-        class="primary-btn">
-
-        💾 儲存紀錄
-
-    </button>
-
-    <section class="quote-card">
-
-        <h3>
-
-            📋 運動紀錄
-
-        </h3>
-
-        <p class="record-tip">
-
-            每天持續一點點，就是最好的進步。
-
-        </p>
-
-        <div id="exerciseList">
-
-            尚無紀錄
-
-        </div>
-
-    </section>
-
-    <button
-
-        id="backBtn"
-
-        class="primary-btn">
-
-        ← 返回健康世界
-
-    </button>
-
-    <footer>
-
-        人生RPG v3.0
-
-        <br>
-
-        Health World • Exercise
-
-    </footer>
-    </div>
-
-<!-- JavaScript -->
-
-<script src="health.js?v=3.0.1"></script>
-
-</body>
-
-</html>
