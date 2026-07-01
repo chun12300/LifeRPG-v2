@@ -1,1 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏔 景點介紹</title>
+<link rel="stylesheet" href="style.css?v=4.0.0">
+<style>
+.record-delete-small {
+    width: 100%;
+    margin-top: 10px;
+    height: 40px;
+    border: none;
+    border-radius: 12px;
+    background: #E74C3C;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div class="dashboard-container">
+    <section class="profile-card">
+        <div class="profile-avatar">
+            🏔
+        </div>
+        <div class="profile-info">
+            <h2>景點介紹</h2>
+            <p>記錄走過的美好地方</p>
+        </div>
+    </section>
 
+    <button id="searchMapBtn" class="primary-btn">
+        🔍 在 Google 地圖找景點
+    </button>
+
+    <section class="quote-card">
+        <h3>✏️ 新增景點</h3>
+    </section>
+
+    <label class="record-label">景點名稱</label>
+    <input type="text" id="newName" class="record-input-large" placeholder="例如：阿里山">
+
+    <label class="record-label">介紹/心得</label>
+    <textarea id="newNote" class="record-note" placeholder="例如：日出很美，建議提早出發"></textarea>
+
+    <label class="record-label">費用</label>
+    <select id="newPrice" class="record-select">
+        <option value="免費">免費</option>
+        <option value="$（100 元以下）">$（100 元以下）</option>
+        <option value="$$（100～500 元）">$$（100～500 元）</option>
+        <option value="$$$（500 元以上）">$$$（500 元以上）</option>
+    </select>
+
+    <button id="addBtn" class="primary-btn">
+        ➕ 新增（將以你目前位置作為景點座標）
+    </button>
+
+    <section class="quote-card">
+        <p id="locationStatus">📍 正在取得你的位置...</p>
+    </section>
+
+    <label class="record-label">顯示距離範圍</label>
+    <select id="distanceFilter" class="record-select">
+        <option value="all">全部顯示</option>
+        <option value="10">10 公里內</option>
+        <option value="30">30 公里內</option>
+        <option value="50">50 公里內</option>
+        <option value="100">100 公里內</option>
+    </select>
+
+    <div id="restaurantList"></div>
+
+    <button id="backBtn" class="primary-btn">
+        ← 返回探索世界
+    </button>
+    <button id="homeBtn" class="primary-btn">
+        🏠 返回首頁
+    </button>
+
+    <footer>
+        人生RPG v1.0
+        <br>
+        Explore World • Attraction
+    </footer>
+</div>
+
+<script>
+var STORAGE_KEY = "customExplore_attraction";
+
+var defaultList = [
+    {
+        name: "阿里山國家森林遊樂區",
+        lat: 23.5136,
+        lng: 120.8028,
+        address: "嘉義縣阿里山鄉",
+        note: "日出雲海絕美，建議早起搭小火車上山，春天還有櫻花可以看。",
+        price: "$$（100～500 元）",
+        custom: false
+    },
+    {
+        name: "日月潭",
+        lat: 23.8651,
+        lng: 120.9170,
+        address: "南投縣魚池鄉",
+        note: "湖光山色宜人，騎自行車環湖約需兩小時，纜車景觀一流。",
+        price: "$$（100～500 元）",
+        custom: false
+    },
+    {
+        name: "野柳地質公園",
+        lat: 25.2050,
+        lng: 121.6900,
+        address: "新北市萬里區",
+        note: "奇岩怪石令人驚嘆，女王頭是必拍景點，平日人較少適合拍照。",
+        price: "$（100 元以下）",
+        custom: false
+    }
+];
+
+function getCustomList() {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+}
+
+function saveCustomList(list) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+}
+
+function getFullList() {
+    return defaultList.concat(getCustomList());
+}
+
+var userLatForAdd = null;
+var userLngForAdd = null;
+
+document.getElementById("searchMapBtn").onclick = function () {
+    window.open("https://www.google.com/maps/search/台灣景點", "_blank");
+};
+
+document.getElementById("addBtn").onclick = function () {
+    var name = document.getElementById("newName").value.trim();
+    var note = document.getElementById("newNote").value.trim();
+    var price = document.getElementById("newPrice").value;
+
+    if (name === "") {
+        alert("請輸入景點名稱");
+        return;
+    }
+    if (userLatForAdd === null) {
+        alert("尚未取得你的位置，請稍候再試一次");
+        return;
+    }
+
+    var customList = getCustomList();
+    customList.push({
+        name: name,
+        lat: userLatForAdd,
+        lng: userLngForAdd,
+        address: "（依新增當下定位）",
+        note: note || "（無備註）",
+        price: price,
+        custom: true
+    });
+    saveCustomList(customList);
+
+    document.getElementById("newName").value = "";
+    document.getElementById("newNote").value = "";
+
+    initFoodDistance(getFullList(), renderList);
+};
+
+function deleteCustom(index) {
+    if (!confirm("確定刪除這筆景點？")) return;
+    var customList = getCustomList();
+    customList.splice(index, 1);
+    saveCustomList(customList);
+    initFoodDistance(getFullList(), renderList);
+}
+
+function renderList(list) {
+    var box = document.getElementById("restaurantList");
+
+    if (list.length === 0) {
+        box.innerHTML = "目前距離範圍內沒有景點，試試擴大範圍。";
+        return;
+    }
+
+    var customList = getCustomList();
+    var html = "";
+
+    list.forEach(function (item, index) {
+        var distanceText = item.distance !== null
+            ? "📏 距離你約 " + item.distance.toFixed(1) + " 公里"
+            : "";
+
+        html += "<div class=\"record-item\">";
+        if (item.custom) {
+            html += "<div style=\"color:#9CB5DF; font-size:13px; margin-bottom:6px;\">✏️ 自己新增的景點</div>";
+        }
+        html += "<div class=\"record-title\">" + item.name + "</div>";
+        html += "<div class=\"record-content\">";
+        html += "📍 <a href=\"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(item.name) + "\" target=\"_blank\">" + item.address + "</a>";
+        html += "<br><br>💬 " + item.note;
+        html += "<br><br>💰 " + item.price;
+        if (distanceText) {
+            html += "<br><br>" + distanceText;
+        }
+        html += "</div>";
+
+        if (item.custom) {
+            var customIndex = customList.findIndex(function (c) {
+                return c.name === item.name && c.note === item.note;
+            });
+            html += "<button class=\"record-delete-small\" onclick=\"deleteCustom(" + customIndex + ")\">🗑️ 刪除這筆</button>";
+        }
+
+        html += "</div>";
+    });
+
+    box.innerHTML = html;
+}
+
+document.getElementById("backBtn").onclick = function () {
+    location.href = "explore.html";
+};
+document.getElementById("homeBtn").onclick = function () {
+    location.href = "dashboard.html";
+};
+
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+        userLatForAdd = position.coords.latitude;
+        userLngForAdd = position.coords.longitude;
+    });
+}
+</script>
+<script src="food_distance.js?v=1.0.0"></script>
+<script>
+initFoodDistance(getFullList(), renderList);
+</script>
+</body>
+</html>
