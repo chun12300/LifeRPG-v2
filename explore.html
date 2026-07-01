@@ -1,1 +1,50 @@
-
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🗺 人生探索</title>
+<link rel="stylesheet" href="style.css?v=4.0.0">
+</head>
+<body>
+<div class="dashboard-container">
+    <section class="profile-card">
+        <div class="profile-avatar">
+            🗺
+        </div>
+        <div class="profile-info">
+            <h2>人生探索</h2>
+            <p>去看看世界，也探索自己</p>
+        </div>
+    </section>
+    <section class="quote-card">
+        <p>今天，你想探索什麼？</p>
+    </section>
+    <div class="world-grid">
+        <div class="world-card" onclick="location.href='attraction.html'">
+            <div class="world-icon">🏔</div>
+            <h3>景點介紹</h3>
+            <p>記錄走過的美好地方</p>
+        </div>
+        <div class="world-card" onclick="location.href='family.html'">
+            <div class="world-icon">👨‍👩‍👧</div>
+            <h3>親子同樂</h3>
+            <p>和家人一起的美好時光</p>
+        </div>
+        <div class="world-card" onclick="location.href='bucket_list.html'">
+            <div class="world-icon">📋</div>
+            <h3>人生清單</h3>
+            <p>一件一件完成夢想</p>
+        </div>
+    </div>
+    <button id="backBtn" class="primary-btn">
+        ← 返回首頁
+    </button>
+</div>
+<script>
+document.getElementById("backBtn").onclick = function () {
+    location.href = "dashboard.html";
+};
+</script>
+</body>
+</html>
