@@ -134,7 +134,8 @@
 </div>
 
 <script>
-var foodPool = {
+// 預設店家資料（跟四個分類頁一致）
+var defaultPool = {
     "台式": [
         { name: "阿嬤的灶咖", lat: 24.1469, lng: 120.6839, page: "taiwanese.html" },
         { name: "大份小炒", lat: 25.0418, lng: 121.5436, page: "taiwanese.html" },
@@ -158,6 +159,44 @@ var foodPool = {
     ]
 };
 
+// 讀取各分類頁自訂店家，合併進轉盤資料池
+var storageKeyMap = {
+    "台式": "customFood_taiwanese",
+    "日式": "customFood_japanese",
+    "泰式": "customFood_thai",
+    "韓式": "customFood_korean"
+};
+
+function getFoodPool() {
+    var pool = {};
+    var cats = ["台式", "日式", "泰式", "韓式"];
+    var pageMap = {
+        "台式": "taiwanese.html",
+        "日式": "japanese.html",
+        "泰式": "thai.html",
+        "韓式": "korean.html"
+    };
+
+    cats.forEach(function (cat) {
+        var list = defaultPool[cat].slice();
+        var raw = localStorage.getItem(storageKeyMap[cat]);
+        if (raw) {
+            var customList = JSON.parse(raw);
+            customList.forEach(function (item) {
+                list.push({
+                    name: item.name,
+                    lat: item.lat,
+                    lng: item.lng,
+                    page: pageMap[cat]
+                });
+            });
+        }
+        pool[cat] = list;
+    });
+
+    return pool;
+}
+
 var categories = ["台式", "日式", "泰式", "韓式"];
 var currentRotation = 0;
 var spinning = false;
@@ -178,6 +217,7 @@ function calcDistanceKm(lat1, lng1, lat2, lng2) {
 
 function getFilteredPool() {
     var filterValue = document.getElementById("distanceFilter").value;
+    var foodPool = getFoodPool();
     var filtered = {};
 
     categories.forEach(function (cat) {
