@@ -1,1 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📋 人生清單</title>
+<link rel="stylesheet" href="style.css?v=4.0.0">
+<style>
+.category-section {
+    background: rgba(255,255,255,.08);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 22px;
+}
+.category-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #FFD86B;
+    margin-bottom: 12px;
+}
+.progress-bar-wrap {
+    background: rgba(255,255,255,0.15);
+    border-radius: 10px;
+    height: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #4E7BFF, #FFD86B);
+    transition: width 0.4s ease;
+}
+.progress-label {
+    font-size: 13px;
+    color: #9CB5DF;
+    margin-bottom: 12px;
+}
+.bucket-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.bucket-item:last-of-type {
+    border-bottom: none;
+}
+.bucket-checkbox {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: #4E7BFF;
+}
+.bucket-text {
+    flex: 1;
+    font-size: 17px;
+    line-height: 1.5;
+}
+.bucket-text.done {
+    text-decoration: line-through;
+    color: #9CB5DF;
+}
+.bucket-delete {
+    background: none;
+    border: none;
+    color: #E74C3C;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px;
+}
+.add-section {
+    background: rgba(255,255,255,.08);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 22px;
+}
+</style>
+</head>
+<body>
+<div class="dashboard-container">
+    <section class="profile-card">
+        <div class="profile-avatar">
+            📋
+        </div>
+        <div class="profile-info">
+            <h2>人生清單</h2>
+            <p>一件一件完成，一步一步前進</p>
+        </div>
+    </section>
 
+    <div class="add-section">
+        <h3 style="margin-bottom:16px; color:#FFD86B;">✏️ 新增清單項目</h3>
+
+        <label class="record-label">分類</label>
+        <select id="newCategory" class="record-select">
+            <option value="travel">🌏 旅遊</option>
+            <option value="learn">📚 學習</option>
+            <option value="experience">⭐ 體驗</option>
+        </select>
+
+        <label class="record-label">項目內容</label>
+        <input type="text" id="newItem" class="record-input-large" placeholder="例如：去北海道看雪">
+
+        <button id="addBtn" class="primary-btn">
+            ➕ 新增項目
+        </button>
+    </div>
+
+    <!-- 旅遊類 -->
+    <div class="category-section">
+        <div class="category-title">🌏 旅遊</div>
+        <div class="progress-label" id="travelLabel">載入中...</div>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="travelBar" style="width:0%"></div>
+        </div>
+        <div id="travelList"></div>
+    </div>
+
+    <!-- 學習類 -->
+    <div class="category-section">
+        <div class="category-title">📚 學習</div>
+        <div class="progress-label" id="learnLabel">載入中...</div>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="learnBar" style="width:0%"></div>
+        </div>
+        <div id="learnList"></div>
+    </div>
+
+    <!-- 體驗類 -->
+    <div class="category-section">
+        <div class="category-title">⭐ 體驗</div>
+        <div class="progress-label" id="experienceLabel">載入中...</div>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="experienceBar" style="width:0%"></div>
+        </div>
+        <div id="experienceList"></div>
+    </div>
+
+    <button id="backBtn" class="primary-btn">
+        ← 返回探索世界
+    </button>
+    <button id="homeBtn" class="primary-btn">
+        🏠 返回首頁
+    </button>
+
+    <footer>
+        人生RPG v1.0
+        <br>
+        Explore World • Bucket List
+    </footer>
+</div>
+
+<script>
+var STORAGE_KEY = "bucketList";
+
+var defaultItems = [
+    { id: "d1", category: "travel", text: "去北海道看雪", done: false },
+    { id: "d2", category: "travel", text: "環島一圈", done: false },
+    { id: "d3", category: "travel", text: "看一次極光", done: false },
+    { id: "d4", category: "learn", text: "學會一門新語言", done: false },
+    { id: "d5", category: "learn", text: "考取一張專業證照", done: false },
+    { id: "d6", category: "learn", text: "學會彈一首完整的鋼琴曲", done: false },
+    { id: "d7", category: "experience", text: "跳一次傘", done: false },
+    { id: "d8", category: "experience", text: "看一場演唱會", done: false },
+    { id: "d9", category: "experience", text: "親手做一頓完整的晚餐", done: false }
+];
+
+function getCustomItems() {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+}
+
+function saveCustomItems(list) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+}
+
+function toggleDone(id, isDefault) {
+    if (isDefault) {
+        var item = defaultItems.find(function (i) { return i.id === id; });
+        if (item) item.done = !item.done;
+    } else {
+        var customItems = getCustomItems();
+        var item = customItems.find(function (i) { return i.id === id; });
+        if (item) item.done = !item.done;
+        saveCustomItems(customItems);
+    }
+    renderAll();
+}
+
+function deleteItem(id) {
+    if (!confirm("確定刪除這個項目？")) return;
+    var customItems = getCustomItems();
+    customItems = customItems.filter(function (i) { return i.id !== id; });
+    saveCustomItems(customItems);
+    renderAll();
+}
+
+function renderCategory(category, listId, labelId, barId) {
+    var customItems = getCustomItems();
+    var allItems = defaultItems.concat(customItems);
+    var catItems = allItems.filter(function (i) { return i.category === category; });
+
+    var total = catItems.length;
+    var done = catItems.filter(function (i) { return i.done; }).length;
+    var percent = total === 0 ? 0 : Math.round((done / total) * 100);
+
+    document.getElementById(labelId).textContent =
+        "已完成 " + done + " / " + total + " 項（" + percent + "%）";
+    document.getElementById(barId).style.width = percent + "%";
+
+    var box = document.getElementById(listId);
+    if (catItems.length === 0) {
+        box.innerHTML = "<div style='color:#9CB5DF; font-size:14px; padding:8px 0;'>尚無項目，新增一個吧！</div>";
+        return;
+    }
+
+    var html = "";
+    catItems.forEach(function (item) {
+        var isDefault = defaultItems.some(function (d) { return d.id === item.id; });
+        html += "<div class=\"bucket-item\">";
+        html += "<input type=\"checkbox\" class=\"bucket-checkbox\" " +
+            (item.done ? "checked" : "") +
+            " onchange=\"toggleDone('" + item.id + "', " + isDefault + ")\">";
+        html += "<span class=\"bucket-text" + (item.done ? " done" : "") + "\">" + item.text + "</span>";
+        if (!isDefault) {
+            html += "<button class=\"bucket-delete\" onclick=\"deleteItem('" + item.id + "')\">🗑</button>";
+        }
+        html += "</div>";
+    });
+
+    box.innerHTML = html;
+}
+
+function renderAll() {
+    renderCategory("travel", "travelList", "travelLabel", "travelBar");
+    renderCategory("learn", "learnList", "learnLabel", "learnBar");
+    renderCategory("experience", "experienceList", "experienceLabel", "experienceBar");
+}
+
+document.getElementById("addBtn").onclick = function () {
+    var category = document.getElementById("newCategory").value;
+    var text = document.getElementById("newItem").value.trim();
+
+    if (text === "") {
+        alert("請輸入項目內容");
+        return;
+    }
+
+    var customItems = getCustomItems();
+    customItems.push({
+        id: "c" + Date.now(),
+        category: category,
+        text: text,
+        done: false
+    });
+    saveCustomItems(customItems);
+
+    document.getElementById("newItem").value = "";
+    renderAll();
+};
+
+document.getElementById("backBtn").onclick = function () {
+    location.href = "explore.html";
+};
+document.getElementById("homeBtn").onclick = function () {
+    location.href = "dashboard.html";
+};
+
+renderAll();
+</script>
+</body>
+</html>
