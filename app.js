@@ -1,83 +1,75 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>人生RPG｜Dashboard</title>
-<link rel="stylesheet" href="style.css?v=2.0.1">
-</head>
-<body>
-<div class="dashboard-container">
-    <section class="profile-card">
-        <div class="profile-avatar">
-            👤
-        </div>
-        <div class="profile-info">
-            <h2 id="playerName">
-                玩家
-            </h2>
-            <p class="level-title">
-                人生 Level
-            </p>
-            <h3>
-                Lv.1
-            </h3>
-        </div>
-    </section>
-    <section class="quote-card">
-        <p id="playerMotto">
-            人生，不需要打怪。<br>
-            而是超越昨天的自己。
-        </p>
-    </section>
-    <section class="world-title">
-        <h2>
-            🌍 人生世界
-        </h2>
-        <p>
-            選擇今天想開始的世界
-        </p>
-    </section>
-    <div class="world-grid">
-        <div class="world-card" id="healthCard">
-            <div class="world-icon">💪</div>
-            <h3>獨自升級</h3>
-            <p>每天比昨天更強一點</p>
-        </div>
-        <div class="world-card" id="wealthCard">
-            <div class="world-icon">💰</div>
-            <h3>投資有富</h3>
-            <p>建立自己的現金流</p>
-        </div>
-        <div class="world-card" id="lifeCard">
-            <div class="world-icon">🍽</div>
-            <h3>百匯饗宴</h3>
-            <p>好好吃飯，也好好生活</p>
-        </div>
-        <div class="world-card" id="growthCard">
-            <div class="world-icon">🧠</div>
-            <h3>人生迷因</h3>
-            <p>每天學一點，持續成長</p>
-        </div>
-        <div class="world-card" id="exploreCard">
-            <div class="world-icon">🗺</div>
-            <h3>人生探索</h3>
-            <p>去看看世界，也探索自己</p>
-        </div>
-    </div>
-    <footer>
-        人生RPG v2.0
-        <br>
-        Life OS • Dashboard
-    </footer>
-</div>
-<script src="app.js?v=2.0.2"></script>
-<script>
-document.getElementById("healthCard").onclick = function () { location.href = "health.html"; };
-document.getElementById("wealthCard").onclick = function () { location.href = "wealth.html"; };
-document.getElementById("lifeCard").onclick = function () { location.href = "food.html"; };
-document.getElementById("growthCard").onclick = function () { location.href = "meme.html"; };
-document.getElementById("exploreCard").onclick = function () { location.href = "explore.html"; };
-</script>
-</body>
-</html>
+// ===================================
+// LifeRPG Beta v3.0
+// app.js
+// ===================================
+
+// ===============================
+// Auto Login
+// ===============================
+if(
+    location.pathname.includes("index.html") ||
+    location.pathname.endsWith("/LifeRPG-v2/") ||
+    location.pathname.endsWith("/LifeRPG-v2")
+){
+    if(localStorage.getItem("lifeNickname")){
+        location.href="dashboard.html";
+    }
+}
+
+// ===============================
+// Landing
+// ===============================
+const startBtn=document.getElementById("startBtn");
+if(startBtn){
+    startBtn.onclick=function(){
+        const nickname=document.getElementById("nickname").value.trim();
+        const motto=document.getElementById("motto").value.trim();
+        if(nickname===""){
+            alert("請輸入你的暱稱");
+            return;
+        }
+        localStorage.setItem("lifeNickname",nickname);
+        localStorage.setItem(
+            "lifeMotto",
+            motto || "人生，不需要打怪，而是超越昨天的自己。"
+        );
+        localStorage.setItem("lifeLevel","1");
+        location.href="dashboard.html";
+    };
+}
+
+// ===============================
+// Dashboard
+// ===============================
+{
+    const playerName=document.getElementById("playerName");
+    if(playerName){
+        playerName.textContent=
+            localStorage.getItem("lifeNickname") || "玩家";
+    }
+    const playerMotto=document.getElementById("playerMotto");
+    if(playerMotto){
+        playerMotto.textContent=
+            localStorage.getItem("lifeMotto") ||
+            "人生，不需要打怪，而是超越昨天的自己。";
+    }
+}
+
+// ===============================
+// 世界入口
+// ===============================
+const worldLinks={
+    healthCard:"health.html",
+    wealthCard:"wealth.html",
+    lifeCard:"food.html",
+    growthCard:"meme.html",
+    exploreCard:"explore.html"
+};
+Object.keys(worldLinks).forEach(function(id){
+    const card=document.getElementById(id);
+    if(card){
+        card.onclick=function(){
+            location.href=worldLinks[id];
+        };
+    }
+});
