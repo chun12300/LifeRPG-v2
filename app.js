@@ -4,7 +4,7 @@
 // ===================================
 
 // ===============================
-// Auto Login
+// Auto Login（改成每次都顯示登入頁，但自動帶入資料）
 // ===============================
 if(
     location.pathname.includes("index.html") ||
@@ -12,7 +12,10 @@ if(
     location.pathname.endsWith("/LifeRPG-v2")
 ){
     if(localStorage.getItem("lifeNickname")){
-        location.href="dashboard.html";
+        var savedNickname = document.getElementById("nickname");
+        var savedMotto = document.getElementById("motto");
+        if(savedNickname) savedNickname.value = localStorage.getItem("lifeNickname");
+        if(savedMotto) savedMotto.value = localStorage.getItem("lifeMotto") || "";
     }
 }
 
