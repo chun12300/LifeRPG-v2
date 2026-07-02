@@ -22,6 +22,11 @@
     object-fit: cover;
     border-radius: 16px;
     flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.meme-img:active {
+    transform: scale(0.95);
 }
 .meme-img-placeholder {
     width: 140px;
@@ -46,6 +51,49 @@
     color: #9CB5DF;
     padding: 40px 0;
     font-size: 16px;
+}
+/* 全螢幕預覽 */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.92);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+.lightbox.active {
+    display: flex;
+}
+.lightbox-img {
+    max-width: 95%;
+    max-height: 80vh;
+    border-radius: 16px;
+    object-fit: contain;
+}
+.lightbox-text {
+    color: #FFFFFF;
+    font-size: 18px;
+    line-height: 1.8;
+    text-align: center;
+    padding: 0 20px;
+    white-space: pre-wrap;
+}
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 24px;
+    font-size: 32px;
+    color: #fff;
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
 }
 </style>
 </head>
@@ -80,26 +128,50 @@
     </footer>
 </div>
 
+<!-- 全螢幕預覽 -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="梗圖">
+    <div class="lightbox-text" id="lightboxText"></div>
+</div>
+
 <script>
+function openLightbox(src, text) {
+    document.getElementById("lightboxImg").src = src;
+    document.getElementById("lightboxText").textContent = text;
+    document.getElementById("lightbox").classList.add("active");
+}
+
+function closeLightbox() {
+    document.getElementById("lightbox").classList.remove("active");
+}
+
+document.getElementById("lightboxClose").onclick = closeLightbox;
+document.getElementById("lightbox").onclick = function (e) {
+    if (e.target === this) closeLightbox();
+};
+
 fetch("memes.json?v=" + Date.now())
     .then(function (res) { return res.json(); })
     .then(function (memes) {
         var box = document.getElementById("memeList");
 
         if (!memes || memes.length === 0) {
-            box.innerHTML = "<div class=\"meme-empty\">目前還沒有梗圖，快去新增吧！</div>";
+            box.innerHTML = "<div class=\"meme-empty\">目前還沒有梗圖！</div>";
             return;
         }
 
         var html = "";
         memes.forEach(function (item) {
+            var imgSrc = item.image || "";
+            var text = item.text || "";
             html += "<div class=\"meme-card\">";
-            if (item.image) {
-                html += "<img class=\"meme-img\" src=\"" + item.image + "\" alt=\"梗圖\" onerror=\"this.outerHTML='<div class=meme-img-placeholder>🖼</div>'\">";
+            if (imgSrc) {
+                html += "<img class=\"meme-img\" src=\"" + imgSrc + "\" alt=\"梗圖\" onclick=\"openLightbox('" + imgSrc + "', '" + text.replace(/'/g, "\\'").replace(/\n/g, "\\n") + "')\" onerror=\"this.outerHTML='<div class=meme-img-placeholder>🖼</div>'\">";
             } else {
                 html += "<div class=\"meme-img-placeholder\">🖼</div>";
             }
-            html += "<div class=\"meme-text\">" + (item.text || "") + "</div>";
+            html += "<div class=\"meme-text\">" + text + "</div>";
             html += "</div>";
         });
 
