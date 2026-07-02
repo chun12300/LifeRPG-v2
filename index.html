@@ -2,70 +2,154 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>人生RPG v2</title>
-    <link rel="stylesheet"
-          href="style.css?v=2.0.0">
+    <link rel="stylesheet" href="style.css?v=2.0.0">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#355CFF">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="人生RPG">
     <link rel="apple-touch-icon" href="icon.png">
+    <style>
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: url('1.png') center center / cover no-repeat fixed;
+        font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+    .landing-overlay {
+        min-height: 100vh;
+        background: rgba(0,0,0,0.55);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+    }
+    .landing-box {
+        background: rgba(8,27,55,0.85);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 24px;
+        padding: 36px 28px;
+        width: min(90%, 420px);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .landing-logo {
+        font-size: 48px;
+        text-align: center;
+        margin-bottom: 8px;
+    }
+    .landing-title {
+        font-size: 32px;
+        font-weight: 900;
+        color: #FFD86B;
+        text-align: center;
+        margin-bottom: 6px;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+    .landing-slogan {
+        font-size: 14px;
+        color: #C8D8F0;
+        text-align: center;
+        margin-bottom: 28px;
+        line-height: 1.6;
+    }
+    .landing-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        color: #EAF2FF;
+        margin: 16px 0 8px;
+    }
+    .landing-input {
+        width: 100%;
+        box-sizing: border-box;
+        height: 52px;
+        padding: 0 16px;
+        border: 2px solid rgba(255,255,255,0.15);
+        border-radius: 14px;
+        background: rgba(255,255,255,0.08);
+        color: #FFFFFF;
+        font-size: 16px;
+        outline: none;
+    }
+    .landing-input:focus {
+        border-color: #4E7BFF;
+    }
+    .landing-input::placeholder {
+        color: #9CB5DF;
+    }
+    .landing-welcome {
+        font-size: 13px;
+        color: #9CB5DF;
+        text-align: center;
+        margin: 20px 0;
+        line-height: 1.8;
+    }
+    .landing-btn {
+        width: 100%;
+        height: 56px;
+        margin-top: 8px;
+        border: none;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #355CFF, #7B4FFF);
+        color: #FFFFFF;
+        font-size: 18px;
+        font-weight: 800;
+        cursor: pointer;
+        letter-spacing: 2px;
+        box-shadow: 0 4px 16px rgba(53,92,255,0.4);
+        transition: 0.25s;
+    }
+    .landing-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(53,92,255,0.5);
+    }
+    .landing-footer {
+        text-align: center;
+        color: rgba(255,255,255,0.4);
+        font-size: 12px;
+        margin-top: 24px;
+        line-height: 1.8;
+    }
+    </style>
 </head>
 <body>
-<div class="landing-container">
-    <div class="logo">
-        🌍
-    </div>
-    <h1>
-        人生RPG
-    </h1>
-    <p class="slogan">
-        人生，不需要打怪。<br>
-        而是超越昨天的自己。
-    </p>
-    <div class="divider"></div>
-    <div class="form-area">
-        <label>
-            你的暱稱
-        </label>
-        <input
-            type="text"
-            id="nickname"
+<div class="landing-overlay">
+    <div class="landing-box">
+        <div class="landing-logo">🌍</div>
+        <div class="landing-title">人生 RPG</div>
+        <div class="landing-slogan">
+            升級自己・探索人生・解鎖更多可能
+        </div>
+        <label class="landing-label">你的暱稱</label>
+        <input type="text" id="nickname" class="landing-input"
             placeholder="例如：努力成長的大叔">
-        <label>
-            人生宣言（可之後修改）
-        </label>
-        <input
-            type="text"
-            id="motto"
+        <label class="landing-label">人生宣言</label>
+        <input type="text" id="motto" class="landing-input"
             placeholder="例如：改變，就是當下。">
-        <div class="welcome-text">
+        <div class="landing-welcome">
             每一天都是新的開始。<br>
             從今天開始，打造屬於你的人生RPG。
         </div>
-        <button id="startBtn">
-            🚀 開始人生
+        <button id="startBtn" class="landing-btn">
+            🚀 開始冒險
         </button>
+        <div class="landing-footer">
+            人生RPG v2.0<br>
+            Life OS • Build Your Better Self
+        </div>
     </div>
-    <footer>
-        人生RPG v2.0
-        <br>
-        Life OS • Build Your Better Self
-    </footer>
 </div>
 <script src="app.js?v=2.0.0"></script>
 <script>
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/LifeRPG-v2/sw.js")
-    .then(function () {
-        console.log("Service Worker 註冊成功");
-    })
-    .catch(function (err) {
-        console.log("Service Worker 註冊失敗", err);
-    });
+    .then(function () { console.log("SW 註冊成功"); })
+    .catch(function (err) { console.log("SW 註冊失敗", err); });
 }
 </script>
 </body>
