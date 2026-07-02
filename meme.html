@@ -1,6 +1,118 @@
-[
-  {
-    "image": "03c5913f-604d-4ae3-8c53-2c4d31ce963e.png",
-    "text": "人生就像電話\n不是你先掛\n就是我先掛\n\n加油啊！"
-  }
-]
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧠 人生迷因</title>
+<link rel="stylesheet" href="style.css?v=4.0.0">
+<style>
+.meme-card {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 24px;
+    padding: 20px;
+    margin-bottom: 22px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.meme-img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 16px;
+    flex-shrink: 0;
+}
+.meme-img-placeholder {
+    width: 140px;
+    height: 140px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    flex-shrink: 0;
+}
+.meme-text {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #FFFFFF;
+    white-space: pre-wrap;
+    flex: 1;
+}
+.meme-empty {
+    text-align: center;
+    color: #9CB5DF;
+    padding: 40px 0;
+    font-size: 16px;
+}
+</style>
+</head>
+<body>
+<div class="dashboard-container">
+    <section class="profile-card">
+        <div class="profile-avatar">
+            🧠
+        </div>
+        <div class="profile-info">
+            <h2>人生迷因</h2>
+            <p>笑看人生，繼續前進</p>
+        </div>
+    </section>
+
+    <section class="quote-card">
+        <p>每一張梗圖，都是人生的縮影</p>
+    </section>
+
+    <div id="memeList">
+        <div class="meme-empty">載入中...</div>
+    </div>
+
+    <button id="backBtn" class="primary-btn">
+        ← 返回首頁
+    </button>
+
+    <footer>
+        人生RPG v1.0
+        <br>
+        Meme World
+    </footer>
+</div>
+
+<script>
+fetch("memes.json?v=" + Date.now())
+    .then(function (res) { return res.json(); })
+    .then(function (memes) {
+        var box = document.getElementById("memeList");
+
+        if (!memes || memes.length === 0) {
+            box.innerHTML = "<div class=\"meme-empty\">目前還沒有梗圖，快去新增吧！</div>";
+            return;
+        }
+
+        var html = "";
+        memes.forEach(function (item) {
+            html += "<div class=\"meme-card\">";
+            if (item.image) {
+                html += "<img class=\"meme-img\" src=\"" + item.image + "\" alt=\"梗圖\" onerror=\"this.outerHTML='<div class=meme-img-placeholder>🖼</div>'\">";
+            } else {
+                html += "<div class=\"meme-img-placeholder\">🖼</div>";
+            }
+            html += "<div class=\"meme-text\">" + (item.text || "") + "</div>";
+            html += "</div>";
+        });
+
+        box.innerHTML = html;
+    })
+    .catch(function () {
+        document.getElementById("memeList").innerHTML =
+            "<div class=\"meme-empty\">載入失敗，請確認 memes.json 是否存在。</div>";
+    });
+
+document.getElementById("backBtn").onclick = function () {
+    location.href = "dashboard.html";
+};
+</script>
+</body>
+</html>
